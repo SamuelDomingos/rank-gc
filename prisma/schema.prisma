@@ -1,0 +1,45 @@
+generator client {
+    provider = "prisma-client"
+    output   = "../app/generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model GC {
+    id                 String               @id @default(uuid())
+    name               String               @unique
+    avatar             String?
+    type               String
+    quantity           Int
+    applicationsDailys ApplicationsDailys[]
+    applicationsFixeds ApplicationsFixed[]
+}
+
+model ApplicationsDailys {
+    id             String   @id @default(uuid())
+    gcId           String
+    date           DateTime @db.Date
+    type           String
+    members        Int
+    visitors       Int
+    membersServing Int?
+
+    gc GC @relation(fields: [gcId], references: [id], onDelete: Cascade)
+
+    @@unique([gcId, date])
+    @@index([gcId])
+}
+
+model ApplicationsFixed {
+    id      String   @id @default(uuid())
+    gcId    String
+    date    DateTime @db.Date
+    baskets Int
+
+    gc GC @relation(fields: [gcId], references: [id], onDelete: Cascade)
+
+    @@unique([gcId, date])
+    @@index([gcId])
+}
