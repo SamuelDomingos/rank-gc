@@ -57,14 +57,18 @@ export const Header = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-4">
-        <h2 className="text-2xl font-semibold">Ranking dos GCs</h2>
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-xl sm:text-2xl font-semibold">
+          Ranking dos GCs
+        </h2>
+
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
           <DatePicker />
-          <ButtonGroup>
+
+          <ButtonGroup className="flex flex-col sm:flex-row gap-2 sm:gap-4">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button variant="default">
+                <Button variant="default" className="w-full sm:w-auto">
                   <Plus className="mr-2 h-4 w-4" />
                   Adicionar GC
                 </Button>
@@ -86,9 +90,11 @@ export const Header = () => {
               onOpenChange={setIsReportDialogOpen}
             >
               <DialogTrigger asChild>
-                <Button variant="secondary">Relatórios</Button>
+                <Button variant="secondary" className="w-full sm:w-auto">
+                  Relatórios
+                </Button>
               </DialogTrigger>
-              <DialogContent className="w-full! max-w-6xl!">
+              <DialogContent className="w-full max-w-6xl">
                 <DialogHeader>
                   <DialogTitle>Relatorio</DialogTitle>
                   <DialogDescription>
@@ -102,6 +108,7 @@ export const Header = () => {
         </div>
       </div>
 
+
       <Card className="w-full bg-primary/5 border-primary/20">
         <CardHeader>
           <CardTitle className="text-foreground">
@@ -111,14 +118,24 @@ export const Header = () => {
             Entenda como os pontos são calculados para cada categoria
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-wrap gap-4">
+        <CardContent
+          className="
+    grid gap-4
+    grid-cols-1
+    sm:grid-cols-2
+    md:grid-cols-3
+    lg:grid-cols-4
+  "
+        >
           {typesPoints.map((item) => (
             <Card
               key={item.id}
-              className="flex-1 border-border bg-card hover:bg-secondary/20 transition-colors"
+              className="border-border bg-card hover:bg-secondary/20 transition-colors"
             >
               <CardHeader>
-                <CardTitle className="text-foreground">{item.title}</CardTitle>
+                <CardTitle className="text-foreground">
+                  {item.title}
+                </CardTitle>
                 <CardDescription className="text-muted-foreground">
                   {item.descriptions}
                 </CardDescription>
@@ -126,6 +143,7 @@ export const Header = () => {
             </Card>
           ))}
         </CardContent>
+
       </Card>
     </div>
   );
