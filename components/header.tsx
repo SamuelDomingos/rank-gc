@@ -57,55 +57,57 @@ export const Header = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-2xl font-semibold">
-          Ranking dos GCs
-        </h2>
+<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <h2 className="text-2xl font-semibold">
+    Ranking dos GCs
+  </h2>
 
-        <div className="flex items-center gap-4">
-          <DatePicker />
-          <ButtonGroup>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button variant="default">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Adicionar GC
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Novo</DialogTitle>
-                  <DialogDescription>
-                    Preencha as informações do grupo de conexão. Você poderá
-                    alterar esses dados depois.
-                  </DialogDescription>
-                </DialogHeader>
-                <FormGc onSuccess={() => setIsDialogOpen(false)} />
-              </DialogContent>
-            </Dialog>
+  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+    <DatePicker />
 
-            <Dialog
-              open={ísReportDialogOpen}
-              onOpenChange={setIsReportDialogOpen}
-            >
-              <DialogTrigger asChild>
-                <Button variant="secondary">
-                  Relatórios
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="w-full max-w-6xl">
-                <DialogHeader>
-                  <DialogTitle>Relatorio</DialogTitle>
-                  <DialogDescription>
-                    Visualize os relatórios de desempenho dos gcs de conexão.
-                  </DialogDescription>
-                </DialogHeader>
-                <Reports />
-              </DialogContent>
-            </Dialog>
-          </ButtonGroup>
-        </div>
-      </div>
+    <ButtonGroup className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+          <Button variant="default">
+            <Plus className="mr-2 h-4 w-4" />
+            Adicionar GC
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Novo</DialogTitle>
+            <DialogDescription>
+              Preencha as informações do grupo de conexão. Você poderá
+              alterar esses dados depois.
+            </DialogDescription>
+          </DialogHeader>
+          <FormGc onSuccess={() => setIsDialogOpen(false)} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={ísReportDialogOpen}
+        onOpenChange={setIsReportDialogOpen}
+      >
+        <DialogTrigger asChild>
+          <Button variant="secondary">
+            Relatórios
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="w-full max-w-6xl">
+          <DialogHeader>
+            <DialogTitle>Relatorio</DialogTitle>
+            <DialogDescription>
+              Visualize os relatórios de desempenho dos gcs de conexão.
+            </DialogDescription>
+          </DialogHeader>
+          <Reports />
+        </DialogContent>
+      </Dialog>
+    </ButtonGroup>
+  </div>
+</div>
+
 
 
       <Card className="w-full bg-primary/5 border-primary/20">
