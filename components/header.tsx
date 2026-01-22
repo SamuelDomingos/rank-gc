@@ -58,17 +58,16 @@ export const Header = () => {
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-xl sm:text-2xl font-semibold">
+        <h2 className="text-2xl font-semibold">
           Ranking dos GCs
         </h2>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+        <div className="flex items-center gap-4">
           <DatePicker />
-
-          <ButtonGroup className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+          <ButtonGroup>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button variant="default" className="w-full sm:w-auto">
+                <Button variant="default">
                   <Plus className="mr-2 h-4 w-4" />
                   Adicionar GC
                 </Button>
@@ -90,7 +89,7 @@ export const Header = () => {
               onOpenChange={setIsReportDialogOpen}
             >
               <DialogTrigger asChild>
-                <Button variant="secondary" className="w-full sm:w-auto">
+                <Button variant="secondary">
                   Relatórios
                 </Button>
               </DialogTrigger>
