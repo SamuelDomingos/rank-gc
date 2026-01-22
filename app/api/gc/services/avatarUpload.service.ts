@@ -1,5 +1,4 @@
-import { writeFile } from "fs/promises";
-import path from "path";
+import { put } from "@vercel/blob";
 
 export async function handleAvatarUpload(file: File | null) {
   if (!file || file.size === 0) return undefined;
@@ -14,15 +13,11 @@ export async function handleAvatarUpload(file: File | null) {
     throw new Error("Arquivo muito grande (máx 5MB)");
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const fileName = `${Date.now()}-${file.name.replace(/\s/g, "-")}`;
-  const filePath = path.join(
-    process.cwd(),
-    "public/uploads/avatars",
-    fileName
-  );
+  const fileName = `avatars/${Date.now()}-${file.name}`;
 
-  await writeFile(filePath, buffer);
+  const blob = await put(fileName, file, {
+    access: "public",
+  });
 
-  return `/uploads/avatars/${fileName}`;
+  return blob.url;
 }
