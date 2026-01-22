@@ -95,7 +95,7 @@ export const Header = () => {
                     Visualize os relatórios de desempenho dos gcs de conexão.
                   </DialogDescription>
                 </DialogHeader>
-                <Reports onSuccess={() => setIsReportDialogOpen(false)} />
+                <Reports />
               </DialogContent>
             </Dialog>
           </ButtonGroup>

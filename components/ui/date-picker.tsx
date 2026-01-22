@@ -1,58 +1,108 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ChevronDownIcon, ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ChevronDownIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { useDate } from "@/context/DateContext"
+} from "@/components/ui/select";
+import { useDate } from "@/context/DateContext";
+import { useState } from "react";
 
 const months = [
-  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-]
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
+];
 
-export function DatePicker() {
-  const [open, setOpen] = React.useState(false)
-  const { month, year, setMonth, setYear } = useDate()
+interface DatePickerProps {
+  month?: number;
+  year?: number;
+  onMonthChange?: (month: number) => void;
+  onYearChange?: (year: number) => void;
+  useContext?: boolean;
+  className?: string;
+}
 
-  const currentYear = new Date().getFullYear()
-  const years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i)
+export function DatePicker({
+  month: externalMonth,
+  year: externalYear,
+  onMonthChange,
+  onYearChange,
+  useContext: useContextMode = true,
+  className = "w-48",
+}: DatePickerProps) {
+  const [open, setOpen] = useState(false);
+
+  const contextDate = useDate();
+  const month =
+    externalMonth !== undefined
+      ? externalMonth
+      : useContextMode
+        ? contextDate?.month
+        : undefined;
+  const year =
+    externalYear !== undefined
+      ? externalYear
+      : useContextMode
+        ? contextDate?.year
+        : undefined;
+
+  const setMonth =
+    onMonthChange ?? (useContextMode ? contextDate?.setMonth : undefined);
+  const setYear =
+    onYearChange ?? (useContextMode ? contextDate?.setYear : undefined);
+
+  if (month === undefined || year === undefined) {
+    throw new Error(
+      "DatePicker: forneça 'month' e 'year' como props ou use dentro de um DateProvider",
+    );
+  }
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i);
 
   const handlePreviousMonth = () => {
     if (month === 1) {
-      setMonth(12)
-      setYear(year - 1)
+      setMonth?.(12);
+      setYear?.(year - 1);
     } else {
-      setMonth(month - 1)
+      setMonth?.(month - 1);
     }
-  }
+  };
 
   const handleNextMonth = () => {
     if (month === 12) {
-      setMonth(1)
-      setYear(year + 1)
+      setMonth?.(1);
+      setYear?.(year + 1);
     } else {
-      setMonth(month + 1)
+      setMonth?.(month + 1);
     }
-  }
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-48 justify-between font-normal"
+          className={`justify-between font-normal ${className}`}
         >
           {months[month - 1]} {year}
           <ChevronDownIcon className="h-4 w-4" />
@@ -68,11 +118,11 @@ export function DatePicker() {
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            
+
             <div className="flex gap-2">
               <Select
                 value={month.toString()}
-                onValueChange={(value) => setMonth(Number(value))}
+                onValueChange={(value) => setMonth?.(Number(value))}
               >
                 <SelectTrigger className="w-32">
                   <SelectValue />
@@ -88,7 +138,7 @@ export function DatePicker() {
 
               <Select
                 value={year.toString()}
-                onValueChange={(value) => setYear(Number(value))}
+                onValueChange={(value) => setYear?.(Number(value))}
               >
                 <SelectTrigger className="w-24">
                   <SelectValue />
@@ -103,16 +153,12 @@ export function DatePicker() {
               </Select>
             </div>
 
-            <Button
-              variant="secondary"
-              size="icon"
-              onClick={handleNextMonth}
-            >
+            <Button variant="secondary" size="icon" onClick={handleNextMonth}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

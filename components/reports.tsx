@@ -1,10 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Spinner } from "@/components/ui/spinner";
 import GeneralReports from "./reports/generalReports";
+import ComparativeReport from "./reports/comparative";
 
-const Reports = ({ onSuccess }: { onSuccess?: () => void }) => {
-  const isLoading = false;
-
+const Reports = () => {
   return (
     <Tabs defaultValue="generalReports">
       <TabsList>
@@ -12,29 +10,20 @@ const Reports = ({ onSuccess }: { onSuccess?: () => void }) => {
           value="generalReports"
           className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:border-secondary"
         >
-          masculino
+          relatório geral
         </TabsTrigger>
         <TabsTrigger
           value="comparative"
           className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:border-secondary"
         >
-          feminino
-        </TabsTrigger>
-        <TabsTrigger
-          value="categoryReports"
-          className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:border-secondary"
-        >
-          feminino
+          comparativo
         </TabsTrigger>
       </TabsList>
       <TabsContent value="generalReports" className="space-y-6 mt-6">
-        {isLoading ? <Spinner /> : <GeneralReports />}
+        <GeneralReports />
       </TabsContent>
       <TabsContent value="comparative" className="space-y-6 mt-6">
-        {isLoading ? <Spinner /> : <div></div>}
-      </TabsContent>
-      <TabsContent value="categoryReports" className="space-y-6 mt-6">
-        {isLoading ? <Spinner /> : <div></div>}
+        <ComparativeReport />
       </TabsContent>
     </Tabs>
   );
