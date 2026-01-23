@@ -205,8 +205,15 @@ const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
 );
 
 const Comparative = () => {
-  const [previousMonth, setPreviousMonth] = useState(new Date().getMonth() + 1);
-  const [previousYear, setPreviousYear] = useState(new Date().getFullYear());
+  const currentDate = new Date();
+  const [previousMonth, setPreviousMonth] = useState(
+    currentDate.getMonth() === 0 ? 11 : currentDate.getMonth() - 1,
+  );
+  const [previousYear, setPreviousYear] = useState(
+    currentDate.getMonth() === 0
+      ? currentDate.getFullYear() - 1
+      : currentDate.getFullYear(),
+  );
 
   const { month: currentMonth, year: currentYear } = useDate();
 
@@ -227,7 +234,7 @@ const Comparative = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Análise Comparativa</h1>
 
         <DatePicker
