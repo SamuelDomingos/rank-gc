@@ -50,7 +50,7 @@ export const getDashboardStats = async (
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
 
-  const [totalGcs, dailyStats, fixedStats] = await Promise.all([
+  const [totalGcs, dailyStats, fixedStats, totalMembers] = await Promise.all([
     prisma.gC.count(),
     prisma.applicationsDailys.aggregate({
       where: {
@@ -76,12 +76,16 @@ export const getDashboardStats = async (
         baskets: true,
       },
     }),
-    prisma.applicationsDailys.count(),
+    prisma.gC.aggregate({
+      _sum: {
+        quantity: true,
+      },
+    }),
   ]);
 
   return {
     totalGcs,
-    totalMembers: dailyStats._sum.members ?? 0,
+    totalMembers: totalMembers._sum.quantity ?? 0,
     totalVisitors: dailyStats._sum.visitors ?? 0,
     membersServing: dailyStats._sum.membersServing ?? 0,
     totalBaskets: fixedStats._sum.baskets ?? 0,

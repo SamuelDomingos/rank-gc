@@ -19,13 +19,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { DatePicker } from "@/components/ui/date-picker";
-import { ArrowUp, ArrowDown } from "lucide-react";
+import { ArrowUp, ArrowDown, Download } from "lucide-react";
 import { useComparative } from "@/app/_hooks/useReports";
 import { useDate } from "@/context/DateContext";
 import { Spinner } from "@/components/ui/spinner";
+import {
+  copyToWhatsApp,
+  exportAsExcel,
+  exportAsPDF,
+} from "./services/export.service";
 
 interface GCWithMetrics {
   id: string;
@@ -237,12 +250,39 @@ const Comparative = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Análise Comparativa</h1>
 
-        <DatePicker
-          month={previousMonth}
-          year={previousYear}
-          onMonthChange={setPreviousMonth}
-          onYearChange={setPreviousYear}
-        />
+        <div className="flex items-center gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="default" className="flex items-center gap-2">
+                <Download className="mr-2" />
+                Exportar
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => gcsData && exportAsPDF(gcsData)}>
+                PDF
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => gcsData && exportAsExcel(gcsData)}
+              >
+                Excel
+              </DropdownMenuItem>
+              <Separator />
+              <DropdownMenuItem
+                onClick={() => gcsData && copyToWhatsApp(gcsData)}
+              >
+                Copiar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DatePicker
+            month={previousMonth}
+            year={previousYear}
+            onMonthChange={setPreviousMonth}
+            onYearChange={setPreviousYear}
+          />
+        </div>
       </div>
 
       <div className="space-y-6">
