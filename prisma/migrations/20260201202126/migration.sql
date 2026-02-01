@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "GC" ALTER COLUMN "tribo" DROP DEFAULT;

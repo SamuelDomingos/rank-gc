@@ -77,6 +77,7 @@ export const GCScalarFieldEnum = {
   name: 'name',
   avatar: 'avatar',
   type: 'type',
+  tribo: 'tribo',
   quantity: 'quantity'
 } as const
 

@@ -13,12 +13,14 @@ export async function GET(request: NextRequest) {
     const previousYear = Number(
       request.nextUrl.searchParams.get("previousYear"),
     );
+    const tribo = request.nextUrl.searchParams.get("tribo");
 
     const summary = await getComparative(
       currentMonth,
       currentYear,
       previousMonth,
       previousYear,
+      tribo!
     );
     return NextResponse.json(summary);
   } catch (erro) {

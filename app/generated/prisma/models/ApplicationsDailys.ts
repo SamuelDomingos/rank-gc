@@ -206,7 +206,7 @@ export type ApplicationsDailysGroupByOutputType = {
   type: string
   members: number
   visitors: number
-  membersServing: number
+  membersServing: number | null
   _count: ApplicationsDailysCountAggregateOutputType | null
   _avg: ApplicationsDailysAvgAggregateOutputType | null
   _sum: ApplicationsDailysSumAggregateOutputType | null
@@ -239,7 +239,7 @@ export type ApplicationsDailysWhereInput = {
   type?: Prisma.StringFilter<"ApplicationsDailys"> | string
   members?: Prisma.IntFilter<"ApplicationsDailys"> | number
   visitors?: Prisma.IntFilter<"ApplicationsDailys"> | number
-  membersServing?: Prisma.IntFilter<"ApplicationsDailys"> | number
+  membersServing?: Prisma.IntNullableFilter<"ApplicationsDailys"> | number | null
   gc?: Prisma.XOR<Prisma.GCScalarRelationFilter, Prisma.GCWhereInput>
 }
 
@@ -250,7 +250,7 @@ export type ApplicationsDailysOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   members?: Prisma.SortOrder
   visitors?: Prisma.SortOrder
-  membersServing?: Prisma.SortOrder
+  membersServing?: Prisma.SortOrderInput | Prisma.SortOrder
   gc?: Prisma.GCOrderByWithRelationInput
 }
 
@@ -265,7 +265,7 @@ export type ApplicationsDailysWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.StringFilter<"ApplicationsDailys"> | string
   members?: Prisma.IntFilter<"ApplicationsDailys"> | number
   visitors?: Prisma.IntFilter<"ApplicationsDailys"> | number
-  membersServing?: Prisma.IntFilter<"ApplicationsDailys"> | number
+  membersServing?: Prisma.IntNullableFilter<"ApplicationsDailys"> | number | null
   gc?: Prisma.XOR<Prisma.GCScalarRelationFilter, Prisma.GCWhereInput>
 }, "id" | "gcId_date">
 
@@ -276,7 +276,7 @@ export type ApplicationsDailysOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   members?: Prisma.SortOrder
   visitors?: Prisma.SortOrder
-  membersServing?: Prisma.SortOrder
+  membersServing?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ApplicationsDailysCountOrderByAggregateInput
   _avg?: Prisma.ApplicationsDailysAvgOrderByAggregateInput
   _max?: Prisma.ApplicationsDailysMaxOrderByAggregateInput
@@ -294,7 +294,7 @@ export type ApplicationsDailysScalarWhereWithAggregatesInput = {
   type?: Prisma.StringWithAggregatesFilter<"ApplicationsDailys"> | string
   members?: Prisma.IntWithAggregatesFilter<"ApplicationsDailys"> | number
   visitors?: Prisma.IntWithAggregatesFilter<"ApplicationsDailys"> | number
-  membersServing?: Prisma.IntWithAggregatesFilter<"ApplicationsDailys"> | number
+  membersServing?: Prisma.IntNullableWithAggregatesFilter<"ApplicationsDailys"> | number | null
 }
 
 export type ApplicationsDailysCreateInput = {
@@ -303,7 +303,7 @@ export type ApplicationsDailysCreateInput = {
   type: string
   members: number
   visitors: number
-  membersServing: number
+  membersServing?: number | null
   gc: Prisma.GCCreateNestedOneWithoutApplicationsDailysInput
 }
 
@@ -314,7 +314,7 @@ export type ApplicationsDailysUncheckedCreateInput = {
   type: string
   members: number
   visitors: number
-  membersServing: number
+  membersServing?: number | null
 }
 
 export type ApplicationsDailysUpdateInput = {
@@ -323,7 +323,7 @@ export type ApplicationsDailysUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   members?: Prisma.IntFieldUpdateOperationsInput | number
   visitors?: Prisma.IntFieldUpdateOperationsInput | number
-  membersServing?: Prisma.IntFieldUpdateOperationsInput | number
+  membersServing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   gc?: Prisma.GCUpdateOneRequiredWithoutApplicationsDailysNestedInput
 }
 
@@ -334,7 +334,7 @@ export type ApplicationsDailysUncheckedUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   members?: Prisma.IntFieldUpdateOperationsInput | number
   visitors?: Prisma.IntFieldUpdateOperationsInput | number
-  membersServing?: Prisma.IntFieldUpdateOperationsInput | number
+  membersServing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ApplicationsDailysCreateManyInput = {
@@ -344,7 +344,7 @@ export type ApplicationsDailysCreateManyInput = {
   type: string
   members: number
   visitors: number
-  membersServing: number
+  membersServing?: number | null
 }
 
 export type ApplicationsDailysUpdateManyMutationInput = {
@@ -353,7 +353,7 @@ export type ApplicationsDailysUpdateManyMutationInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   members?: Prisma.IntFieldUpdateOperationsInput | number
   visitors?: Prisma.IntFieldUpdateOperationsInput | number
-  membersServing?: Prisma.IntFieldUpdateOperationsInput | number
+  membersServing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ApplicationsDailysUncheckedUpdateManyInput = {
@@ -363,7 +363,7 @@ export type ApplicationsDailysUncheckedUpdateManyInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   members?: Prisma.IntFieldUpdateOperationsInput | number
   visitors?: Prisma.IntFieldUpdateOperationsInput | number
-  membersServing?: Prisma.IntFieldUpdateOperationsInput | number
+  membersServing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ApplicationsDailysListRelationFilter = {
@@ -469,13 +469,21 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ApplicationsDailysCreateWithoutGcInput = {
   id?: string
   date: Date | string
   type: string
   members: number
   visitors: number
-  membersServing: number
+  membersServing?: number | null
 }
 
 export type ApplicationsDailysUncheckedCreateWithoutGcInput = {
@@ -484,7 +492,7 @@ export type ApplicationsDailysUncheckedCreateWithoutGcInput = {
   type: string
   members: number
   visitors: number
-  membersServing: number
+  membersServing?: number | null
 }
 
 export type ApplicationsDailysCreateOrConnectWithoutGcInput = {
@@ -523,7 +531,7 @@ export type ApplicationsDailysScalarWhereInput = {
   type?: Prisma.StringFilter<"ApplicationsDailys"> | string
   members?: Prisma.IntFilter<"ApplicationsDailys"> | number
   visitors?: Prisma.IntFilter<"ApplicationsDailys"> | number
-  membersServing?: Prisma.IntFilter<"ApplicationsDailys"> | number
+  membersServing?: Prisma.IntNullableFilter<"ApplicationsDailys"> | number | null
 }
 
 export type ApplicationsDailysCreateManyGcInput = {
@@ -532,7 +540,7 @@ export type ApplicationsDailysCreateManyGcInput = {
   type: string
   members: number
   visitors: number
-  membersServing: number
+  membersServing?: number | null
 }
 
 export type ApplicationsDailysUpdateWithoutGcInput = {
@@ -541,7 +549,7 @@ export type ApplicationsDailysUpdateWithoutGcInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   members?: Prisma.IntFieldUpdateOperationsInput | number
   visitors?: Prisma.IntFieldUpdateOperationsInput | number
-  membersServing?: Prisma.IntFieldUpdateOperationsInput | number
+  membersServing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ApplicationsDailysUncheckedUpdateWithoutGcInput = {
@@ -550,7 +558,7 @@ export type ApplicationsDailysUncheckedUpdateWithoutGcInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   members?: Prisma.IntFieldUpdateOperationsInput | number
   visitors?: Prisma.IntFieldUpdateOperationsInput | number
-  membersServing?: Prisma.IntFieldUpdateOperationsInput | number
+  membersServing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ApplicationsDailysUncheckedUpdateManyWithoutGcInput = {
@@ -559,7 +567,7 @@ export type ApplicationsDailysUncheckedUpdateManyWithoutGcInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   members?: Prisma.IntFieldUpdateOperationsInput | number
   visitors?: Prisma.IntFieldUpdateOperationsInput | number
-  membersServing?: Prisma.IntFieldUpdateOperationsInput | number
+  membersServing?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -630,7 +638,7 @@ export type $ApplicationsDailysPayload<ExtArgs extends runtime.Types.Extensions.
     type: string
     members: number
     visitors: number
-    membersServing: number
+    membersServing: number | null
   }, ExtArgs["result"]["applicationsDailys"]>
   composites: {}
 }

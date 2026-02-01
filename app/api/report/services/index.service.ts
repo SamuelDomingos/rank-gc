@@ -46,17 +46,25 @@ export type ComparativeData = {
 export const getDashboardStats = async (
   month: number,
   year: number,
+  tribo: string,
 ): Promise<DashboardStats> => {
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
 
   const [totalGcs, dailyStats, fixedStats, totalMembers] = await Promise.all([
-    prisma.gC.count(),
+    prisma.gC.count({
+      where: {
+        tribo: tribo,
+      },
+    }),
     prisma.applicationsDailys.aggregate({
       where: {
         date: {
           gte: startDate,
           lte: endDate,
+        },
+        gc: {
+          tribo: tribo,
         },
       },
       _sum: {
@@ -71,12 +79,18 @@ export const getDashboardStats = async (
           gte: startDate,
           lte: endDate,
         },
+        gc: {
+          tribo: tribo,
+        },
       },
       _sum: {
         baskets: true,
       },
     }),
     prisma.gC.aggregate({
+      where: {
+        tribo: tribo,
+      },
       _sum: {
         quantity: true,
       },
@@ -97,6 +111,7 @@ export const getComparative = async (
   currentYear: number,
   previousMonth: number,
   previousYear: number,
+  tribo: string,
 ): Promise<ComparativeData> => {
   const currentStart = new Date(currentYear, currentMonth - 1, 1);
   const currentEnd = new Date(currentYear, currentMonth, 0);
@@ -106,6 +121,9 @@ export const getComparative = async (
 
   const [currentGcs, previousGcs] = await Promise.all([
     prisma.gC.findMany({
+      where: {
+        tribo: tribo,
+      },
       select: {
         id: true,
         name: true,
@@ -121,6 +139,9 @@ export const getComparative = async (
       },
     }),
     prisma.gC.findMany({
+      where: {
+        tribo: tribo,
+      },
       select: {
         id: true,
         applicationsDailys: {

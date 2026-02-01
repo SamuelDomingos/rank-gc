@@ -28,7 +28,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
-import { useDeleteRegister, useGetAllRegistersGc } from "@/app/_hooks/useRegister";
+import { useDeleteRegister, useGetAllRegistersGc } from "@/app/tribo/[name]/_hooks/useRegister";
 import { useDate } from "@/context/DateContext";
 import { formatDate, presenceLabel } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";

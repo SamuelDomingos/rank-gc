@@ -27,8 +27,9 @@ import { z } from "zod"
 import { Plus } from "lucide-react"
 import { ChangeEvent, useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
-import { useCreatedGcs, useUpdateGcs } from "@/app/_hooks/useGcs"
+import { useCreatedGcs, useUpdateGcs } from "@/app/tribo/[name]/_hooks/useGcs"
 import { GC } from "@/app/generated/prisma/client"
+import { useParams } from "next/navigation"
 
 const formSchema = z.object({
     name: z.string().min(2, "Nome deve ter no mínimo 2 caracteres").max(50, "Nome deve ter no máximo 50 caracteres"),
@@ -47,6 +48,9 @@ const FormGc = ({ onSuccess, gcData, isEditing = false }: {
     gcData?: GC
     isEditing?: boolean
 }) => {
+    const params = useParams()
+    const triboName = params.name as string
+
     const fileInputRef = useRef<HTMLInputElement | null>(null)
     const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
@@ -94,6 +98,7 @@ const FormGc = ({ onSuccess, gcData, isEditing = false }: {
             formData.append("name", values.name)
             formData.append("type", values.type)
             formData.append("quantity", values.quantity.toString())
+            formData.append("tribo", triboName)
 
             if (values.avatar) {
                 formData.append("avatar", values.avatar)

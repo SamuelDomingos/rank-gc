@@ -24,7 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { CalendarPicker } from "./ui/calendar-picker"
-import { useRegisterDay } from "@/app/_hooks/useRegister"
+import { useRegisterDay } from "@/app/tribo/[name]/_hooks/useRegister"
 
 export const formSchema = z.object({
     date: z.date({ message: "A data é obrigatória" }),

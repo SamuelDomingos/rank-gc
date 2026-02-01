@@ -18,6 +18,11 @@ export class GCService {
             const type = formData.get("type")?.toString();
             const quantity = Number(formData.get("quantity"));
             const avatarFile = formData.get("avatar") as File | null;
+            const tribo = formData.get("tribo")?.toString();
+
+            if (!name || !type || !tribo) {
+                return { success: false, error: "Dados obrigatórios ausentes" };
+            }
 
             const avatarPath = await handleAvatarUpload(avatarFile);
 
@@ -34,6 +39,7 @@ export class GCService {
                     avatar: validatedData.avatar ?? undefined,
                     type: validatedData.type,
                     quantity: validatedData.quantity,
+                    tribo: tribo,
                 },
             });
 
@@ -51,12 +57,13 @@ export class GCService {
         }
     }
 
-    async getAllGCs(month: number, year: number) {
+    async getAllGCs(month: number, year: number, tribo: string) {
         try {
             const startDate = new Date(year, month - 1, 1);
             const endDate = new Date(year, month, 0);
     
             const gcs = await prisma.gC.findMany({
+                where: { tribo: tribo },
                 orderBy: { name: 'asc' },
                 include: {
                     applicationsDailys: {

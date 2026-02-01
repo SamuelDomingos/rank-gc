@@ -38,7 +38,7 @@ import { Separator } from "@/components/ui/separator";
 import { GCRanking } from "@/lib/api/types";
 import FormRegister from "./formRegister";
 import ListRegisters from "./listRegisters";
-import { useDeleteGc } from "@/app/_hooks/useGcs";
+import { useDeleteGc } from "@/app/tribo/[name]/_hooks/useGcs";
 import FormGc from "./formGc";
 import { useRef } from "react";
 

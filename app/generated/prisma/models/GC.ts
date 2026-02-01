@@ -39,6 +39,7 @@ export type GCMinAggregateOutputType = {
   name: string | null
   avatar: string | null
   type: string | null
+  tribo: string | null
   quantity: number | null
 }
 
@@ -47,6 +48,7 @@ export type GCMaxAggregateOutputType = {
   name: string | null
   avatar: string | null
   type: string | null
+  tribo: string | null
   quantity: number | null
 }
 
@@ -55,6 +57,7 @@ export type GCCountAggregateOutputType = {
   name: number
   avatar: number
   type: number
+  tribo: number
   quantity: number
   _all: number
 }
@@ -73,6 +76,7 @@ export type GCMinAggregateInputType = {
   name?: true
   avatar?: true
   type?: true
+  tribo?: true
   quantity?: true
 }
 
@@ -81,6 +85,7 @@ export type GCMaxAggregateInputType = {
   name?: true
   avatar?: true
   type?: true
+  tribo?: true
   quantity?: true
 }
 
@@ -89,6 +94,7 @@ export type GCCountAggregateInputType = {
   name?: true
   avatar?: true
   type?: true
+  tribo?: true
   quantity?: true
   _all?: true
 }
@@ -184,6 +190,7 @@ export type GCGroupByOutputType = {
   name: string
   avatar: string | null
   type: string
+  tribo: string
   quantity: number
   _count: GCCountAggregateOutputType | null
   _avg: GCAvgAggregateOutputType | null
@@ -215,6 +222,7 @@ export type GCWhereInput = {
   name?: Prisma.StringFilter<"GC"> | string
   avatar?: Prisma.StringNullableFilter<"GC"> | string | null
   type?: Prisma.StringFilter<"GC"> | string
+  tribo?: Prisma.StringFilter<"GC"> | string
   quantity?: Prisma.IntFilter<"GC"> | number
   applicationsDailys?: Prisma.ApplicationsDailysListRelationFilter
   applicationsFixeds?: Prisma.ApplicationsFixedListRelationFilter
@@ -225,6 +233,7 @@ export type GCOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
+  tribo?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   applicationsDailys?: Prisma.ApplicationsDailysOrderByRelationAggregateInput
   applicationsFixeds?: Prisma.ApplicationsFixedOrderByRelationAggregateInput
@@ -238,6 +247,7 @@ export type GCWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.GCWhereInput | Prisma.GCWhereInput[]
   avatar?: Prisma.StringNullableFilter<"GC"> | string | null
   type?: Prisma.StringFilter<"GC"> | string
+  tribo?: Prisma.StringFilter<"GC"> | string
   quantity?: Prisma.IntFilter<"GC"> | number
   applicationsDailys?: Prisma.ApplicationsDailysListRelationFilter
   applicationsFixeds?: Prisma.ApplicationsFixedListRelationFilter
@@ -248,6 +258,7 @@ export type GCOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
+  tribo?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   _count?: Prisma.GCCountOrderByAggregateInput
   _avg?: Prisma.GCAvgOrderByAggregateInput
@@ -264,6 +275,7 @@ export type GCScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"GC"> | string
   avatar?: Prisma.StringNullableWithAggregatesFilter<"GC"> | string | null
   type?: Prisma.StringWithAggregatesFilter<"GC"> | string
+  tribo?: Prisma.StringWithAggregatesFilter<"GC"> | string
   quantity?: Prisma.IntWithAggregatesFilter<"GC"> | number
 }
 
@@ -272,6 +284,7 @@ export type GCCreateInput = {
   name: string
   avatar?: string | null
   type: string
+  tribo: string
   quantity: number
   applicationsDailys?: Prisma.ApplicationsDailysCreateNestedManyWithoutGcInput
   applicationsFixeds?: Prisma.ApplicationsFixedCreateNestedManyWithoutGcInput
@@ -282,6 +295,7 @@ export type GCUncheckedCreateInput = {
   name: string
   avatar?: string | null
   type: string
+  tribo: string
   quantity: number
   applicationsDailys?: Prisma.ApplicationsDailysUncheckedCreateNestedManyWithoutGcInput
   applicationsFixeds?: Prisma.ApplicationsFixedUncheckedCreateNestedManyWithoutGcInput
@@ -292,6 +306,7 @@ export type GCUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  tribo?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   applicationsDailys?: Prisma.ApplicationsDailysUpdateManyWithoutGcNestedInput
   applicationsFixeds?: Prisma.ApplicationsFixedUpdateManyWithoutGcNestedInput
@@ -302,6 +317,7 @@ export type GCUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  tribo?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   applicationsDailys?: Prisma.ApplicationsDailysUncheckedUpdateManyWithoutGcNestedInput
   applicationsFixeds?: Prisma.ApplicationsFixedUncheckedUpdateManyWithoutGcNestedInput
@@ -312,6 +328,7 @@ export type GCCreateManyInput = {
   name: string
   avatar?: string | null
   type: string
+  tribo: string
   quantity: number
 }
 
@@ -320,6 +337,7 @@ export type GCUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  tribo?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -328,6 +346,7 @@ export type GCUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  tribo?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -336,6 +355,7 @@ export type GCCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  tribo?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
 }
 
@@ -348,6 +368,7 @@ export type GCMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  tribo?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
 }
 
@@ -356,6 +377,7 @@ export type GCMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  tribo?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
 }
 
@@ -417,6 +439,7 @@ export type GCCreateWithoutApplicationsDailysInput = {
   name: string
   avatar?: string | null
   type: string
+  tribo: string
   quantity: number
   applicationsFixeds?: Prisma.ApplicationsFixedCreateNestedManyWithoutGcInput
 }
@@ -426,6 +449,7 @@ export type GCUncheckedCreateWithoutApplicationsDailysInput = {
   name: string
   avatar?: string | null
   type: string
+  tribo: string
   quantity: number
   applicationsFixeds?: Prisma.ApplicationsFixedUncheckedCreateNestedManyWithoutGcInput
 }
@@ -451,6 +475,7 @@ export type GCUpdateWithoutApplicationsDailysInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  tribo?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   applicationsFixeds?: Prisma.ApplicationsFixedUpdateManyWithoutGcNestedInput
 }
@@ -460,6 +485,7 @@ export type GCUncheckedUpdateWithoutApplicationsDailysInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  tribo?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   applicationsFixeds?: Prisma.ApplicationsFixedUncheckedUpdateManyWithoutGcNestedInput
 }
@@ -469,6 +495,7 @@ export type GCCreateWithoutApplicationsFixedsInput = {
   name: string
   avatar?: string | null
   type: string
+  tribo: string
   quantity: number
   applicationsDailys?: Prisma.ApplicationsDailysCreateNestedManyWithoutGcInput
 }
@@ -478,6 +505,7 @@ export type GCUncheckedCreateWithoutApplicationsFixedsInput = {
   name: string
   avatar?: string | null
   type: string
+  tribo: string
   quantity: number
   applicationsDailys?: Prisma.ApplicationsDailysUncheckedCreateNestedManyWithoutGcInput
 }
@@ -503,6 +531,7 @@ export type GCUpdateWithoutApplicationsFixedsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  tribo?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   applicationsDailys?: Prisma.ApplicationsDailysUpdateManyWithoutGcNestedInput
 }
@@ -512,6 +541,7 @@ export type GCUncheckedUpdateWithoutApplicationsFixedsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  tribo?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   applicationsDailys?: Prisma.ApplicationsDailysUncheckedUpdateManyWithoutGcNestedInput
 }
@@ -561,6 +591,7 @@ export type GCSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
   name?: boolean
   avatar?: boolean
   type?: boolean
+  tribo?: boolean
   quantity?: boolean
   applicationsDailys?: boolean | Prisma.GC$applicationsDailysArgs<ExtArgs>
   applicationsFixeds?: boolean | Prisma.GC$applicationsFixedsArgs<ExtArgs>
@@ -572,6 +603,7 @@ export type GCSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions
   name?: boolean
   avatar?: boolean
   type?: boolean
+  tribo?: boolean
   quantity?: boolean
 }, ExtArgs["result"]["gC"]>
 
@@ -580,6 +612,7 @@ export type GCSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions
   name?: boolean
   avatar?: boolean
   type?: boolean
+  tribo?: boolean
   quantity?: boolean
 }, ExtArgs["result"]["gC"]>
 
@@ -588,10 +621,11 @@ export type GCSelectScalar = {
   name?: boolean
   avatar?: boolean
   type?: boolean
+  tribo?: boolean
   quantity?: boolean
 }
 
-export type GCOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "avatar" | "type" | "quantity", ExtArgs["result"]["gC"]>
+export type GCOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "avatar" | "type" | "tribo" | "quantity", ExtArgs["result"]["gC"]>
 export type GCInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   applicationsDailys?: boolean | Prisma.GC$applicationsDailysArgs<ExtArgs>
   applicationsFixeds?: boolean | Prisma.GC$applicationsFixedsArgs<ExtArgs>
@@ -611,6 +645,7 @@ export type $GCPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     name: string
     avatar: string | null
     type: string
+    tribo: string
     quantity: number
   }, ExtArgs["result"]["gC"]>
   composites: {}
@@ -1041,6 +1076,7 @@ export interface GCFieldRefs {
   readonly name: Prisma.FieldRef<"GC", 'String'>
   readonly avatar: Prisma.FieldRef<"GC", 'String'>
   readonly type: Prisma.FieldRef<"GC", 'String'>
+  readonly tribo: Prisma.FieldRef<"GC", 'String'>
   readonly quantity: Prisma.FieldRef<"GC", 'Int'>
 }
     

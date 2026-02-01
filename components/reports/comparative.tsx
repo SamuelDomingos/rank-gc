@@ -31,7 +31,7 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { DatePicker } from "@/components/ui/date-picker";
 import { ArrowUp, ArrowDown, Download } from "lucide-react";
-import { useComparative } from "@/app/_hooks/useReports";
+import { useComparative } from "@/app/tribo/[name]/_hooks/useReports";
 import { useDate } from "@/context/DateContext";
 import { Spinner } from "@/components/ui/spinner";
 import {
@@ -39,6 +39,7 @@ import {
   exportAsExcel,
   exportAsPDF,
 } from "./services/export.service";
+import { useParams } from "next/navigation";
 
 interface GCWithMetrics {
   id: string;
@@ -218,6 +219,9 @@ const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
 );
 
 const Comparative = () => {
+  const params = useParams();
+  const tribo = params.name as string;
+
   const currentDate = new Date();
   const [previousMonth, setPreviousMonth] = useState(
     currentDate.getMonth() === 0 ? 11 : currentDate.getMonth() - 1,
@@ -235,6 +239,7 @@ const Comparative = () => {
     previousYear,
     currentMonth,
     currentYear,
+    tribo
   );
 
   if (isLoading) {

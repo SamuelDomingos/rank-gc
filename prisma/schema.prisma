@@ -12,6 +12,7 @@ model GC {
     name               String               @unique
     avatar             String?
     type               String
+    tribo              String
     quantity           Int
     applicationsDailys ApplicationsDailys[]
     applicationsFixeds ApplicationsFixed[]

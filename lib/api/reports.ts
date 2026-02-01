@@ -6,9 +6,10 @@ import {
 export const getDashboardStats = async (
   month: number,
   year: number,
+  tribo: string,
 ): Promise<DashboardStats> => {
   const response = await fetch(
-    `/api/report/generalReports?month=${month}&year=${year}`,
+    `/api/report/generalReports?month=${month}&year=${year}&tribo=${tribo}`,
     {
       method: "GET",
     },
@@ -21,9 +22,10 @@ export const getComparative = async (
   previousYear: number,
   currentMonth: number,
   currentYear: number,
+  tribo: string,
 ): Promise<ComparativeData> => {
   const response = await fetch(
-    `/api/report/comparative?previousMonth=${previousMonth}&previousYear=${previousYear}&currentMonth=${currentMonth}&currentYear=${currentYear}`,
+    `/api/report/comparative?previousMonth=${previousMonth}&previousYear=${previousYear}&currentMonth=${currentMonth}&currentYear=${currentYear}&tribo=${tribo}`,
     {
       method: "GET",
     },

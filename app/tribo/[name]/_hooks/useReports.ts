@@ -2,13 +2,13 @@ import { useFetch } from "@/hooks/useFetch";
 import { getComparative, getDashboardStats } from "@/lib/api/reports";
 import { useMemo } from "react";
 
-export const useDashboardStats = (month: number, year: number) => {
+export const useDashboardStats = (month: number, year: number, tribo: string) => {
   const fetchOptions = useMemo(
     () => ({
       auto: true,
-      defaultArgs: [month, year],
+      defaultArgs: [month, year, tribo],
     }),
-    [month, year],
+    [month, year, tribo],
   );
 
   const {
@@ -31,13 +31,14 @@ export const useComparative = (
   previousYear: number,
   currentMonth: number,
   currentYear: number,
+  tribo: string,
 ) => {
   const fetchOptions = useMemo(
     () => ({
       auto: true,
-      defaultArgs: [previousMonth, previousYear, currentMonth, currentYear],
+      defaultArgs: [previousMonth, previousYear, currentMonth, currentYear, tribo],
     }),
-    [previousMonth, previousYear, currentMonth, currentYear],
+    [previousMonth, previousYear, currentMonth, currentYear, tribo],
   );
 
   const {

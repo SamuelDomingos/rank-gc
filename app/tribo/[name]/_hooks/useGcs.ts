@@ -42,13 +42,13 @@ export const useUpdateGcs = () => {
     };
 };
 
-export const useGetGcs = (month: number, year: number) => {
+export const useGetGcs = (month: number, year: number, tribo: string) => {
     const fetchOptions = useMemo(
         () => ({
             auto: true,
-            defaultArgs: [month, year],
+            defaultArgs: [month, year, tribo],
         }),
-        [month, year]
+        [month, year, tribo]
     );
 
     const {

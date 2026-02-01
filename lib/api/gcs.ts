@@ -29,8 +29,8 @@ export const updateGC = async (id: string, formData: FormData): Promise<GC> => {
     return response.json();
 };
 
-export const getGcsAll = async (month: number, year: number): Promise<GCsResponse> => {
-    const response = await fetch(`/api/gc?month=${month}&year=${year}`, {
+export const getGcsAll = async (month: number, year: number, tribo: string): Promise<GCsResponse> => {
+    const response = await fetch(`/api/gc?month=${month}&year=${year}&tribo=${tribo}`, {
         method: "GET",
     });
     return response.json();

@@ -49,8 +49,9 @@ export async function GET(request: NextRequest) {
     try {
         const month = Number(request.nextUrl.searchParams.get("month"));
         const year = Number(request.nextUrl.searchParams.get("year"));
+        const tribo = String(request.nextUrl.searchParams.get("tribo"));
 
-        const summary = await gcService.getAllGCs(month, year);
+        const summary = await gcService.getAllGCs(month, year, tribo);
         return NextResponse.json(summary);
     } catch (erro) {
         console.error("Erro ao trazer o resumo:", erro);
