@@ -20,6 +20,7 @@ export type GCRanking = {
     name: string;
     avatar: string | null;
     type: string;
+    tribo: string;
     quantity: number;
     points: number;
     baskets: number;
