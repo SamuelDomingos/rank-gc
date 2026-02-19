@@ -45,11 +45,6 @@ interface GCWithMetrics {
   id: string;
   gc: string;
   metrics: {
-    totalPoints: {
-      current: number | string;
-      previous: number | string;
-      comparative: number;
-    };
     baskets: {
       current: number | string;
       previous: number | string;
