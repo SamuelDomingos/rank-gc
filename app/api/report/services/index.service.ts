@@ -1,4 +1,9 @@
 import prisma from "@/lib/prisma";
+import {
+  calculatePresencePercentage,
+  calculateServingPercentage,
+  calculateTotalVisitors,
+} from "../../gc/services/calcRank.service";
 
 export type DashboardStats = {
   totalGcs: number;
@@ -13,7 +18,6 @@ export type ComparativeData = {
     id: string;
     gc: string;
     metrics: {
-      totalPoints: { current: number; previous: number; comparative: number };
       baskets: { current: number; previous: number; comparative: number };
       visitors: { current: number; previous: number; comparative: number };
       gcAttendance: { current: string; previous: string; comparative: number };
@@ -29,7 +33,6 @@ export type ComparativeData = {
     id: string;
     gc: string;
     metrics: {
-      totalPoints: { current: number; previous: number; comparative: number };
       baskets: { current: number; previous: number; comparative: number };
       visitors: { current: number; previous: number; comparative: number };
       gcAttendance: { current: string; previous: string; comparative: number };
@@ -121,16 +124,20 @@ export const getComparative = async (
 
   const [currentGcs, previousGcs] = await Promise.all([
     prisma.gC.findMany({
-      where: {
-        tribo: tribo,
-      },
+      where: { tribo },
       select: {
         id: true,
         name: true,
         type: true,
+        quantity: true,
         applicationsDailys: {
           where: { date: { gte: currentStart, lte: currentEnd } },
-          select: { members: true, visitors: true, membersServing: true },
+          select: {
+            type: true,
+            members: true,
+            visitors: true,
+            membersServing: true,
+          },
         },
         applicationsFixeds: {
           where: { date: { gte: currentStart, lte: currentEnd } },
@@ -139,14 +146,18 @@ export const getComparative = async (
       },
     }),
     prisma.gC.findMany({
-      where: {
-        tribo: tribo,
-      },
+      where: { tribo },
       select: {
         id: true,
+        quantity: true,
         applicationsDailys: {
           where: { date: { gte: previousStart, lte: previousEnd } },
-          select: { members: true, visitors: true, membersServing: true },
+          select: {
+            type: true,
+            members: true,
+            visitors: true,
+            membersServing: true,
+          },
         },
         applicationsFixeds: {
           where: { date: { gte: previousStart, lte: previousEnd } },
@@ -160,84 +171,99 @@ export const getComparative = async (
     return currentGcs
       .filter((gc) => gc.type === type)
       .map((gc) => {
+        const normalizeDailyApps = (
+          apps: {
+            type: string;
+            members: number;
+            visitors: number;
+            membersServing: number | null;
+          }[],
+        ): any[] =>
+          apps.map((a) => ({ ...a, membersServing: a.membersServing ?? 0 }));
+
         const prev = previousGcs.find((p) => p.id === gc.id);
-
-        const sum = <T>(arr: T[], fn: (item: T) => number) =>
-          arr.reduce((s, i) => s + fn(i), 0);
-
-        const currentMembers = sum(gc.applicationsDailys, (a) => a.members);
-        const currentVisitors = sum(gc.applicationsDailys, (a) => a.visitors);
-        const currentServing = sum(
-          gc.applicationsDailys,
-          (a) => a.membersServing ?? 0,
-        );
-        const currentBaskets = sum(gc.applicationsFixeds, (a) => a.baskets);
-
-        const prevMembers = sum(
+        const prevFixedApps = prev?.applicationsFixeds ?? [];
+        const currentDailyApps = normalizeDailyApps(gc.applicationsDailys);
+        const prevDailyApps = normalizeDailyApps(
           prev?.applicationsDailys ?? [],
-          (a) => a.members,
         );
-        const prevVisitors = sum(
-          prev?.applicationsDailys ?? [],
-          (a) => a.visitors,
+        const prevQuantity = prev?.quantity ?? gc.quantity;
+
+        const currentVisitors = calculateTotalVisitors(currentDailyApps);
+        const prevVisitors = calculateTotalVisitors(prevDailyApps);
+
+        const currentPresenceGC = calculatePresencePercentage(
+          currentDailyApps,
+          "presenceGC",
+          gc.quantity,
         );
-        const prevServing = sum(
-          prev?.applicationsDailys ?? [],
-          (a) => a.membersServing ?? 0,
-        );
-        const prevBaskets = sum(
-          prev?.applicationsFixeds ?? [],
-          (a) => a.baskets,
+        const prevPresenceGC = calculatePresencePercentage(
+          prevDailyApps,
+          "presenceGC",
+          prevQuantity,
         );
 
-        const currentServingPct =
-          currentMembers > 0 ? (currentServing / currentMembers) * 100 : 0;
+        const currentPresenceCults = calculatePresencePercentage(
+          currentDailyApps,
+          "presenceCults",
+          gc.quantity,
+        );
+        const prevPresenceCults = calculatePresencePercentage(
+          prevDailyApps,
+          "presenceCults",
+          prevQuantity,
+        );
 
-        const prevServingPct =
-          prevMembers > 0 ? (prevServing / prevMembers) * 100 : 0;
+        const currentServing = calculateServingPercentage(
+          currentDailyApps,
+          gc.quantity,
+        );
+        const prevServing = calculateServingPercentage(
+          prevDailyApps,
+          prevQuantity,
+        );
+
+        const currentBaskets = gc.applicationsFixeds.reduce(
+          (s, a) => s + (a?.baskets ?? 0),
+          0,
+        );
+        const prevBaskets = prevFixedApps.reduce(
+          (s, a) => s + (a?.baskets ?? 0),
+          0,
+        );
 
         return {
           id: gc.id,
           gc: gc.name,
           metrics: {
-            totalPoints: {
-              current: currentMembers + currentVisitors + currentBaskets,
-              previous: prevMembers + prevVisitors + prevBaskets,
-              comparative:
-                currentMembers +
-                currentVisitors +
-                currentBaskets -
-                (prevMembers + prevVisitors + prevBaskets),
-            },
-
             baskets: {
               current: currentBaskets,
               previous: prevBaskets,
               comparative: currentBaskets - prevBaskets,
             },
-
             visitors: {
               current: currentVisitors,
               previous: prevVisitors,
               comparative: currentVisitors - prevVisitors,
             },
-
             gcAttendance: {
-              current: `${currentMembers}`,
-              previous: `${prevMembers}`,
-              comparative: currentMembers - prevMembers,
+              current: `${Math.round(currentPresenceGC * 100) / 100}`,
+              previous: `${Math.round(prevPresenceGC * 100) / 100}`,
+              comparative:
+                Math.round((currentPresenceGC - prevPresenceGC) * 100) / 100,
             },
-
             serviceAttendance: {
-              current: `${currentServing}`,
-              previous: `${prevServing}`,
-              comparative: currentServing - prevServing,
+              current: `${Math.round(currentPresenceCults * 100) / 100}`,
+              previous: `${Math.round(prevPresenceCults * 100) / 100}`,
+              comparative:
+                Math.round((currentPresenceCults - prevPresenceCults) * 100) /
+                100,
             },
-
             serving: {
-              current: `${Math.round(currentServingPct)}`,
-              previous: `${Math.round(prevServingPct)}`,
-              comparative: Math.round(currentServingPct - prevServingPct),
+              current: `${Math.round(currentServing * 100) / 100}`,
+              previous: `${Math.round(prevServing * 100) / 100}`,
+              comparative:
+                Math.round((currentServing - prevServing) * 100) / 100,
             },
           },
         };

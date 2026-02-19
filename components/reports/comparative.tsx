@@ -128,11 +128,6 @@ const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
                   <TableBody>
                     {[
                       {
-                        label: "Pontos Totais",
-                        key: "totalPoints",
-                        isPercentage: false,
-                      },
-                      {
                         label: "Cestas",
                         key: "baskets",
                         isPercentage: false,
@@ -224,7 +219,7 @@ const Comparative = () => {
 
   const currentDate = new Date();
   const [previousMonth, setPreviousMonth] = useState(
-    currentDate.getMonth() === 0 ? 11 : currentDate.getMonth() - 1,
+    currentDate.getMonth() - 1,
   );
   const [previousYear, setPreviousYear] = useState(
     currentDate.getMonth() === 0

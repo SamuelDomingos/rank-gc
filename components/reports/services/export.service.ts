@@ -12,7 +12,6 @@ interface GC {
   id: string;
   gc: string;
   metrics: {
-    totalPoints: Metric;
     baskets: Metric;
     visitors: Metric;
     gcAttendance: Metric;
@@ -66,11 +65,6 @@ export const exportAsPDF = (data: GCData): void => {
       doc.setTextColor(60, 60, 60);
 
       const metricas = [
-        {
-          label: "Pontos",
-          current: parseInt(String(gc.metrics.totalPoints.current)),
-          previous: parseInt(String(gc.metrics.totalPoints.previous)),
-        },
         {
           label: "Cestas",
           current: parseInt(String(gc.metrics.baskets.current)),
@@ -155,7 +149,6 @@ export const exportAsExcel = (data: GCData): void => {
         resumoGeral.push({
           Gênero: genero,
           GC: grupo.gc,
-          Pontos: parseInt(String(grupo.metrics.totalPoints.current)),
           Cestas: parseInt(String(grupo.metrics.baskets.current)),
           Visitantes: parseInt(String(grupo.metrics.visitors.current)),
           "Freq. GC": parseInt(String(grupo.metrics.gcAttendance.current)),
@@ -192,13 +185,6 @@ export const exportAsExcel = (data: GCData): void => {
         comparativo.push({
           Gênero: genero,
           GC: grupo.gc,
-          "Pontos Atual": parseInt(String(grupo.metrics.totalPoints.current)),
-          "Pontos Anterior": parseInt(
-            String(grupo.metrics.totalPoints.previous),
-          ),
-          "Pontos Diferença":
-            parseInt(String(grupo.metrics.totalPoints.current)) -
-            parseInt(String(grupo.metrics.totalPoints.previous)),
           "Cestas Atual": parseInt(String(grupo.metrics.baskets.current)),
           "Cestas Anterior": parseInt(String(grupo.metrics.baskets.previous)),
           "Cestas Diferença":
@@ -277,12 +263,6 @@ export const copyToWhatsApp = (data: GCData): void => {
         texto += "   ───────────────────────\n";
         texto +=
           formatarMetrica(
-            "Pontos",
-            parseInt(String(grupo.metrics.totalPoints.current)),
-            parseInt(String(grupo.metrics.totalPoints.previous)),
-          ) + "\n";
-        texto +=
-          formatarMetrica(
             "Cestas",
             parseInt(String(grupo.metrics.baskets.current)),
             parseInt(String(grupo.metrics.baskets.previous)),
@@ -320,12 +300,6 @@ export const copyToWhatsApp = (data: GCData): void => {
       dados.feminine.forEach((grupo: GC) => {
         texto += `\n🔹 ${grupo.gc.toUpperCase()}\n`;
         texto += "   ───────────────────────\n";
-        texto +=
-          formatarMetrica(
-            "Pontos",
-            parseInt(String(grupo.metrics.totalPoints.current)),
-            parseInt(String(grupo.metrics.totalPoints.previous)),
-          ) + "\n";
         texto +=
           formatarMetrica(
             "Cestas",
