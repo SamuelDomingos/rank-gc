@@ -1,5 +1,5 @@
 import { useFetch } from "@/hooks/useFetch";
-import { deleteRegister, getAllRegistersGc, registerDayGC } from "@/lib/api/registers";
+import { deleteRegister, getAllRegistersGc, registerDayGC } from "@/lib/api/registersDays";
 import { useMemo } from "react";
 
 export const useRegisterDay = () => {

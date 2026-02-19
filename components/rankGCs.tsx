@@ -41,6 +41,7 @@ import ListRegisters from "./listRegisters";
 import { useDeleteGc } from "@/app/tribo/[name]/_hooks/useGcs";
 import FormGc from "./formGc";
 import { useRef } from "react";
+import FormRegisterBaskets from "./FormRegisterBaskets";
 
 const RankGCs = ({
   dados,
@@ -154,6 +155,9 @@ const RankGCs = ({
                             <TabsTrigger value="listRegisters">
                               Registros
                             </TabsTrigger>
+                            <TabsTrigger value="BasketsMonth">
+                              Cestas
+                            </TabsTrigger>
                           </TabsList>
                           <TabsContent value="registerDayForm">
                             <DialogHeader>
@@ -176,6 +180,19 @@ const RankGCs = ({
                               </DialogDescription>
                             </DialogHeader>
                             <ListRegisters id={gc.id} />
+                          </TabsContent>
+
+                          <TabsContent value="BasketsMonth">
+                            <DialogHeader>
+                              <DialogTitle>
+                                Registros do mes de {month}
+                              </DialogTitle>
+                              <DialogDescription>
+                                Preencha as informações do grupo de conexão.
+                                Você poderá alterar esses dados depois.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <FormRegisterBaskets gcId={gc.id}/>
                           </TabsContent>
                         </Tabs>
                       </div>
