@@ -1,19 +1,4 @@
-export type GC = {
-    id: string;
-    name: string;
-    avatar?: string | null;
-    type: string;
-    quantity: number;
-    applicationsDailys: {
-        type: string | number;
-        members: number;
-        visitors: number;
-        membersServing: number;
-    }[];
-    applicationsFixeds: {
-        baskets: number;
-    }[];
-};
+
 
 export type GCRanking = {
     id: string;

@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel GC {\n  id                 String               @id @default(uuid())\n  name               String               @unique\n  avatar             String?\n  type               String\n  tribo              String\n  quantity           Int\n  applicationsDailys ApplicationsDailys[]\n  applicationsFixeds ApplicationsFixed[]\n}\n\nmodel ApplicationsDailys {\n  id             String   @id @default(uuid())\n  gcId           String\n  date           DateTime @db.Date\n  type           String\n  members        Int\n  visitors       Int\n  membersServing Int?\n\n  gc GC @relation(fields: [gcId], references: [id], onDelete: Cascade)\n\n  @@unique([gcId, date])\n  @@index([gcId])\n}\n\nmodel ApplicationsFixed {\n  id      String   @id @default(uuid())\n  gcId    String\n  date    DateTime @db.Date\n  baskets Int\n\n  gc GC @relation(fields: [gcId], references: [id], onDelete: Cascade)\n\n  @@unique([gcId, date])\n  @@index([gcId])\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel ConfigGeral {\n  id           String @id @default(uuid())\n  priceBaskets Int\n\n  active Boolean  @default(true)\n  date   DateTime @db.Date\n\n  @@unique([date])\n}\n\nmodel GC {\n  id                 String               @id @default(uuid())\n  name               String               @unique\n  avatar             String?\n  type               String\n  tribo              String\n  quantity           Int\n  applicationsDailys ApplicationsDailys[]\n  applicationsFixeds ApplicationsFixed[]\n}\n\nmodel ApplicationsDailys {\n  id             String   @id @default(uuid())\n  gcId           String\n  date           DateTime @db.Date\n  type           String\n  members        Int\n  visitors       Int\n  membersServing Int?\n\n  gc GC @relation(fields: [gcId], references: [id], onDelete: Cascade)\n\n  @@unique([gcId, date])\n  @@index([gcId])\n}\n\nmodel ApplicationsFixed {\n  id   String   @id @default(uuid())\n  gcId String\n  date DateTime @db.Date\n\n  amountCollected Int\n  vouchers        VoucherBaskets[]\n\n  gc GC @relation(fields: [gcId], references: [id], onDelete: Cascade)\n\n  @@unique([gcId, date])\n  @@index([gcId])\n}\n\nmodel VoucherBaskets {\n  id                  String @id @default(uuid())\n  applicationsFixedId String\n\n  voucher String\n  price   Int?\n\n  applicationsFixed ApplicationsFixed @relation(fields: [applicationsFixedId], references: [id], onDelete: Cascade)\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"GC\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tribo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"applicationsDailys\",\"kind\":\"object\",\"type\":\"ApplicationsDailys\",\"relationName\":\"ApplicationsDailysToGC\"},{\"name\":\"applicationsFixeds\",\"kind\":\"object\",\"type\":\"ApplicationsFixed\",\"relationName\":\"ApplicationsFixedToGC\"}],\"dbName\":null},\"ApplicationsDailys\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gcId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"members\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"visitors\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"membersServing\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"gc\",\"kind\":\"object\",\"type\":\"GC\",\"relationName\":\"ApplicationsDailysToGC\"}],\"dbName\":null},\"ApplicationsFixed\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gcId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"baskets\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"gc\",\"kind\":\"object\",\"type\":\"GC\",\"relationName\":\"ApplicationsFixedToGC\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"ConfigGeral\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priceBaskets\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"GC\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tribo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"applicationsDailys\",\"kind\":\"object\",\"type\":\"ApplicationsDailys\",\"relationName\":\"ApplicationsDailysToGC\"},{\"name\":\"applicationsFixeds\",\"kind\":\"object\",\"type\":\"ApplicationsFixed\",\"relationName\":\"ApplicationsFixedToGC\"}],\"dbName\":null},\"ApplicationsDailys\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gcId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"members\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"visitors\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"membersServing\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"gc\",\"kind\":\"object\",\"type\":\"GC\",\"relationName\":\"ApplicationsDailysToGC\"}],\"dbName\":null},\"ApplicationsFixed\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gcId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"amountCollected\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"vouchers\",\"kind\":\"object\",\"type\":\"VoucherBaskets\",\"relationName\":\"ApplicationsFixedToVoucherBaskets\"},{\"name\":\"gc\",\"kind\":\"object\",\"type\":\"GC\",\"relationName\":\"ApplicationsFixedToGC\"}],\"dbName\":null},\"VoucherBaskets\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"applicationsFixedId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"voucher\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"applicationsFixed\",\"kind\":\"object\",\"type\":\"ApplicationsFixed\",\"relationName\":\"ApplicationsFixedToVoucherBaskets\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -58,8 +58,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more GCS
-   * const gCS = await prisma.gC.findMany()
+   * // Fetch zero or more ConfigGerals
+   * const configGerals = await prisma.configGeral.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -80,8 +80,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more GCS
- * const gCS = await prisma.gC.findMany()
+ * // Fetch zero or more ConfigGerals
+ * const configGerals = await prisma.configGeral.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -175,6 +175,16 @@ export interface PrismaClient<
   }>>
 
       /**
+   * `prisma.configGeral`: Exposes CRUD operations for the **ConfigGeral** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ConfigGerals
+    * const configGerals = await prisma.configGeral.findMany()
+    * ```
+    */
+  get configGeral(): Prisma.ConfigGeralDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
    * `prisma.gC`: Exposes CRUD operations for the **GC** model.
     * Example usage:
     * ```ts
@@ -203,6 +213,16 @@ export interface PrismaClient<
     * ```
     */
   get applicationsFixed(): Prisma.ApplicationsFixedDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.voucherBaskets`: Exposes CRUD operations for the **VoucherBaskets** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VoucherBaskets
+    * const voucherBaskets = await prisma.voucherBaskets.findMany()
+    * ```
+    */
+  get voucherBaskets(): Prisma.VoucherBasketsDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

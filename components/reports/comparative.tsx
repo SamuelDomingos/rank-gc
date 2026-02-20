@@ -45,7 +45,7 @@ interface GCWithMetrics {
   id: string;
   gc: string;
   metrics: {
-    baskets: {
+    amountCollected: {
       current: number | string;
       previous: number | string;
       comparative: number;
@@ -123,8 +123,8 @@ const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
                   <TableBody>
                     {[
                       {
-                        label: "Cestas",
-                        key: "baskets",
+                        label: "Valor Arrecadado",
+                        key: "amountCollected",
                         isPercentage: false,
                       },
                       {

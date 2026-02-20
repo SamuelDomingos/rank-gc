@@ -465,10 +465,6 @@ export type ApplicationsDailysUncheckedUpdateManyWithoutGcNestedInput = {
   deleteMany?: Prisma.ApplicationsDailysScalarWhereInput | Prisma.ApplicationsDailysScalarWhereInput[]
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number

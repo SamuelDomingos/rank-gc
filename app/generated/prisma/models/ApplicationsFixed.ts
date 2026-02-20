@@ -27,63 +27,63 @@ export type AggregateApplicationsFixed = {
 }
 
 export type ApplicationsFixedAvgAggregateOutputType = {
-  baskets: number | null
+  amountCollected: number | null
 }
 
 export type ApplicationsFixedSumAggregateOutputType = {
-  baskets: number | null
+  amountCollected: number | null
 }
 
 export type ApplicationsFixedMinAggregateOutputType = {
   id: string | null
   gcId: string | null
   date: Date | null
-  baskets: number | null
+  amountCollected: number | null
 }
 
 export type ApplicationsFixedMaxAggregateOutputType = {
   id: string | null
   gcId: string | null
   date: Date | null
-  baskets: number | null
+  amountCollected: number | null
 }
 
 export type ApplicationsFixedCountAggregateOutputType = {
   id: number
   gcId: number
   date: number
-  baskets: number
+  amountCollected: number
   _all: number
 }
 
 
 export type ApplicationsFixedAvgAggregateInputType = {
-  baskets?: true
+  amountCollected?: true
 }
 
 export type ApplicationsFixedSumAggregateInputType = {
-  baskets?: true
+  amountCollected?: true
 }
 
 export type ApplicationsFixedMinAggregateInputType = {
   id?: true
   gcId?: true
   date?: true
-  baskets?: true
+  amountCollected?: true
 }
 
 export type ApplicationsFixedMaxAggregateInputType = {
   id?: true
   gcId?: true
   date?: true
-  baskets?: true
+  amountCollected?: true
 }
 
 export type ApplicationsFixedCountAggregateInputType = {
   id?: true
   gcId?: true
   date?: true
-  baskets?: true
+  amountCollected?: true
   _all?: true
 }
 
@@ -177,7 +177,7 @@ export type ApplicationsFixedGroupByOutputType = {
   id: string
   gcId: string
   date: Date
-  baskets: number
+  amountCollected: number
   _count: ApplicationsFixedCountAggregateOutputType | null
   _avg: ApplicationsFixedAvgAggregateOutputType | null
   _sum: ApplicationsFixedSumAggregateOutputType | null
@@ -207,7 +207,8 @@ export type ApplicationsFixedWhereInput = {
   id?: Prisma.StringFilter<"ApplicationsFixed"> | string
   gcId?: Prisma.StringFilter<"ApplicationsFixed"> | string
   date?: Prisma.DateTimeFilter<"ApplicationsFixed"> | Date | string
-  baskets?: Prisma.IntFilter<"ApplicationsFixed"> | number
+  amountCollected?: Prisma.IntFilter<"ApplicationsFixed"> | number
+  vouchers?: Prisma.VoucherBasketsListRelationFilter
   gc?: Prisma.XOR<Prisma.GCScalarRelationFilter, Prisma.GCWhereInput>
 }
 
@@ -215,7 +216,8 @@ export type ApplicationsFixedOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  baskets?: Prisma.SortOrder
+  amountCollected?: Prisma.SortOrder
+  vouchers?: Prisma.VoucherBasketsOrderByRelationAggregateInput
   gc?: Prisma.GCOrderByWithRelationInput
 }
 
@@ -227,7 +229,8 @@ export type ApplicationsFixedWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ApplicationsFixedWhereInput | Prisma.ApplicationsFixedWhereInput[]
   gcId?: Prisma.StringFilter<"ApplicationsFixed"> | string
   date?: Prisma.DateTimeFilter<"ApplicationsFixed"> | Date | string
-  baskets?: Prisma.IntFilter<"ApplicationsFixed"> | number
+  amountCollected?: Prisma.IntFilter<"ApplicationsFixed"> | number
+  vouchers?: Prisma.VoucherBasketsListRelationFilter
   gc?: Prisma.XOR<Prisma.GCScalarRelationFilter, Prisma.GCWhereInput>
 }, "id" | "gcId_date">
 
@@ -235,7 +238,7 @@ export type ApplicationsFixedOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  baskets?: Prisma.SortOrder
+  amountCollected?: Prisma.SortOrder
   _count?: Prisma.ApplicationsFixedCountOrderByAggregateInput
   _avg?: Prisma.ApplicationsFixedAvgOrderByAggregateInput
   _max?: Prisma.ApplicationsFixedMaxOrderByAggregateInput
@@ -250,13 +253,14 @@ export type ApplicationsFixedScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ApplicationsFixed"> | string
   gcId?: Prisma.StringWithAggregatesFilter<"ApplicationsFixed"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"ApplicationsFixed"> | Date | string
-  baskets?: Prisma.IntWithAggregatesFilter<"ApplicationsFixed"> | number
+  amountCollected?: Prisma.IntWithAggregatesFilter<"ApplicationsFixed"> | number
 }
 
 export type ApplicationsFixedCreateInput = {
   id?: string
   date: Date | string
-  baskets: number
+  amountCollected: number
+  vouchers?: Prisma.VoucherBasketsCreateNestedManyWithoutApplicationsFixedInput
   gc: Prisma.GCCreateNestedOneWithoutApplicationsFixedsInput
 }
 
@@ -264,13 +268,15 @@ export type ApplicationsFixedUncheckedCreateInput = {
   id?: string
   gcId: string
   date: Date | string
-  baskets: number
+  amountCollected: number
+  vouchers?: Prisma.VoucherBasketsUncheckedCreateNestedManyWithoutApplicationsFixedInput
 }
 
 export type ApplicationsFixedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  baskets?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  vouchers?: Prisma.VoucherBasketsUpdateManyWithoutApplicationsFixedNestedInput
   gc?: Prisma.GCUpdateOneRequiredWithoutApplicationsFixedsNestedInput
 }
 
@@ -278,27 +284,28 @@ export type ApplicationsFixedUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gcId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  baskets?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  vouchers?: Prisma.VoucherBasketsUncheckedUpdateManyWithoutApplicationsFixedNestedInput
 }
 
 export type ApplicationsFixedCreateManyInput = {
   id?: string
   gcId: string
   date: Date | string
-  baskets: number
+  amountCollected: number
 }
 
 export type ApplicationsFixedUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  baskets?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ApplicationsFixedUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gcId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  baskets?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ApplicationsFixedListRelationFilter = {
@@ -320,29 +327,34 @@ export type ApplicationsFixedCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  baskets?: Prisma.SortOrder
+  amountCollected?: Prisma.SortOrder
 }
 
 export type ApplicationsFixedAvgOrderByAggregateInput = {
-  baskets?: Prisma.SortOrder
+  amountCollected?: Prisma.SortOrder
 }
 
 export type ApplicationsFixedMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  baskets?: Prisma.SortOrder
+  amountCollected?: Prisma.SortOrder
 }
 
 export type ApplicationsFixedMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  baskets?: Prisma.SortOrder
+  amountCollected?: Prisma.SortOrder
 }
 
 export type ApplicationsFixedSumOrderByAggregateInput = {
-  baskets?: Prisma.SortOrder
+  amountCollected?: Prisma.SortOrder
+}
+
+export type ApplicationsFixedScalarRelationFilter = {
+  is?: Prisma.ApplicationsFixedWhereInput
+  isNot?: Prisma.ApplicationsFixedWhereInput
 }
 
 export type ApplicationsFixedCreateNestedManyWithoutGcInput = {
@@ -387,16 +399,32 @@ export type ApplicationsFixedUncheckedUpdateManyWithoutGcNestedInput = {
   deleteMany?: Prisma.ApplicationsFixedScalarWhereInput | Prisma.ApplicationsFixedScalarWhereInput[]
 }
 
+export type ApplicationsFixedCreateNestedOneWithoutVouchersInput = {
+  create?: Prisma.XOR<Prisma.ApplicationsFixedCreateWithoutVouchersInput, Prisma.ApplicationsFixedUncheckedCreateWithoutVouchersInput>
+  connectOrCreate?: Prisma.ApplicationsFixedCreateOrConnectWithoutVouchersInput
+  connect?: Prisma.ApplicationsFixedWhereUniqueInput
+}
+
+export type ApplicationsFixedUpdateOneRequiredWithoutVouchersNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationsFixedCreateWithoutVouchersInput, Prisma.ApplicationsFixedUncheckedCreateWithoutVouchersInput>
+  connectOrCreate?: Prisma.ApplicationsFixedCreateOrConnectWithoutVouchersInput
+  upsert?: Prisma.ApplicationsFixedUpsertWithoutVouchersInput
+  connect?: Prisma.ApplicationsFixedWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ApplicationsFixedUpdateToOneWithWhereWithoutVouchersInput, Prisma.ApplicationsFixedUpdateWithoutVouchersInput>, Prisma.ApplicationsFixedUncheckedUpdateWithoutVouchersInput>
+}
+
 export type ApplicationsFixedCreateWithoutGcInput = {
   id?: string
   date: Date | string
-  baskets: number
+  amountCollected: number
+  vouchers?: Prisma.VoucherBasketsCreateNestedManyWithoutApplicationsFixedInput
 }
 
 export type ApplicationsFixedUncheckedCreateWithoutGcInput = {
   id?: string
   date: Date | string
-  baskets: number
+  amountCollected: number
+  vouchers?: Prisma.VoucherBasketsUncheckedCreateNestedManyWithoutApplicationsFixedInput
 }
 
 export type ApplicationsFixedCreateOrConnectWithoutGcInput = {
@@ -432,48 +460,125 @@ export type ApplicationsFixedScalarWhereInput = {
   id?: Prisma.StringFilter<"ApplicationsFixed"> | string
   gcId?: Prisma.StringFilter<"ApplicationsFixed"> | string
   date?: Prisma.DateTimeFilter<"ApplicationsFixed"> | Date | string
-  baskets?: Prisma.IntFilter<"ApplicationsFixed"> | number
+  amountCollected?: Prisma.IntFilter<"ApplicationsFixed"> | number
+}
+
+export type ApplicationsFixedCreateWithoutVouchersInput = {
+  id?: string
+  date: Date | string
+  amountCollected: number
+  gc: Prisma.GCCreateNestedOneWithoutApplicationsFixedsInput
+}
+
+export type ApplicationsFixedUncheckedCreateWithoutVouchersInput = {
+  id?: string
+  gcId: string
+  date: Date | string
+  amountCollected: number
+}
+
+export type ApplicationsFixedCreateOrConnectWithoutVouchersInput = {
+  where: Prisma.ApplicationsFixedWhereUniqueInput
+  create: Prisma.XOR<Prisma.ApplicationsFixedCreateWithoutVouchersInput, Prisma.ApplicationsFixedUncheckedCreateWithoutVouchersInput>
+}
+
+export type ApplicationsFixedUpsertWithoutVouchersInput = {
+  update: Prisma.XOR<Prisma.ApplicationsFixedUpdateWithoutVouchersInput, Prisma.ApplicationsFixedUncheckedUpdateWithoutVouchersInput>
+  create: Prisma.XOR<Prisma.ApplicationsFixedCreateWithoutVouchersInput, Prisma.ApplicationsFixedUncheckedCreateWithoutVouchersInput>
+  where?: Prisma.ApplicationsFixedWhereInput
+}
+
+export type ApplicationsFixedUpdateToOneWithWhereWithoutVouchersInput = {
+  where?: Prisma.ApplicationsFixedWhereInput
+  data: Prisma.XOR<Prisma.ApplicationsFixedUpdateWithoutVouchersInput, Prisma.ApplicationsFixedUncheckedUpdateWithoutVouchersInput>
+}
+
+export type ApplicationsFixedUpdateWithoutVouchersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  gc?: Prisma.GCUpdateOneRequiredWithoutApplicationsFixedsNestedInput
+}
+
+export type ApplicationsFixedUncheckedUpdateWithoutVouchersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  gcId?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ApplicationsFixedCreateManyGcInput = {
   id?: string
   date: Date | string
-  baskets: number
+  amountCollected: number
 }
 
 export type ApplicationsFixedUpdateWithoutGcInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  baskets?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  vouchers?: Prisma.VoucherBasketsUpdateManyWithoutApplicationsFixedNestedInput
 }
 
 export type ApplicationsFixedUncheckedUpdateWithoutGcInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  baskets?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  vouchers?: Prisma.VoucherBasketsUncheckedUpdateManyWithoutApplicationsFixedNestedInput
 }
 
 export type ApplicationsFixedUncheckedUpdateManyWithoutGcInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  baskets?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
+
+/**
+ * Count Type ApplicationsFixedCountOutputType
+ */
+
+export type ApplicationsFixedCountOutputType = {
+  vouchers: number
+}
+
+export type ApplicationsFixedCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  vouchers?: boolean | ApplicationsFixedCountOutputTypeCountVouchersArgs
+}
+
+/**
+ * ApplicationsFixedCountOutputType without action
+ */
+export type ApplicationsFixedCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApplicationsFixedCountOutputType
+   */
+  select?: Prisma.ApplicationsFixedCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ApplicationsFixedCountOutputType without action
+ */
+export type ApplicationsFixedCountOutputTypeCountVouchersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VoucherBasketsWhereInput
+}
 
 
 export type ApplicationsFixedSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   gcId?: boolean
   date?: boolean
-  baskets?: boolean
+  amountCollected?: boolean
+  vouchers?: boolean | Prisma.ApplicationsFixed$vouchersArgs<ExtArgs>
   gc?: boolean | Prisma.GCDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.ApplicationsFixedCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["applicationsFixed"]>
 
 export type ApplicationsFixedSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   gcId?: boolean
   date?: boolean
-  baskets?: boolean
+  amountCollected?: boolean
   gc?: boolean | Prisma.GCDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["applicationsFixed"]>
 
@@ -481,7 +586,7 @@ export type ApplicationsFixedSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   id?: boolean
   gcId?: boolean
   date?: boolean
-  baskets?: boolean
+  amountCollected?: boolean
   gc?: boolean | Prisma.GCDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["applicationsFixed"]>
 
@@ -489,12 +594,14 @@ export type ApplicationsFixedSelectScalar = {
   id?: boolean
   gcId?: boolean
   date?: boolean
-  baskets?: boolean
+  amountCollected?: boolean
 }
 
-export type ApplicationsFixedOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gcId" | "date" | "baskets", ExtArgs["result"]["applicationsFixed"]>
+export type ApplicationsFixedOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gcId" | "date" | "amountCollected", ExtArgs["result"]["applicationsFixed"]>
 export type ApplicationsFixedInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  vouchers?: boolean | Prisma.ApplicationsFixed$vouchersArgs<ExtArgs>
   gc?: boolean | Prisma.GCDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.ApplicationsFixedCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ApplicationsFixedIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   gc?: boolean | Prisma.GCDefaultArgs<ExtArgs>
@@ -506,13 +613,14 @@ export type ApplicationsFixedIncludeUpdateManyAndReturn<ExtArgs extends runtime.
 export type $ApplicationsFixedPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ApplicationsFixed"
   objects: {
+    vouchers: Prisma.$VoucherBasketsPayload<ExtArgs>[]
     gc: Prisma.$GCPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     gcId: string
     date: Date
-    baskets: number
+    amountCollected: number
   }, ExtArgs["result"]["applicationsFixed"]>
   composites: {}
 }
@@ -907,6 +1015,7 @@ readonly fields: ApplicationsFixedFieldRefs;
  */
 export interface Prisma__ApplicationsFixedClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  vouchers<T extends Prisma.ApplicationsFixed$vouchersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ApplicationsFixed$vouchersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VoucherBasketsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   gc<T extends Prisma.GCDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GCDefaultArgs<ExtArgs>>): Prisma.Prisma__GCClient<runtime.Types.Result.GetResult<Prisma.$GCPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -940,7 +1049,7 @@ export interface ApplicationsFixedFieldRefs {
   readonly id: Prisma.FieldRef<"ApplicationsFixed", 'String'>
   readonly gcId: Prisma.FieldRef<"ApplicationsFixed", 'String'>
   readonly date: Prisma.FieldRef<"ApplicationsFixed", 'DateTime'>
-  readonly baskets: Prisma.FieldRef<"ApplicationsFixed", 'Int'>
+  readonly amountCollected: Prisma.FieldRef<"ApplicationsFixed", 'Int'>
 }
     
 
@@ -1334,6 +1443,30 @@ export type ApplicationsFixedDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many ApplicationsFixeds to delete.
    */
   limit?: number
+}
+
+/**
+ * ApplicationsFixed.vouchers
+ */
+export type ApplicationsFixed$vouchersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VoucherBaskets
+   */
+  select?: Prisma.VoucherBasketsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VoucherBaskets
+   */
+  omit?: Prisma.VoucherBasketsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VoucherBasketsInclude<ExtArgs> | null
+  where?: Prisma.VoucherBasketsWhereInput
+  orderBy?: Prisma.VoucherBasketsOrderByWithRelationInput | Prisma.VoucherBasketsOrderByWithRelationInput[]
+  cursor?: Prisma.VoucherBasketsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VoucherBasketsScalarFieldEnum | Prisma.VoucherBasketsScalarFieldEnum[]
 }
 
 /**

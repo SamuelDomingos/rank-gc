@@ -12,7 +12,7 @@ interface GC {
   id: string;
   gc: string;
   metrics: {
-    baskets: Metric;
+    amountCollected: Metric;
     visitors: Metric;
     gcAttendance: Metric;
     serviceAttendance: Metric;
@@ -67,8 +67,8 @@ export const exportAsPDF = (data: GCData): void => {
       const metricas = [
         {
           label: "Cestas",
-          current: parseInt(String(gc.metrics.baskets.current)),
-          previous: parseInt(String(gc.metrics.baskets.previous)),
+          current: parseInt(String(gc.metrics.amountCollected.current)),
+          previous: parseInt(String(gc.metrics.amountCollected.previous)),
         },
         {
           label: "Visitantes",
@@ -149,7 +149,7 @@ export const exportAsExcel = (data: GCData): void => {
         resumoGeral.push({
           Gênero: genero,
           GC: grupo.gc,
-          Cestas: parseInt(String(grupo.metrics.baskets.current)),
+          Cestas: parseInt(String(grupo.metrics.amountCollected.current)),
           Visitantes: parseInt(String(grupo.metrics.visitors.current)),
           "Freq. GC": parseInt(String(grupo.metrics.gcAttendance.current)),
           "Freq. Serviço": parseInt(
@@ -185,11 +185,15 @@ export const exportAsExcel = (data: GCData): void => {
         comparativo.push({
           Gênero: genero,
           GC: grupo.gc,
-          "Cestas Atual": parseInt(String(grupo.metrics.baskets.current)),
-          "Cestas Anterior": parseInt(String(grupo.metrics.baskets.previous)),
+          "Cestas Atual": parseInt(
+            String(grupo.metrics.amountCollected.current),
+          ),
+          "Cestas Anterior": parseInt(
+            String(grupo.metrics.amountCollected.previous),
+          ),
           "Cestas Diferença":
-            parseInt(String(grupo.metrics.baskets.current)) -
-            parseInt(String(grupo.metrics.baskets.previous)),
+            parseInt(String(grupo.metrics.amountCollected.current)) -
+            parseInt(String(grupo.metrics.amountCollected.previous)),
           "Visitantes Atual": parseInt(String(grupo.metrics.visitors.current)),
           "Visitantes Anterior": parseInt(
             String(grupo.metrics.visitors.previous),
@@ -264,8 +268,8 @@ export const copyToWhatsApp = (data: GCData): void => {
         texto +=
           formatarMetrica(
             "Cestas",
-            parseInt(String(grupo.metrics.baskets.current)),
-            parseInt(String(grupo.metrics.baskets.previous)),
+            parseInt(String(grupo.metrics.amountCollected.current)),
+            parseInt(String(grupo.metrics.amountCollected.previous)),
           ) + "\n";
         texto +=
           formatarMetrica(
@@ -303,8 +307,8 @@ export const copyToWhatsApp = (data: GCData): void => {
         texto +=
           formatarMetrica(
             "Cestas",
-            parseInt(String(grupo.metrics.baskets.current)),
-            parseInt(String(grupo.metrics.baskets.previous)),
+            parseInt(String(grupo.metrics.amountCollected.current)),
+            parseInt(String(grupo.metrics.amountCollected.previous)),
           ) + "\n";
         texto +=
           formatarMetrica(

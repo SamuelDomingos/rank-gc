@@ -7,9 +7,9 @@ import prisma from "@/lib/prisma";
 export class GCService {
   async registerBasketsGc(json: ApplicationsFixedCreateManyInput) {
     try {
-      const { gcId, date, baskets } = json;
+      const { gcId, date, amountCollected } = json;
 
-      if (!gcId || !date || !baskets) {
+      if (!gcId || !date || !amountCollected) {
         return {
           success: false,
           error: "Dados obrigatórios ausentes ou inválidos.",
@@ -20,7 +20,7 @@ export class GCService {
         data: {
           gcId,
           date: new Date(date),
-          baskets,
+          amountCollected,
         },
       });
 
@@ -73,7 +73,6 @@ export class GCService {
       return { success: false, error: "Erro ao buscar GCs" };
     }
   }
-
 }
 
 export const gcService = new GCService();

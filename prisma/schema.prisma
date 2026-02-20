@@ -7,6 +7,16 @@ datasource db {
     provider = "postgresql"
 }
 
+model ConfigGeral {
+    id           String @id @default(uuid())
+    priceBaskets Int
+
+    active Boolean  @default(true)
+    date   DateTime @db.Date
+
+    @@unique([date])
+}
+
 model GC {
     id                 String               @id @default(uuid())
     name               String               @unique
@@ -34,13 +44,25 @@ model ApplicationsDailys {
 }
 
 model ApplicationsFixed {
-    id      String   @id @default(uuid())
-    gcId    String
-    date    DateTime @db.Date
-    baskets Int
+    id   String   @id @default(uuid())
+    gcId String
+    date DateTime @db.Date
+
+    amountCollected Int
+    vouchers        VoucherBaskets[]
 
     gc GC @relation(fields: [gcId], references: [id], onDelete: Cascade)
 
     @@unique([gcId, date])
     @@index([gcId])
+}
+
+model VoucherBaskets {
+    id                  String @id @default(uuid())
+    applicationsFixedId String
+
+    voucher String
+    price    Int?
+
+    applicationsFixed ApplicationsFixed @relation(fields: [applicationsFixedId], references: [id], onDelete: Cascade)
 }

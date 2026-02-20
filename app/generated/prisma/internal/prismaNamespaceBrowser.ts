@@ -51,9 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  ConfigGeral: 'ConfigGeral',
   GC: 'GC',
   ApplicationsDailys: 'ApplicationsDailys',
-  ApplicationsFixed: 'ApplicationsFixed'
+  ApplicationsFixed: 'ApplicationsFixed',
+  VoucherBaskets: 'VoucherBaskets'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -70,6 +72,16 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const ConfigGeralScalarFieldEnum = {
+  id: 'id',
+  priceBaskets: 'priceBaskets',
+  active: 'active',
+  date: 'date'
+} as const
+
+export type ConfigGeralScalarFieldEnum = (typeof ConfigGeralScalarFieldEnum)[keyof typeof ConfigGeralScalarFieldEnum]
 
 
 export const GCScalarFieldEnum = {
@@ -101,10 +113,20 @@ export const ApplicationsFixedScalarFieldEnum = {
   id: 'id',
   gcId: 'gcId',
   date: 'date',
-  baskets: 'baskets'
+  amountCollected: 'amountCollected'
 } as const
 
 export type ApplicationsFixedScalarFieldEnum = (typeof ApplicationsFixedScalarFieldEnum)[keyof typeof ApplicationsFixedScalarFieldEnum]
+
+
+export const VoucherBasketsScalarFieldEnum = {
+  id: 'id',
+  applicationsFixedId: 'applicationsFixedId',
+  voucher: 'voucher',
+  price: 'price'
+} as const
+
+export type VoucherBasketsScalarFieldEnum = (typeof VoucherBasketsScalarFieldEnum)[keyof typeof VoucherBasketsScalarFieldEnum]
 
 
 export const SortOrder = {

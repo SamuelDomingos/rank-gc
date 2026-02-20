@@ -29,8 +29,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more GCS
- * const gCS = await prisma.gC.findMany()
+ * // Fetch zero or more ConfigGerals
+ * const configGerals = await prisma.configGeral.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -39,6 +39,11 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model ConfigGeral
+ * 
+ */
+export type ConfigGeral = Prisma.ConfigGeralModel
 /**
  * Model GC
  * 
@@ -54,3 +59,8 @@ export type ApplicationsDailys = Prisma.ApplicationsDailysModel
  * 
  */
 export type ApplicationsFixed = Prisma.ApplicationsFixedModel
+/**
+ * Model VoucherBaskets
+ * 
+ */
+export type VoucherBaskets = Prisma.VoucherBasketsModel

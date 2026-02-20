@@ -22,20 +22,19 @@ import { useDate } from "@/context/DateContext";
 import { ApplicationsFixedCreateManyInput } from "@/app/generated/prisma/models";
 import { UpdateRoadPayload } from "@/lib/api/registersRoad";
 import { useEffect } from "react";
+import { currencyToNumber, formatCurrency } from "@/lib/utils";
 
 export const formSchema = z.object({
-  baskets: z.number().min(1),
+  amountCollected: z.number().min(1),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
 
-const FormRegisterBaskets = ({ gcId }: { gcId: string }) => {
+const FormRegisterAmountCollected = ({ gcId }: { gcId: string }) => {
   const { month, year } = useDate();
 
   const { data } = useGetRoadsGc(gcId, month, year);
-  console.log(data);
-  
-  
+
   const mode = data?.id ? "update" : "create";
 
   const { uploadData } = useRegisterRoad(mode);
@@ -43,7 +42,7 @@ const FormRegisterBaskets = ({ gcId }: { gcId: string }) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      baskets: data?.baskets ?? 0,
+      amountCollected: data?.amountCollected ?? 0,
     },
   });
 
@@ -52,10 +51,10 @@ const FormRegisterBaskets = ({ gcId }: { gcId: string }) => {
       mode === "update"
         ? {
             id: data!.id,
-            data: { baskets: values.baskets },
+            data: { amountCollected: values.amountCollected },
           }
         : {
-            baskets: values.baskets,
+            amountCollected: values.amountCollected,
             date: new Date(year, month - 1),
             gcId: gcId,
           };
@@ -68,12 +67,12 @@ const FormRegisterBaskets = ({ gcId }: { gcId: string }) => {
   };
 
   useEffect(() => {
-  if (data?.baskets !== undefined) {
-    form.reset({
-      baskets: data.baskets,
-    });
-  }
-}, [data, form]);
+    if (data?.amountCollected !== undefined) {
+      form.reset({
+        amountCollected: data.amountCollected,
+      });
+    }
+  }, [data, form]);
 
   return (
     <Form {...form}>
@@ -85,16 +84,18 @@ const FormRegisterBaskets = ({ gcId }: { gcId: string }) => {
 
           <FormField
             control={form.control}
-            name="baskets"
+            name="amountCollected"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cestas Basicas</FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
+                    type="numberic"
                     min={0}
-                    value={field.value}
-                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    value={formatCurrency(field.value)}
+                    onChange={(e) =>
+                      field.onChange(currencyToNumber(e.target.value))
+                    }
                   />
                 </FormControl>
                 <FormMessage />
@@ -116,4 +117,4 @@ const FormRegisterBaskets = ({ gcId }: { gcId: string }) => {
   );
 };
 
-export default FormRegisterBaskets;
+export default FormRegisterAmountCollected;

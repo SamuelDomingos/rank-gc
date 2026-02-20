@@ -47,3 +47,20 @@ export function mapCategoryLabel(category: string): string {
       return category;
   }
 }
+
+export function formatCurrency(value: number | string) {
+  const numberValue = typeof value === "string"
+    ? Number(value)
+    : value
+
+  if (!numberValue) return "R$ 0,00"
+
+  return numberValue.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  })
+}
+
+export function currencyToNumber(value: string) {
+  return Number(value.replace(/\D/g, "")) / 100
+}

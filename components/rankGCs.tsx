@@ -41,7 +41,7 @@ import ListRegisters from "./listRegisters";
 import { useDeleteGc } from "@/app/tribo/[name]/_hooks/useGcs";
 import FormGc from "./formGc";
 import { useRef } from "react";
-import FormRegisterBaskets from "./FormRegisterBaskets";
+import FormRegisterBaskets from "./formRegisterAmountCollected";
 
 const RankGCs = ({
   dados,

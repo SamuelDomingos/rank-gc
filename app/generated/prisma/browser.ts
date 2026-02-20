@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model ConfigGeral
+ * 
+ */
+export type ConfigGeral = Prisma.ConfigGeralModel
+/**
  * Model GC
  * 
  */
@@ -32,3 +37,8 @@ export type ApplicationsDailys = Prisma.ApplicationsDailysModel
  * 
  */
 export type ApplicationsFixed = Prisma.ApplicationsFixedModel
+/**
+ * Model VoucherBaskets
+ * 
+ */
+export type VoucherBaskets = Prisma.VoucherBasketsModel

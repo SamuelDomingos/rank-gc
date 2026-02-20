@@ -8,7 +8,7 @@ import {
 export type DashboardStats = {
   totalGcs: number;
   totalMembers: number;
-  totalBaskets: number;
+  totalamountCollected: number;
   totalVisitors: number;
   membersServing: number;
 };
@@ -18,7 +18,7 @@ export type ComparativeData = {
     id: string;
     gc: string;
     metrics: {
-      baskets: { current: number; previous: number; comparative: number };
+      amountCollected: { current: number; previous: number; comparative: number };
       visitors: { current: number; previous: number; comparative: number };
       gcAttendance: { current: string; previous: string; comparative: number };
       serviceAttendance: {
@@ -33,7 +33,7 @@ export type ComparativeData = {
     id: string;
     gc: string;
     metrics: {
-      baskets: { current: number; previous: number; comparative: number };
+      amountCollected: { current: number; previous: number; comparative: number };
       visitors: { current: number; previous: number; comparative: number };
       gcAttendance: { current: string; previous: string; comparative: number };
       serviceAttendance: {
@@ -87,7 +87,7 @@ export const getDashboardStats = async (
         },
       },
       _sum: {
-        baskets: true,
+        amountCollected: true,
       },
     }),
     prisma.gC.aggregate({
@@ -105,7 +105,7 @@ export const getDashboardStats = async (
     totalMembers: totalMembers._sum.quantity ?? 0,
     totalVisitors: dailyStats._sum.visitors ?? 0,
     membersServing: dailyStats._sum.membersServing ?? 0,
-    totalBaskets: fixedStats._sum.baskets ?? 0,
+    totalamountCollected: fixedStats._sum.amountCollected ?? 0,
   };
 };
 
@@ -141,7 +141,7 @@ export const getComparative = async (
         },
         applicationsFixeds: {
           where: { date: { gte: currentStart, lte: currentEnd } },
-          select: { baskets: true },
+          select: { amountCollected: true },
         },
       },
     }),
@@ -161,7 +161,7 @@ export const getComparative = async (
         },
         applicationsFixeds: {
           where: { date: { gte: previousStart, lte: previousEnd } },
-          select: { baskets: true },
+          select: { amountCollected: true },
         },
       },
     }),
@@ -223,12 +223,12 @@ export const getComparative = async (
           prevQuantity,
         );
 
-        const currentBaskets = gc.applicationsFixeds.reduce(
-          (s, a) => s + (a?.baskets ?? 0),
+        const currentamountCollected = gc.applicationsFixeds.reduce(
+          (s, a) => s + (a?.amountCollected ?? 0),
           0,
         );
-        const prevBaskets = prevFixedApps.reduce(
-          (s, a) => s + (a?.baskets ?? 0),
+        const prevamountCollected = prevFixedApps.reduce(
+          (s, a) => s + (a?.amountCollected ?? 0),
           0,
         );
 
@@ -236,10 +236,10 @@ export const getComparative = async (
           id: gc.id,
           gc: gc.name,
           metrics: {
-            baskets: {
-              current: currentBaskets,
-              previous: prevBaskets,
-              comparative: currentBaskets - prevBaskets,
+            amountCollected: {
+              current: currentamountCollected,
+              previous: prevamountCollected,
+              comparative: currentamountCollected - prevamountCollected,
             },
             visitors: {
               current: currentVisitors,

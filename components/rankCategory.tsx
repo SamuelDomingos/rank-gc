@@ -16,42 +16,49 @@ const RankCategory = ({ dados }: { dados?: CategoryRankings | null }) => {
             {mapCategoryLabel(category.category)}
           </h3>
           <div className="space-y-2">
-            {category.ranks.map((rank: typeof category.ranks[0], index: number) => {
-              const isVisitors = category.category === "Visitors";
+            {category.ranks.map(
+              (rank: (typeof category.ranks)[0], index: number) => {
+                const isVisitors = category.category === "Visitors";
+                const isBaskets = category.category === "FoodBaskets";
 
-              return (
-                <Card
-                  key={`${category.category}-${rank.id}`}
-                  className="border-border"
-                >
-                  <CardContent className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="w-10 h-10">
-                        <AvatarImage
-                          src={rank.avatar ?? undefined}
-                          alt={rank.name}
+                return (
+                  <Card
+                    key={`${category.category}-${rank.id}`}
+                    className="border-border"
+                  >
+                    <CardContent className="flex items-center justify-between p-4">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-10 h-10">
+                          <AvatarImage
+                            src={rank.avatar ?? undefined}
+                            alt={rank.name}
+                          />
+                          <AvatarFallback className="text-lg">
+                            {rank.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <RiMedalFill
+                          className={`w-6 h-6 ${medalColors[index] ?? ""}`}
                         />
-                        <AvatarFallback className="text-lg">{rank.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <RiMedalFill
-                        className={`w-6 h-6 ${medalColors[index] ?? ""}`}
-                      />
-                      <span className="text-foreground font-medium">
-                        {rank.name}
-                      </span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-foreground">
-                        {isVisitors
-                          ? `${rank.value} visitantes`
-                          : `${rank.value}%`}{" "}
-                        ({rank.points} pts)
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                        <span className="text-foreground font-medium">
+                          {rank.name}
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-foreground">
+                          {isVisitors
+                            ? `${rank.value} visitantes`
+                            : isBaskets
+                              ? `${Math.floor(rank.value / 50)} cestas`
+                              : `${rank.value}%`}{" "}
+                          ({rank.points} pts)
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              },
+            )}
           </div>
         </div>
       ))}
