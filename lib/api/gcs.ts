@@ -1,5 +1,6 @@
 
-import type { GC, GCsResponse } from "./types";
+import { GC } from "@/app/generated/prisma/client";
+import type { GCsResponse } from "./types";
 
 export const createdGC = async (formData: FormData): Promise<GC> => {
     const response = await fetch("/api/gc", {
