@@ -14,7 +14,7 @@ const GeneralReports = () => {
   const stats = [
     { icon: Users, label: "GCs", value: data?.totalGcs },
     { icon: User, label: "Membros", value: data?.totalMembers },
-    { icon: Gift, label: "Cestas", value: data?.totalBaskets },
+    { icon: Gift, label: "Valor Arrecadado", value: data?.totalamountCollected },
     { icon: UserRoundPlus, label: "Visitantes", value: data?.totalVisitors },
     { icon: Church, label: "Membros Servindo", value: data?.membersServing },
   ];
