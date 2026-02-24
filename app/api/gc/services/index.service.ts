@@ -29,7 +29,7 @@ export class GCService {
 
       const month = Number(formData.get("month"));
       const year = Number(formData.get("year"));
-      const quantityMembers = Number(formData.get("quantity"));
+      const quantityMembers = Number(formData.get("quantityMembers"));
 
       if (!name || !type || !tribo) {
         return { success: false, error: "Dados obrigatórios ausentes" };
@@ -105,6 +105,11 @@ export class GCService {
           ...app,
           membersServing: app.membersServing ?? 0,
         })),
+        applicationsFixeds: gc.applicationsFixeds[0] ?? {
+          
+          amountCollected: 0,
+          quantityMembers: 0,
+        },
       }));
 
       const gcsWithRanking = normalizedGcs.map((gc) =>
@@ -158,13 +163,13 @@ export class GCService {
       const parsed = GCSchema.parse({
         name: formData.get("name")?.toString(),
         type: formData.get("type"),
-        quantityMembers: Number(formData.get("quantity")),
+        quantityMembers: Number(formData.get("quantityMembers")),
         avatar: undefined,
       });
 
       const month = Number(formData.get("month"));
       const year = Number(formData.get("year"));
-      const quantityMembers = Number(formData.get("quantity"));
+      const quantityMembers = Number(formData.get("quantityMembers"));
 
       const avatarFile = formData.get("avatar") as File | null;
       const avatarPath = await handleAvatarUpload(avatarFile);
@@ -174,10 +179,12 @@ export class GCService {
         ...(avatarPath !== undefined && { avatar: avatarPath }),
       };
 
+      const { quantityMembers: _, ...gcData } = data;
+
       const gc = await prisma.gC.update({
         where: { id },
         data: {
-          ...data,
+          ...gcData,
           applicationsFixeds: {
             upsert: {
               where: {
@@ -197,12 +204,8 @@ export class GCService {
 
       return { success: true, data: gc };
     } catch (error) {
-      if ((error as { code?: string }).code === "P2025") {
-        return { success: false, error: "GC não encontrado" };
-      }
-      if ((error as { code?: string }).code === "P2002") {
-        return { success: false, error: "Já existe um GC com este nome" };
-      }
+      console.log(error);
+
       return { success: false, error: "Erro ao atualizar GC" };
     }
   }

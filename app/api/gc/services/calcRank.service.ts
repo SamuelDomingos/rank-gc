@@ -56,7 +56,7 @@ export const calculateServingPercentage = (
   if (servingDays.length === 0) return 0;
 
   const totalPercentage = servingDays.reduce((sum, app) => {
-    const percentage = (app.membersServing ?? 0 / totalMembers) * 100;
+    const percentage = ((app.membersServing ?? 0) / totalMembers) * 100;
     return sum + percentage;
   }, 0);
 
@@ -142,7 +142,7 @@ export const processGCWithRanking = (
     name: gc.name,
     avatar: gc.avatar,
     type: gc.type,
-    quantity: gc.applicationsFixeds.quantityMembers,
+    quantityMembers: gc.applicationsFixeds.quantityMembers,
     points: points.total,
     baskets,
     visitors,
@@ -152,10 +152,12 @@ export const processGCWithRanking = (
   };
 };
 
-const processGCBasics = (gc: GC & {
+const processGCBasics = (
+  gc: GC & {
     applicationsDailys: ApplicationsDailys[];
     applicationsFixeds: ApplicationsFixed;
-  },) => {
+  },
+) => {
   const dailyApps = gc.applicationsDailys;
   const fixedApp = gc.applicationsFixeds;
 
@@ -181,7 +183,7 @@ const processGCBasics = (gc: GC & {
     name: gc.name,
     avatar: gc.avatar,
     type: gc.type,
-    quantity: gc.applicationsFixeds?.quantityMembers || 0,
+    quantityMembers: gc.applicationsFixeds?.quantityMembers || 0,
     amountCollected,
     visitors,
     presenceGC: Math.round(presenceGC * 100) / 100,
@@ -190,10 +192,12 @@ const processGCBasics = (gc: GC & {
   };
 };
 
-export const generateCategoryRankings = (gcs: (GC & {
+export const generateCategoryRankings = (
+  gcs: (GC & {
     applicationsDailys: ApplicationsDailys[];
     applicationsFixeds: ApplicationsFixed;
-  })[]): RankingByCategory[] => {
+  })[],
+): RankingByCategory[] => {
   const processedGCs = gcs.map(processGCBasics);
 
   const categories: RankingByCategory[] = [
