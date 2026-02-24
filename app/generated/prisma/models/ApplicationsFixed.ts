@@ -27,10 +27,12 @@ export type AggregateApplicationsFixed = {
 }
 
 export type ApplicationsFixedAvgAggregateOutputType = {
+  quantityMembers: number | null
   amountCollected: number | null
 }
 
 export type ApplicationsFixedSumAggregateOutputType = {
+  quantityMembers: number | null
   amountCollected: number | null
 }
 
@@ -38,6 +40,7 @@ export type ApplicationsFixedMinAggregateOutputType = {
   id: string | null
   gcId: string | null
   date: Date | null
+  quantityMembers: number | null
   amountCollected: number | null
 }
 
@@ -45,6 +48,7 @@ export type ApplicationsFixedMaxAggregateOutputType = {
   id: string | null
   gcId: string | null
   date: Date | null
+  quantityMembers: number | null
   amountCollected: number | null
 }
 
@@ -52,16 +56,19 @@ export type ApplicationsFixedCountAggregateOutputType = {
   id: number
   gcId: number
   date: number
+  quantityMembers: number
   amountCollected: number
   _all: number
 }
 
 
 export type ApplicationsFixedAvgAggregateInputType = {
+  quantityMembers?: true
   amountCollected?: true
 }
 
 export type ApplicationsFixedSumAggregateInputType = {
+  quantityMembers?: true
   amountCollected?: true
 }
 
@@ -69,6 +76,7 @@ export type ApplicationsFixedMinAggregateInputType = {
   id?: true
   gcId?: true
   date?: true
+  quantityMembers?: true
   amountCollected?: true
 }
 
@@ -76,6 +84,7 @@ export type ApplicationsFixedMaxAggregateInputType = {
   id?: true
   gcId?: true
   date?: true
+  quantityMembers?: true
   amountCollected?: true
 }
 
@@ -83,6 +92,7 @@ export type ApplicationsFixedCountAggregateInputType = {
   id?: true
   gcId?: true
   date?: true
+  quantityMembers?: true
   amountCollected?: true
   _all?: true
 }
@@ -177,7 +187,8 @@ export type ApplicationsFixedGroupByOutputType = {
   id: string
   gcId: string
   date: Date
-  amountCollected: number
+  quantityMembers: number | null
+  amountCollected: number | null
   _count: ApplicationsFixedCountAggregateOutputType | null
   _avg: ApplicationsFixedAvgAggregateOutputType | null
   _sum: ApplicationsFixedSumAggregateOutputType | null
@@ -207,7 +218,8 @@ export type ApplicationsFixedWhereInput = {
   id?: Prisma.StringFilter<"ApplicationsFixed"> | string
   gcId?: Prisma.StringFilter<"ApplicationsFixed"> | string
   date?: Prisma.DateTimeFilter<"ApplicationsFixed"> | Date | string
-  amountCollected?: Prisma.IntFilter<"ApplicationsFixed"> | number
+  quantityMembers?: Prisma.IntNullableFilter<"ApplicationsFixed"> | number | null
+  amountCollected?: Prisma.IntNullableFilter<"ApplicationsFixed"> | number | null
   vouchers?: Prisma.VoucherBasketsListRelationFilter
   gc?: Prisma.XOR<Prisma.GCScalarRelationFilter, Prisma.GCWhereInput>
 }
@@ -216,7 +228,8 @@ export type ApplicationsFixedOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  amountCollected?: Prisma.SortOrder
+  quantityMembers?: Prisma.SortOrderInput | Prisma.SortOrder
+  amountCollected?: Prisma.SortOrderInput | Prisma.SortOrder
   vouchers?: Prisma.VoucherBasketsOrderByRelationAggregateInput
   gc?: Prisma.GCOrderByWithRelationInput
 }
@@ -229,7 +242,8 @@ export type ApplicationsFixedWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ApplicationsFixedWhereInput | Prisma.ApplicationsFixedWhereInput[]
   gcId?: Prisma.StringFilter<"ApplicationsFixed"> | string
   date?: Prisma.DateTimeFilter<"ApplicationsFixed"> | Date | string
-  amountCollected?: Prisma.IntFilter<"ApplicationsFixed"> | number
+  quantityMembers?: Prisma.IntNullableFilter<"ApplicationsFixed"> | number | null
+  amountCollected?: Prisma.IntNullableFilter<"ApplicationsFixed"> | number | null
   vouchers?: Prisma.VoucherBasketsListRelationFilter
   gc?: Prisma.XOR<Prisma.GCScalarRelationFilter, Prisma.GCWhereInput>
 }, "id" | "gcId_date">
@@ -238,7 +252,8 @@ export type ApplicationsFixedOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  amountCollected?: Prisma.SortOrder
+  quantityMembers?: Prisma.SortOrderInput | Prisma.SortOrder
+  amountCollected?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ApplicationsFixedCountOrderByAggregateInput
   _avg?: Prisma.ApplicationsFixedAvgOrderByAggregateInput
   _max?: Prisma.ApplicationsFixedMaxOrderByAggregateInput
@@ -253,13 +268,15 @@ export type ApplicationsFixedScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ApplicationsFixed"> | string
   gcId?: Prisma.StringWithAggregatesFilter<"ApplicationsFixed"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"ApplicationsFixed"> | Date | string
-  amountCollected?: Prisma.IntWithAggregatesFilter<"ApplicationsFixed"> | number
+  quantityMembers?: Prisma.IntNullableWithAggregatesFilter<"ApplicationsFixed"> | number | null
+  amountCollected?: Prisma.IntNullableWithAggregatesFilter<"ApplicationsFixed"> | number | null
 }
 
 export type ApplicationsFixedCreateInput = {
   id?: string
   date: Date | string
-  amountCollected: number
+  quantityMembers?: number | null
+  amountCollected?: number | null
   vouchers?: Prisma.VoucherBasketsCreateNestedManyWithoutApplicationsFixedInput
   gc: Prisma.GCCreateNestedOneWithoutApplicationsFixedsInput
 }
@@ -268,14 +285,16 @@ export type ApplicationsFixedUncheckedCreateInput = {
   id?: string
   gcId: string
   date: Date | string
-  amountCollected: number
+  quantityMembers?: number | null
+  amountCollected?: number | null
   vouchers?: Prisma.VoucherBasketsUncheckedCreateNestedManyWithoutApplicationsFixedInput
 }
 
 export type ApplicationsFixedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  quantityMembers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  amountCollected?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vouchers?: Prisma.VoucherBasketsUpdateManyWithoutApplicationsFixedNestedInput
   gc?: Prisma.GCUpdateOneRequiredWithoutApplicationsFixedsNestedInput
 }
@@ -284,7 +303,8 @@ export type ApplicationsFixedUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gcId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  quantityMembers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  amountCollected?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vouchers?: Prisma.VoucherBasketsUncheckedUpdateManyWithoutApplicationsFixedNestedInput
 }
 
@@ -292,20 +312,23 @@ export type ApplicationsFixedCreateManyInput = {
   id?: string
   gcId: string
   date: Date | string
-  amountCollected: number
+  quantityMembers?: number | null
+  amountCollected?: number | null
 }
 
 export type ApplicationsFixedUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  quantityMembers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  amountCollected?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ApplicationsFixedUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gcId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  quantityMembers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  amountCollected?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ApplicationsFixedListRelationFilter = {
@@ -327,10 +350,12 @@ export type ApplicationsFixedCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  quantityMembers?: Prisma.SortOrder
   amountCollected?: Prisma.SortOrder
 }
 
 export type ApplicationsFixedAvgOrderByAggregateInput = {
+  quantityMembers?: Prisma.SortOrder
   amountCollected?: Prisma.SortOrder
 }
 
@@ -338,6 +363,7 @@ export type ApplicationsFixedMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  quantityMembers?: Prisma.SortOrder
   amountCollected?: Prisma.SortOrder
 }
 
@@ -345,10 +371,12 @@ export type ApplicationsFixedMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   gcId?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  quantityMembers?: Prisma.SortOrder
   amountCollected?: Prisma.SortOrder
 }
 
 export type ApplicationsFixedSumOrderByAggregateInput = {
+  quantityMembers?: Prisma.SortOrder
   amountCollected?: Prisma.SortOrder
 }
 
@@ -416,14 +444,16 @@ export type ApplicationsFixedUpdateOneRequiredWithoutVouchersNestedInput = {
 export type ApplicationsFixedCreateWithoutGcInput = {
   id?: string
   date: Date | string
-  amountCollected: number
+  quantityMembers?: number | null
+  amountCollected?: number | null
   vouchers?: Prisma.VoucherBasketsCreateNestedManyWithoutApplicationsFixedInput
 }
 
 export type ApplicationsFixedUncheckedCreateWithoutGcInput = {
   id?: string
   date: Date | string
-  amountCollected: number
+  quantityMembers?: number | null
+  amountCollected?: number | null
   vouchers?: Prisma.VoucherBasketsUncheckedCreateNestedManyWithoutApplicationsFixedInput
 }
 
@@ -460,13 +490,15 @@ export type ApplicationsFixedScalarWhereInput = {
   id?: Prisma.StringFilter<"ApplicationsFixed"> | string
   gcId?: Prisma.StringFilter<"ApplicationsFixed"> | string
   date?: Prisma.DateTimeFilter<"ApplicationsFixed"> | Date | string
-  amountCollected?: Prisma.IntFilter<"ApplicationsFixed"> | number
+  quantityMembers?: Prisma.IntNullableFilter<"ApplicationsFixed"> | number | null
+  amountCollected?: Prisma.IntNullableFilter<"ApplicationsFixed"> | number | null
 }
 
 export type ApplicationsFixedCreateWithoutVouchersInput = {
   id?: string
   date: Date | string
-  amountCollected: number
+  quantityMembers?: number | null
+  amountCollected?: number | null
   gc: Prisma.GCCreateNestedOneWithoutApplicationsFixedsInput
 }
 
@@ -474,7 +506,8 @@ export type ApplicationsFixedUncheckedCreateWithoutVouchersInput = {
   id?: string
   gcId: string
   date: Date | string
-  amountCollected: number
+  quantityMembers?: number | null
+  amountCollected?: number | null
 }
 
 export type ApplicationsFixedCreateOrConnectWithoutVouchersInput = {
@@ -496,7 +529,8 @@ export type ApplicationsFixedUpdateToOneWithWhereWithoutVouchersInput = {
 export type ApplicationsFixedUpdateWithoutVouchersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  quantityMembers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  amountCollected?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   gc?: Prisma.GCUpdateOneRequiredWithoutApplicationsFixedsNestedInput
 }
 
@@ -504,33 +538,38 @@ export type ApplicationsFixedUncheckedUpdateWithoutVouchersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   gcId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  quantityMembers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  amountCollected?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ApplicationsFixedCreateManyGcInput = {
   id?: string
   date: Date | string
-  amountCollected: number
+  quantityMembers?: number | null
+  amountCollected?: number | null
 }
 
 export type ApplicationsFixedUpdateWithoutGcInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  quantityMembers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  amountCollected?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vouchers?: Prisma.VoucherBasketsUpdateManyWithoutApplicationsFixedNestedInput
 }
 
 export type ApplicationsFixedUncheckedUpdateWithoutGcInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  quantityMembers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  amountCollected?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vouchers?: Prisma.VoucherBasketsUncheckedUpdateManyWithoutApplicationsFixedNestedInput
 }
 
 export type ApplicationsFixedUncheckedUpdateManyWithoutGcInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  amountCollected?: Prisma.IntFieldUpdateOperationsInput | number
+  quantityMembers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  amountCollected?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -568,6 +607,7 @@ export type ApplicationsFixedSelect<ExtArgs extends runtime.Types.Extensions.Int
   id?: boolean
   gcId?: boolean
   date?: boolean
+  quantityMembers?: boolean
   amountCollected?: boolean
   vouchers?: boolean | Prisma.ApplicationsFixed$vouchersArgs<ExtArgs>
   gc?: boolean | Prisma.GCDefaultArgs<ExtArgs>
@@ -578,6 +618,7 @@ export type ApplicationsFixedSelectCreateManyAndReturn<ExtArgs extends runtime.T
   id?: boolean
   gcId?: boolean
   date?: boolean
+  quantityMembers?: boolean
   amountCollected?: boolean
   gc?: boolean | Prisma.GCDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["applicationsFixed"]>
@@ -586,6 +627,7 @@ export type ApplicationsFixedSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   id?: boolean
   gcId?: boolean
   date?: boolean
+  quantityMembers?: boolean
   amountCollected?: boolean
   gc?: boolean | Prisma.GCDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["applicationsFixed"]>
@@ -594,10 +636,11 @@ export type ApplicationsFixedSelectScalar = {
   id?: boolean
   gcId?: boolean
   date?: boolean
+  quantityMembers?: boolean
   amountCollected?: boolean
 }
 
-export type ApplicationsFixedOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gcId" | "date" | "amountCollected", ExtArgs["result"]["applicationsFixed"]>
+export type ApplicationsFixedOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gcId" | "date" | "quantityMembers" | "amountCollected", ExtArgs["result"]["applicationsFixed"]>
 export type ApplicationsFixedInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vouchers?: boolean | Prisma.ApplicationsFixed$vouchersArgs<ExtArgs>
   gc?: boolean | Prisma.GCDefaultArgs<ExtArgs>
@@ -620,7 +663,8 @@ export type $ApplicationsFixedPayload<ExtArgs extends runtime.Types.Extensions.I
     id: string
     gcId: string
     date: Date
-    amountCollected: number
+    quantityMembers: number | null
+    amountCollected: number | null
   }, ExtArgs["result"]["applicationsFixed"]>
   composites: {}
 }
@@ -1049,6 +1093,7 @@ export interface ApplicationsFixedFieldRefs {
   readonly id: Prisma.FieldRef<"ApplicationsFixed", 'String'>
   readonly gcId: Prisma.FieldRef<"ApplicationsFixed", 'String'>
   readonly date: Prisma.FieldRef<"ApplicationsFixed", 'DateTime'>
+  readonly quantityMembers: Prisma.FieldRef<"ApplicationsFixed", 'Int'>
   readonly amountCollected: Prisma.FieldRef<"ApplicationsFixed", 'Int'>
 }
     

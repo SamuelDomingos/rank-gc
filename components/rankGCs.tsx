@@ -110,7 +110,7 @@ const RankGCs = ({
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex flex-col gap-1">
                     <span className="text-xs">
-                      <b>Membros:</b> {gc.quantity}
+                      <b>Membros:</b> {gc.quantityMembers}
                     </span>
                     <span className="text-xs">
                       <b>Visitantes:</b> {gc.visitors}

@@ -23,7 +23,6 @@ model GC {
     avatar             String?
     type               String
     tribo              String
-    quantity           Int
     applicationsDailys ApplicationsDailys[]
     applicationsFixeds ApplicationsFixed[]
 }
@@ -48,7 +47,9 @@ model ApplicationsFixed {
     gcId String
     date DateTime @db.Date
 
-    amountCollected Int
+    quantityMembers Int?
+
+    amountCollected Int?
     vouchers        VoucherBaskets[]
 
     gc GC @relation(fields: [gcId], references: [id], onDelete: Cascade)
@@ -62,7 +63,7 @@ model VoucherBaskets {
     applicationsFixedId String
 
     voucher String
-    price    Int?
+    price   Int?
 
     applicationsFixed ApplicationsFixed @relation(fields: [applicationsFixedId], references: [id], onDelete: Cascade)
 }

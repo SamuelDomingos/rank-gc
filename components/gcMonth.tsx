@@ -30,7 +30,7 @@ const GcMonth = ({ dados }: { dados?: GCRanking | null }) => {
                     <div className="grid grid-cols-2 gap-4 mt-6">
                         <div className="space-y-1">
                             <span className="text-sm text-muted-foreground block">
-                                <b className="text-foreground">Membros:</b> {dados?.quantity ?? 0}
+                                <b className="text-foreground">Membros:</b> {dados?.quantityMembers ?? 0}
                             </span>
                         </div>
                         <div className="space-y-1">

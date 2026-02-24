@@ -69,7 +69,7 @@ const FormRegisterAmountCollected = ({ gcId }: { gcId: string }) => {
   useEffect(() => {
     if (data?.amountCollected !== undefined) {
       form.reset({
-        amountCollected: data.amountCollected,
+        amountCollected: data.amountCollected ?? 0,
       });
     }
   }, [data, form]);

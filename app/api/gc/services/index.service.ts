@@ -6,12 +6,17 @@ import {
   processGCWithRanking,
 } from "./calcRank.service";
 import { handleAvatarUpload } from "./avatarUpload.service";
+import {
+  ApplicationsDailys,
+  ApplicationsFixed,
+  GC,
+} from "@/app/generated/prisma/client";
 
 const GCSchema = z.object({
   name: z.string().min(2).max(50),
   avatar: z.string().optional().nullable(),
   type: z.enum(["masculine", "feminine"]),
-  quantity: z.coerce.number().min(1).max(50),
+  quantityMembers: z.coerce.number().min(1).max(50),
 });
 
 export class GCService {
@@ -19,9 +24,12 @@ export class GCService {
     try {
       const name = formData.get("name")?.toString();
       const type = formData.get("type")?.toString();
-      const quantity = Number(formData.get("quantity"));
       const avatarFile = formData.get("avatar") as File | null;
       const tribo = formData.get("tribo")?.toString();
+
+      const month = Number(formData.get("month"));
+      const year = Number(formData.get("year"));
+      const quantityMembers = Number(formData.get("quantity"));
 
       if (!name || !type || !tribo) {
         return { success: false, error: "Dados obrigatórios ausentes" };
@@ -33,7 +41,7 @@ export class GCService {
         name,
         avatar: avatarPath,
         type,
-        quantity,
+        quantityMembers,
       });
 
       const gc = await prisma.gC.create({
@@ -41,19 +49,22 @@ export class GCService {
           name: validatedData.name,
           avatar: validatedData.avatar ?? undefined,
           type: validatedData.type,
-          quantity: validatedData.quantity,
           tribo: tribo,
         },
       });
 
-      return { success: true, data: gc };
-    } catch (error: any) {
+      const applicationsFixed = await prisma.applicationsFixed.create({
+        data: {
+          gcId: gc.id,
+          quantityMembers: validatedData.quantityMembers,
+          date: new Date(year, month - 1, 1),
+        },
+      });
+
+      return { success: true, data: { gc, applicationsFixed } };
+    } catch (error) {
       if (error instanceof z.ZodError) {
         return { success: false, error: "Dados inválidos", details: error };
-      }
-
-      if (error.code === "P2002") {
-        return { success: false, error: "Já existe um GC com este nome" };
       }
 
       return { success: false, error: "Erro ao criar GC" };
@@ -97,7 +108,12 @@ export class GCService {
       }));
 
       const gcsWithRanking = normalizedGcs.map((gc) =>
-        processGCWithRanking(gc as any),
+        processGCWithRanking(
+          gc as unknown as GC & {
+            applicationsDailys: ApplicationsDailys[];
+            applicationsFixeds: ApplicationsFixed;
+          },
+        ),
       );
 
       const masculineGCs = gcsWithRanking
@@ -142,11 +158,13 @@ export class GCService {
       const parsed = GCSchema.parse({
         name: formData.get("name")?.toString(),
         type: formData.get("type"),
-        quantity: formData.get("quantity")
-          ? Number(formData.get("quantity"))
-          : undefined,
+        quantityMembers: Number(formData.get("quantity")),
         avatar: undefined,
       });
+
+      const month = Number(formData.get("month"));
+      const year = Number(formData.get("year"));
+      const quantityMembers = Number(formData.get("quantity"));
 
       const avatarFile = formData.get("avatar") as File | null;
       const avatarPath = await handleAvatarUpload(avatarFile);
@@ -158,7 +176,23 @@ export class GCService {
 
       const gc = await prisma.gC.update({
         where: { id },
-        data,
+        data: {
+          ...data,
+          applicationsFixeds: {
+            upsert: {
+              where: {
+                gcId_date: { gcId: id, date: new Date(year, month - 1, 1) },
+              },
+              create: {
+                date: new Date(year, month - 1, 1),
+                quantityMembers,
+              },
+              update: {
+                quantityMembers,
+              },
+            },
+          },
+        },
       });
 
       return { success: true, data: gc };
@@ -180,9 +214,6 @@ export class GCService {
       });
       return { success: true };
     } catch (error) {
-      if ((error as any).code === "P2025") {
-        return { success: false, error: "GC não encontrado" };
-      }
       return { success: false, error: "Erro ao deletar GC" };
     }
   }

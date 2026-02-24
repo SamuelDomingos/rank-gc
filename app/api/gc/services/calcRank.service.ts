@@ -1,25 +1,8 @@
-type DailyApplication = {
-  type: string | number;
-  members: number;
-  visitors: number;
-  membersServing: number;
-};
-
-type FixedApplication =
-  | {
-      amountCollected: number;
-    }
-  | undefined;
-
-type GC = {
-  id: string;
-  name: string;
-  avatar: string | null;
-  type: string;
-  quantity: number;
-  applicationsDailys: DailyApplication[];
-  applicationsFixeds: FixedApplication[];
-};
+import {
+  ApplicationsDailys,
+  ApplicationsFixed,
+  GC,
+} from "@/app/generated/prisma/client";
 
 export type CategoryRank = {
   id: string;
@@ -40,21 +23,18 @@ export type RankingByCategory = {
 };
 
 export const calculateTotalVisitors = (
-  dailyApps: DailyApplication[],
+  dailyApps: ApplicationsDailys[],
 ): number => {
   return dailyApps.reduce((sum, app) => sum + app.visitors, 0);
 };
 
 export const calculatePresencePercentage = (
-  dailyApps: DailyApplication[],
+  dailyApps: ApplicationsDailys[],
   typeFilter: string | number,
   totalMembers: number,
 ): number => {
   const filteredDays = dailyApps.filter((app) => {
-    if (typeof typeFilter === "number") {
-      return app.type === typeFilter || app.type === String(typeFilter);
-    }
-    return app.type === typeFilter;
+    return app.type === String(typeFilter);
   });
 
   if (filteredDays.length === 0) return 0;
@@ -68,15 +48,15 @@ export const calculatePresencePercentage = (
 };
 
 export const calculateServingPercentage = (
-  dailyApps: DailyApplication[],
+  dailyApps: ApplicationsDailys[],
   totalMembers: number,
 ): number => {
-  const servingDays = dailyApps.filter((app) => app.membersServing > 0);
+  const servingDays = dailyApps.filter((app) => (app.membersServing ?? 0) > 0);
 
   if (servingDays.length === 0) return 0;
 
   const totalPercentage = servingDays.reduce((sum, app) => {
-    const percentage = (app.membersServing / totalMembers) * 100;
+    const percentage = (app.membersServing ?? 0 / totalMembers) * 100;
     return sum + percentage;
   }, 0);
 
@@ -122,9 +102,14 @@ export const calculatePoints = (metrics: {
   };
 };
 
-export const processGCWithRanking = (gc: GC) => {
+export const processGCWithRanking = (
+  gc: GC & {
+    applicationsDailys: ApplicationsDailys[];
+    applicationsFixeds: ApplicationsFixed;
+  },
+) => {
   const dailyApps = gc.applicationsDailys;
-  const fixedApp = gc.applicationsFixeds[0];
+  const fixedApp = gc.applicationsFixeds;
 
   const amountCollected = fixedApp?.amountCollected || 0;
   const baskets = amountCollected / 50;
@@ -132,14 +117,17 @@ export const processGCWithRanking = (gc: GC) => {
   const presenceGC = calculatePresencePercentage(
     dailyApps,
     "presenceGC",
-    gc.quantity,
+    gc.applicationsFixeds?.quantityMembers || 0,
   );
   const presenceCults = calculatePresencePercentage(
     dailyApps,
     "presenceCults",
-    gc.quantity,
+    gc.applicationsFixeds?.quantityMembers || 0,
   );
-  const serving = calculateServingPercentage(dailyApps, gc.quantity);
+  const serving = calculateServingPercentage(
+    dailyApps,
+    gc.applicationsFixeds?.quantityMembers || 0,
+  );
 
   const points = calculatePoints({
     amountCollected,
@@ -154,7 +142,7 @@ export const processGCWithRanking = (gc: GC) => {
     name: gc.name,
     avatar: gc.avatar,
     type: gc.type,
-    quantity: gc.quantity,
+    quantity: gc.applicationsFixeds.quantityMembers,
     points: points.total,
     baskets,
     visitors,
@@ -164,30 +152,36 @@ export const processGCWithRanking = (gc: GC) => {
   };
 };
 
-const processGCBasics = (gc: GC) => {
+const processGCBasics = (gc: GC & {
+    applicationsDailys: ApplicationsDailys[];
+    applicationsFixeds: ApplicationsFixed;
+  },) => {
   const dailyApps = gc.applicationsDailys;
-  const fixedApp = gc.applicationsFixeds[0];
+  const fixedApp = gc.applicationsFixeds;
 
   const amountCollected = fixedApp?.amountCollected || 0;
   const visitors = calculateTotalVisitors(dailyApps);
   const presenceGC = calculatePresencePercentage(
     dailyApps,
     "presenceGC",
-    gc.quantity,
+    gc.applicationsFixeds?.quantityMembers || 0,
   );
   const presenceCults = calculatePresencePercentage(
     dailyApps,
     "presenceCults",
-    gc.quantity,
+    gc.applicationsFixeds?.quantityMembers || 0,
   );
-  const serving = calculateServingPercentage(dailyApps, gc.quantity);
+  const serving = calculateServingPercentage(
+    dailyApps,
+    gc.applicationsFixeds?.quantityMembers || 0,
+  );
 
   return {
     id: gc.id,
     name: gc.name,
     avatar: gc.avatar,
     type: gc.type,
-    quantity: gc.quantity,
+    quantity: gc.applicationsFixeds?.quantityMembers || 0,
     amountCollected,
     visitors,
     presenceGC: Math.round(presenceGC * 100) / 100,
@@ -196,7 +190,10 @@ const processGCBasics = (gc: GC) => {
   };
 };
 
-export const generateCategoryRankings = (gcs: GC[]): RankingByCategory[] => {
+export const generateCategoryRankings = (gcs: (GC & {
+    applicationsDailys: ApplicationsDailys[];
+    applicationsFixeds: ApplicationsFixed;
+  })[]): RankingByCategory[] => {
   const processedGCs = gcs.map(processGCBasics);
 
   const categories: RankingByCategory[] = [
@@ -208,7 +205,8 @@ export const generateCategoryRankings = (gcs: GC[]): RankingByCategory[] => {
           name: gc.name,
           avatar: gc.avatar,
           value: gc.amountCollected,
-          points: calculatePoints({ amountCollected: gc.amountCollected }).breakdown.amountCollected,
+          points: calculatePoints({ amountCollected: gc.amountCollected })
+            .breakdown.amountCollected,
         }))
         .sort((a, b) => b.value - a.value)
         .slice(0, 3),

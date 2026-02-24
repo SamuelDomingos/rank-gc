@@ -18,7 +18,11 @@ export type ComparativeData = {
     id: string;
     gc: string;
     metrics: {
-      amountCollected: { current: number; previous: number; comparative: number };
+      amountCollected: {
+        current: number;
+        previous: number;
+        comparative: number;
+      };
       visitors: { current: number; previous: number; comparative: number };
       gcAttendance: { current: string; previous: string; comparative: number };
       serviceAttendance: {
@@ -33,7 +37,11 @@ export type ComparativeData = {
     id: string;
     gc: string;
     metrics: {
-      amountCollected: { current: number; previous: number; comparative: number };
+      amountCollected: {
+        current: number;
+        previous: number;
+        comparative: number;
+      };
       visitors: { current: number; previous: number; comparative: number };
       gcAttendance: { current: string; previous: string; comparative: number };
       serviceAttendance: {
@@ -54,7 +62,7 @@ export const getDashboardStats = async (
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
 
-  const [totalGcs, dailyStats, fixedStats, totalMembers] = await Promise.all([
+  const [totalGcs, dailyStats, fixedStats] = await Promise.all([
     prisma.gC.count({
       where: {
         tribo: tribo,
@@ -88,21 +96,19 @@ export const getDashboardStats = async (
       },
       _sum: {
         amountCollected: true,
+        quantityMembers: true,
       },
     }),
     prisma.gC.aggregate({
       where: {
         tribo: tribo,
       },
-      _sum: {
-        quantity: true,
-      },
     }),
   ]);
 
   return {
     totalGcs,
-    totalMembers: totalMembers._sum.quantity ?? 0,
+    totalMembers: fixedStats._sum.quantityMembers ?? 0,
     totalVisitors: dailyStats._sum.visitors ?? 0,
     membersServing: dailyStats._sum.membersServing ?? 0,
     totalamountCollected: fixedStats._sum.amountCollected ?? 0,
@@ -129,7 +135,6 @@ export const getComparative = async (
         id: true,
         name: true,
         type: true,
-        quantity: true,
         applicationsDailys: {
           where: { date: { gte: currentStart, lte: currentEnd } },
           select: {
@@ -141,7 +146,7 @@ export const getComparative = async (
         },
         applicationsFixeds: {
           where: { date: { gte: currentStart, lte: currentEnd } },
-          select: { amountCollected: true },
+          select: { amountCollected: true, quantityMembers: true },
         },
       },
     }),
@@ -149,7 +154,6 @@ export const getComparative = async (
       where: { tribo },
       select: {
         id: true,
-        quantity: true,
         applicationsDailys: {
           where: { date: { gte: previousStart, lte: previousEnd } },
           select: {
@@ -161,7 +165,7 @@ export const getComparative = async (
         },
         applicationsFixeds: {
           where: { date: { gte: previousStart, lte: previousEnd } },
-          select: { amountCollected: true },
+          select: { amountCollected: true, quantityMembers: true },
         },
       },
     }),
@@ -187,7 +191,16 @@ export const getComparative = async (
         const prevDailyApps = normalizeDailyApps(
           prev?.applicationsDailys ?? [],
         );
-        const prevQuantity = prev?.quantity ?? gc.quantity;
+        const currentQuantity = gc.applicationsFixeds.reduce(
+          (sum, app) => sum + (app.quantityMembers ?? 0),
+          0,
+        );
+
+        const prevQuantity =
+          prev?.applicationsFixeds.reduce(
+            (sum, app) => sum + (app.quantityMembers ?? 0),
+            0,
+          ) ?? 0;
 
         const currentVisitors = calculateTotalVisitors(currentDailyApps);
         const prevVisitors = calculateTotalVisitors(prevDailyApps);
@@ -195,7 +208,7 @@ export const getComparative = async (
         const currentPresenceGC = calculatePresencePercentage(
           currentDailyApps,
           "presenceGC",
-          gc.quantity,
+          currentQuantity,
         );
         const prevPresenceGC = calculatePresencePercentage(
           prevDailyApps,
@@ -206,7 +219,7 @@ export const getComparative = async (
         const currentPresenceCults = calculatePresencePercentage(
           currentDailyApps,
           "presenceCults",
-          gc.quantity,
+          currentQuantity,
         );
         const prevPresenceCults = calculatePresencePercentage(
           prevDailyApps,
@@ -216,7 +229,7 @@ export const getComparative = async (
 
         const currentServing = calculateServingPercentage(
           currentDailyApps,
-          gc.quantity,
+          currentQuantity,
         );
         const prevServing = calculateServingPercentage(
           prevDailyApps,

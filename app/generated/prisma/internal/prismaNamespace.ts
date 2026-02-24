@@ -832,8 +832,7 @@ export const GCScalarFieldEnum = {
   name: 'name',
   avatar: 'avatar',
   type: 'type',
-  tribo: 'tribo',
-  quantity: 'quantity'
+  tribo: 'tribo'
 } as const
 
 export type GCScalarFieldEnum = (typeof GCScalarFieldEnum)[keyof typeof GCScalarFieldEnum]
@@ -856,6 +855,7 @@ export const ApplicationsFixedScalarFieldEnum = {
   id: 'id',
   gcId: 'gcId',
   date: 'date',
+  quantityMembers: 'quantityMembers',
   amountCollected: 'amountCollected'
 } as const
 

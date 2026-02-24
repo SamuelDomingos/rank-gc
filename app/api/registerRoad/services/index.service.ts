@@ -5,9 +5,13 @@ import {
 import prisma from "@/lib/prisma";
 
 export class GCService {
-  async registerBasketsGc(json: ApplicationsFixedCreateManyInput) {
+  async registerBasketsGc(
+    json: ApplicationsFixedCreateManyInput & { year: number; month: number },
+  ) {
     try {
-      const { gcId, date, amountCollected } = json;
+      const { gcId, date, amountCollected, year, month } = json;
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 0);
 
       if (!gcId || !date || !amountCollected) {
         return {
@@ -16,13 +20,28 @@ export class GCService {
         };
       }
 
-      const registro = await prisma.applicationsFixed.create({
-        data: {
+      const applicationFixed = await prisma.applicationsFixed.findFirst({
+        where: {
           gcId,
-          date: new Date(date),
-          amountCollected,
+          date: {
+            gte: startDate,
+            lte: endDate,
+          },
         },
       });
+
+      let registro;
+      if (applicationFixed) {
+        registro = await prisma.applicationsFixed.update({
+          where: {
+            id: applicationFixed.id,
+          },
+          data: {
+            date: new Date(date),
+            amountCollected,
+          },
+        });
+      }
 
       return { success: true, data: registro };
     } catch (error) {
@@ -31,7 +50,10 @@ export class GCService {
     }
   }
 
-  async updateBasketsGc(id: string, data: ApplicationsFixedUpdateInput) {
+  async updateBasketsGc(
+    id: string,
+    data: ApplicationsFixedUpdateInput & { year: number; month: number },
+  ) {
     try {
       if (!id) {
         return {
