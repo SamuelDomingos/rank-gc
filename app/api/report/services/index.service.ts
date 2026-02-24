@@ -64,19 +64,12 @@ export const getDashboardStats = async (
 
   const [totalGcs, dailyStats, fixedStats] = await Promise.all([
     prisma.gC.count({
-      where: {
-        tribo: tribo,
-      },
+      where: { tribo },
     }),
     prisma.applicationsDailys.aggregate({
       where: {
-        date: {
-          gte: startDate,
-          lte: endDate,
-        },
-        gc: {
-          tribo: tribo,
-        },
+        date: { gte: startDate, lte: endDate },
+        gc: { tribo },
       },
       _sum: {
         members: true,
@@ -86,22 +79,12 @@ export const getDashboardStats = async (
     }),
     prisma.applicationsFixed.aggregate({
       where: {
-        date: {
-          gte: startDate,
-          lte: endDate,
-        },
-        gc: {
-          tribo: tribo,
-        },
+        date: { gte: startDate, lte: endDate },
+        gc: { tribo },
       },
       _sum: {
         amountCollected: true,
         quantityMembers: true,
-      },
-    }),
-    prisma.gC.aggregate({
-      where: {
-        tribo: tribo,
       },
     }),
   ]);

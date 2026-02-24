@@ -4,6 +4,7 @@ import { useDashboardStats } from "@/app/tribo/[name]/_hooks/useReports";
 import { useDate } from "@/context/DateContext";
 import { Spinner } from "@/components/ui/spinner";
 import { useParams } from "next/navigation";
+import { formatCurrency } from "@/lib/utils";
 
 const GeneralReports = () => {
   const params = useParams();
@@ -14,7 +15,11 @@ const GeneralReports = () => {
   const stats = [
     { icon: Users, label: "GCs", value: data?.totalGcs },
     { icon: User, label: "Membros", value: data?.totalMembers },
-    { icon: Gift, label: "Valor Arrecadado", value: data?.totalamountCollected },
+    {
+      icon: Gift,
+      label: "Valor Arrecadado",
+      value: data?.totalamountCollected,
+    },
     { icon: UserRoundPlus, label: "Visitantes", value: data?.totalVisitors },
     { icon: Church, label: "Membros Servindo", value: data?.membersServing },
   ];
@@ -47,7 +52,11 @@ const GeneralReports = () => {
                         <Icon className={`w-6 h-6 ${textColor}`} />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold">{stat.value}</p>
+                        <p className="text-2xl font-bold">
+                          {stat.label === "Valor Arrecadado"
+                            ? formatCurrency(stat.value ?? 0)
+                            : stat.value}
+                        </p>
                         <p className="text-sm text-muted-foreground">
                           {stat.label}
                         </p>

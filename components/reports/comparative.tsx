@@ -40,6 +40,7 @@ import {
   exportAsPDF,
 } from "./services/export.service";
 import { useParams } from "next/navigation";
+import { formatCurrency } from "@/lib/utils";
 
 interface GCWithMetrics {
   id: string;
@@ -73,10 +74,14 @@ interface GCWithMetrics {
   };
 }
 
-const formatValue = (value: number | string, isPercentage: boolean = false) => {
-  if (isPercentage) {
+const formatValue = (
+  value: number | string,
+  isPercentage: boolean = false,
+  isCurrency: boolean = false,
+) => {
+  if (isCurrency) return formatCurrency(Number(value));
+  if (isPercentage)
     return `${typeof value === "string" ? value : value.toFixed(1)}%`;
-  }
   return value.toString();
 };
 
@@ -126,26 +131,31 @@ const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
                         label: "Valor Arrecadado",
                         key: "amountCollected",
                         isPercentage: false,
+                        isCurrency: true,
                       },
                       {
                         label: "Visitantes",
                         key: "visitors",
                         isPercentage: false,
+                        isCurrency: false,
                       },
                       {
                         label: "Presença GC",
                         key: "gcAttendance",
                         isPercentage: true,
+                        isCurrency: false,
                       },
                       {
                         label: "Presença Cultos",
                         key: "serviceAttendance",
                         isPercentage: true,
+                        isCurrency: false,
                       },
                       {
                         label: "Servindo",
                         key: "serving",
                         isPercentage: true,
+                        isCurrency: false,
                       },
                     ].map((metric) => {
                       const metricData =
@@ -159,12 +169,14 @@ const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
                             {formatValue(
                               metricData.previous,
                               metric.isPercentage,
+                              metric.isCurrency,
                             )}
                           </TableCell>
                           <TableCell>
                             {formatValue(
                               metricData.current,
                               metric.isPercentage,
+                              metric.isCurrency,
                             )}
                           </TableCell>
                           <TableCell>
@@ -174,9 +186,11 @@ const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
                                 className="gap-1 flex items-center w-fit"
                               >
                                 <ArrowUp className="w-3 h-3" />+
-                                {Math.abs(variance).toFixed(
-                                  metric.isPercentage ? 1 : 0,
-                                )}
+                                {metric.isCurrency
+                                  ? formatCurrency(Math.abs(variance))
+                                  : Math.abs(variance).toFixed(
+                                      metric.isPercentage ? 1 : 0,
+                                    )}
                                 {metric.isPercentage && "%"}
                               </Badge>
                             ) : variance < 0 ? (
@@ -185,7 +199,11 @@ const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
                                 className="gap-1 flex items-center w-fit"
                               >
                                 <ArrowDown className="w-3 h-3" />
-                                {variance.toFixed(metric.isPercentage ? 1 : 0)}
+                                {metric.isCurrency
+                                  ? formatCurrency(variance)
+                                  : variance.toFixed(
+                                      metric.isPercentage ? 1 : 0,
+                                    )}
                                 {metric.isPercentage && "%"}
                               </Badge>
                             ) : (
@@ -229,7 +247,7 @@ const Comparative = () => {
     previousYear,
     currentMonth,
     currentYear,
-    tribo
+    tribo,
   );
 
   if (isLoading) {

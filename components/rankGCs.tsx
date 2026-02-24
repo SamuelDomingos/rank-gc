@@ -64,9 +64,6 @@ const RankGCs = ({
           const isTopThree = rank <= 3;
           const medalColor = isTopThree ? medalColors[idx] : "";
 
-          console.log(gc);
-          
-
           return (
             <Card
               key={gc.name + idx}
