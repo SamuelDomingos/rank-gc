@@ -1,7 +1,7 @@
 "use server";
 
 import { NextRequest, NextResponse } from "next/server";
-import { getDashboardStats } from "../services/index.service";
+import { ReportService } from "../services/index.service";
 
 export async function GET(request: NextRequest) {
   try {
@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     const year = Number(request.nextUrl.searchParams.get("year"));
     const tribo = request.nextUrl.searchParams.get("tribo");
 
-    const summary = await getDashboardStats(month, year, tribo!);
+    const summary = await ReportService.getDashboardStats(month, year, tribo!);
     return NextResponse.json(summary);
   } catch (erro) {
     console.error("Erro ao trazer o resumo:", erro);

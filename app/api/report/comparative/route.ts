@@ -1,7 +1,7 @@
 "use server";
 
 import { NextRequest, NextResponse } from "next/server";
-import { getComparative } from "../services/index.service";
+import { ReportService } from "../services/index.service";
 
 export async function GET(request: NextRequest) {
   try {
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     );
     const tribo = request.nextUrl.searchParams.get("tribo");
 
-    const summary = await getComparative(
+    const summary = await ReportService.getComparative(
       currentMonth,
       currentYear,
       previousMonth,

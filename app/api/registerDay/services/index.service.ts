@@ -1,6 +1,8 @@
 import { ApplicationsDailysCreateManyInput } from "@/app/generated/prisma/models";
 import prisma from "@/lib/prisma";
 
+import { revalidateTag } from "next/cache";
+
 export class GCService {
   async registerDayGc(json: ApplicationsDailysCreateManyInput) {
     try {
@@ -38,6 +40,13 @@ export class GCService {
       const registro = await prisma.applicationsDailys.create({
         data,
       });
+
+      const gc = await prisma.gC.findUnique({
+        where: { id: gcId },
+        select: { tribo: true },
+      });
+
+      revalidateTag(`gcs-${gc?.tribo}`, {});
 
       return { success: true, data: registro };
     } catch (error) {

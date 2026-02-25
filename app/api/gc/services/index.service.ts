@@ -12,6 +12,8 @@ import {
   GC,
 } from "@/app/generated/prisma/client";
 
+import { unstable_cache } from "next/cache";
+
 const GCSchema = z.object({
   name: z.string().min(2).max(50),
   avatar: z.string().optional().nullable(),
@@ -19,7 +21,7 @@ const GCSchema = z.object({
   quantityMembers: z.coerce.number().min(1).max(50),
 });
 
-export class GCService {
+export const GCService = {
   async createGC(formData: FormData) {
     try {
       const name = formData.get("name")?.toString();
@@ -69,94 +71,102 @@ export class GCService {
 
       return { success: false, error: "Erro ao criar GC" };
     }
-  }
+  },
 
-  async getAllGCs(month: number, year: number, tribo: string) {
-    try {
-      const startDate = new Date(year, month - 1, 1);
-      const endDate = new Date(year, month, 0);
+  getAllGCs(month: number, year: number, tribo: string) {
+    return unstable_cache(
+      async () => {
+        try {
+          const startDate = new Date(year, month - 1, 1);
+          const endDate = new Date(year, month, 0);
 
-      const gcs = await prisma.gC.findMany({
-        where: { tribo: tribo },
-        orderBy: { name: "asc" },
-        include: {
-          applicationsDailys: {
-            where: {
-              date: {
-                gte: startDate,
-                lte: endDate,
+          const gcs = await prisma.gC.findMany({
+            where: { tribo: tribo },
+            orderBy: { name: "asc" },
+            include: {
+              applicationsDailys: {
+                where: {
+                  date: {
+                    gte: startDate,
+                    lte: endDate,
+                  },
+                },
+              },
+              applicationsFixeds: {
+                where: {
+                  date: {
+                    gte: startDate,
+                    lte: endDate,
+                  },
+                },
               },
             },
-          },
-          applicationsFixeds: {
-            where: {
-              date: {
-                gte: startDate,
-                lte: endDate,
+          });
+
+          const normalizedGcs = gcs.map((gc) => ({
+            ...gc,
+            applicationsDailys: gc.applicationsDailys.map((app) => ({
+              ...app,
+              membersServing: app.membersServing ?? 0,
+            })),
+            applicationsFixeds: gc.applicationsFixeds[0] ?? {
+              amountCollected: 0,
+              quantityMembers: 0,
+            },
+          }));
+
+          const gcsWithRanking = normalizedGcs.map((gc) =>
+            processGCWithRanking(
+              gc as unknown as GC & {
+                applicationsDailys: ApplicationsDailys[];
+                applicationsFixeds: ApplicationsFixed;
+              },
+            ),
+          );
+
+          const masculineGCs = gcsWithRanking
+            .filter((gc) => gc.type === "masculine")
+            .sort((a, b) => b.points - a.points);
+
+          const feminineGCs = gcsWithRanking
+            .filter((gc) => gc.type === "feminine")
+            .sort((a, b) => b.points - a.points);
+
+          const masculineRankings = generateCategoryRankings(
+            normalizedGcs.filter((gc) => gc.type === "masculine") as any,
+          );
+
+          const feminineRankings = generateCategoryRankings(
+            normalizedGcs.filter((gc) => gc.type === "feminine") as any,
+          );
+
+          return {
+            success: true,
+            data: {
+              masculine: {
+                gcOfTheMonth: masculineGCs[0] || null,
+                ranking: masculineGCs,
+                categoryRankings: masculineRankings,
+              },
+              feminine: {
+                gcOfTheMonth: feminineGCs[0] || null,
+                ranking: feminineGCs,
+                categoryRankings: feminineRankings,
               },
             },
-          },
-        },
-      });
-
-      const normalizedGcs = gcs.map((gc) => ({
-        ...gc,
-        applicationsDailys: gc.applicationsDailys.map((app) => ({
-          ...app,
-          membersServing: app.membersServing ?? 0,
-        })),
-        applicationsFixeds: gc.applicationsFixeds[0] ?? {
-          
-          amountCollected: 0,
-          quantityMembers: 0,
-        },
-      }));
-
-      const gcsWithRanking = normalizedGcs.map((gc) =>
-        processGCWithRanking(
-          gc as unknown as GC & {
-            applicationsDailys: ApplicationsDailys[];
-            applicationsFixeds: ApplicationsFixed;
-          },
-        ),
-      );
-
-      const masculineGCs = gcsWithRanking
-        .filter((gc) => gc.type === "masculine")
-        .sort((a, b) => b.points - a.points);
-
-      const feminineGCs = gcsWithRanking
-        .filter((gc) => gc.type === "feminine")
-        .sort((a, b) => b.points - a.points);
-
-      const masculineRankings = generateCategoryRankings(
-        normalizedGcs.filter((gc) => gc.type === "masculine") as any,
-      );
-
-      const feminineRankings = generateCategoryRankings(
-        normalizedGcs.filter((gc) => gc.type === "feminine") as any,
-      );
-
-      return {
-        success: true,
-        data: {
-          masculine: {
-            gcOfTheMonth: masculineGCs[0] || null,
-            ranking: masculineGCs,
-            categoryRankings: masculineRankings,
-          },
-          feminine: {
-            gcOfTheMonth: feminineGCs[0] || null,
-            ranking: feminineGCs,
-            categoryRankings: feminineRankings,
-          },
-        },
-      };
-    } catch (error) {
-      console.error("Erro ao buscar GCs:", error);
-      return { success: false, error: "Erro ao buscar GCs" };
-    }
-  }
+          };
+        } catch (error) {
+          console.error("Erro ao buscar GCs:", error);
+          return { success: false, error: "Erro ao buscar GCs" };
+        }
+      },
+      [`gcs-${month}-${year}-${tribo}`],
+      {
+        revalidate: 60 * 60,
+        tags: [`gcs-${tribo}`, `gcs-${month}-${year}-${tribo}`],
+      },
+    )();
+  },
 
   async updateGC(id: string, formData: FormData) {
     try {
@@ -208,7 +218,7 @@ export class GCService {
 
       return { success: false, error: "Erro ao atualizar GC" };
     }
-  }
+  },
 
   async deleteGC(id: string) {
     try {
@@ -219,7 +229,5 @@ export class GCService {
     } catch (error) {
       return { success: false, error: "Erro ao deletar GC" };
     }
-  }
-}
-
-export const gcService = new GCService();
+  },
+};
