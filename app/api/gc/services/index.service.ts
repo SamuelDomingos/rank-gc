@@ -162,7 +162,7 @@ export const GCService = {
       },
       [`gcs-${month}-${year}-${tribo}`],
       {
-        revalidate: 60 * 60,
+        revalidate: 60 * 60 * 24 * 5,
         tags: [`gcs-${tribo}`, `gcs-${month}-${year}-${tribo}`],
       },
     )();

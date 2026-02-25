@@ -103,7 +103,7 @@ export const ReportService = {
       },
       [`dashboard-${month}-${year}-${tribo}`],
       {
-        revalidate: 60 * 60,
+        revalidate: 60 * 60 * 24 * 5,
         tags: [`gcs-${tribo}`, `dashboard-${month}-${year}-${tribo}`],
       },
     )();
@@ -296,7 +296,7 @@ export const ReportService = {
         `comparative-${currentMonth}-${currentYear}-${previousMonth}-${previousYear}-${tribo}`,
       ],
       {
-        revalidate: 60 * 60,
+        revalidate: 60 * 60 * 24 * 5,
         tags: [
           `gcs-${tribo}`,
           `comparative-${currentMonth}-${currentYear}-${tribo}`,
