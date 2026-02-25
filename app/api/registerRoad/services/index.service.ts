@@ -3,6 +3,7 @@ import {
   ApplicationsFixedUpdateInput,
 } from "@/app/generated/prisma/models";
 import prisma from "@/lib/prisma";
+import { revalidateTag } from "next/cache";
 
 export class GCService {
   async registerBasketsGc(
@@ -43,6 +44,12 @@ export class GCService {
         });
       }
 
+      const gc = await prisma.gC.findUnique({
+        where: { id: gcId },
+      });
+
+      revalidateTag(`gcs-${gc?.tribo}`, {});
+
       return { success: true, data: registro };
     } catch (error) {
       console.error("Erro ao registrar:", error);
@@ -66,6 +73,12 @@ export class GCService {
         where: { id },
         data,
       });
+
+      const gc = await prisma.gC.findUnique({
+        where: { id: registro.gcId },
+      });
+
+      revalidateTag(`gcs-${gc?.tribo}`, {});
 
       return { success: true, data: registro };
     } catch (error) {

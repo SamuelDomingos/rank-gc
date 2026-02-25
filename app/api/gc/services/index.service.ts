@@ -12,7 +12,7 @@ import {
   GC,
 } from "@/app/generated/prisma/client";
 
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 const GCSchema = z.object({
   name: z.string().min(2).max(50),
@@ -62,6 +62,8 @@ export const GCService = {
           date: new Date(year, month - 1, 1),
         },
       });
+
+      revalidateTag(`gcs-${gc?.tribo}`, {});
 
       return { success: true, data: { gc, applicationsFixed } };
     } catch (error) {
@@ -212,6 +214,8 @@ export const GCService = {
         },
       });
 
+      revalidateTag(`gcs-${gc?.tribo}`, {});
+
       return { success: true, data: gc };
     } catch (error) {
       console.log(error);
@@ -222,9 +226,11 @@ export const GCService = {
 
   async deleteGC(id: string) {
     try {
-      await prisma.gC.delete({
+      const gc = await prisma.gC.delete({
         where: { id },
       });
+
+      revalidateTag(`gcs-${gc?.tribo}`, {});
       return { success: true };
     } catch (error) {
       return { success: false, error: "Erro ao deletar GC" };
