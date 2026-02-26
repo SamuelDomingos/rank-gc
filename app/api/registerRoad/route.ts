@@ -25,8 +25,8 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     try {
         const json = await request.json();
-        const id = String(json.id);
-
+        const id = String(request.nextUrl.searchParams.get("id"));
+        
         const result = await gcService.updateBasketsGc(id, json);
 
         if (result.success) {
