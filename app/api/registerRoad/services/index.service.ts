@@ -62,6 +62,7 @@ export class GCService {
     data: ApplicationsFixedUpdateInput & { year: number; month: number },
   ) {
     try {
+      
       if (!id) {
         return {
           success: false,

@@ -25,7 +25,7 @@ import { useEffect } from "react";
 import { currencyToNumber, formatCurrency } from "@/lib/utils";
 
 export const formSchema = z.object({
-  amountCollected: z.number().min(1),
+  amountCollected: z.number().min(0),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
