@@ -25,6 +25,8 @@ model GC {
     tribo              String
     applicationsDailys ApplicationsDailys[]
     applicationsFixeds ApplicationsFixed[]
+
+    applicationsCustoms ApplicationsCustom[]
 }
 
 model ApplicationsDailys {
@@ -56,6 +58,41 @@ model ApplicationsFixed {
 
     @@unique([gcId, date])
     @@index([gcId])
+}
+
+model CustomRankConfig {
+    id   String @id @default(uuid())
+    name String @unique
+
+    startDate DateTime @db.Date
+    endDate   DateTime @db.Date
+
+    metric CustomMetric
+
+    // Multiplicador de pontos
+    pointsMultiplier Float
+
+    applicationsCustoms ApplicationsCustom[]
+}
+
+enum CustomMetric {
+    QUANTITY
+    PERCENTAGE
+}
+
+model ApplicationsCustom {
+    id       String   @id @default(uuid())
+    gcId     String
+    configId String // liga ao CustomRankConfig
+    date     DateTime @db.Date
+
+    quantity Int?
+
+    gc     GC               @relation(fields: [gcId], references: [id], onDelete: Cascade)
+    config CustomRankConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+
+    @@index([gcId])
+    @@index([configId])
 }
 
 model VoucherBaskets {
