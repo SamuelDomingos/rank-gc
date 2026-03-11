@@ -39,21 +39,19 @@ const FormLogin = ({
   return (
     <Dialog
       open={open}
-      onOpenChange={() => {
-        if (!open) form.reset();
-        onOpenChange(open);
+      onOpenChange={(v) => {
+        if (!v) form.reset();
+        onOpenChange(v);
       }}
     >
       <DialogContent className="sm:max-w-sm">
         <DialogHeader className="items-center space-y-4">
-            <Avatar className="w-20 h-20">
-              <AvatarImage
-                src={`/tribos/${triboSlug.toLowerCase()}.jpeg`}
-              />
-              <AvatarFallback className="text-2xl font-bold">
-                {(triboNome ?? triboSlug).charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+          <Avatar className="w-20 h-20">
+            <AvatarImage src={`/tribos/${triboSlug.toLowerCase()}.jpeg`} />
+            <AvatarFallback className="text-2xl font-bold">
+              {(triboNome ?? triboSlug).charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
 
           <div className="text-center space-y-1">
             <DialogTitle className="text-2xl font-semibold tracking-tight">
