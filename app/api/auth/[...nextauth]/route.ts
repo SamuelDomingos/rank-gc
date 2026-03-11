@@ -57,7 +57,10 @@ export const authOptions: NextAuthOptions = {
           return { id: user.id, email: user.email, cargo: user.cargo };
         }
 
-        if (user.tribo.toLocaleLowerCase() !== credentials.triboSlug) {
+        if (
+          user.tribo.toLocaleLowerCase() !== credentials.triboSlug &&
+          user.cargo === "MEMBRO"
+        ) {
           throw new Error("Você não pertence a esta tribo");
         }
 
