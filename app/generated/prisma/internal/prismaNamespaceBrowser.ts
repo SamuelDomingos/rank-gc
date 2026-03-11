@@ -52,10 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   ConfigGeral: 'ConfigGeral',
+  User: 'User',
   GC: 'GC',
   ApplicationsDailys: 'ApplicationsDailys',
-  ApplicationsFixed: 'ApplicationsFixed',
-  VoucherBaskets: 'VoucherBaskets'
+  ApplicationsFixed: 'ApplicationsFixed'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -84,12 +84,26 @@ export const ConfigGeralScalarFieldEnum = {
 export type ConfigGeralScalarFieldEnum = (typeof ConfigGeralScalarFieldEnum)[keyof typeof ConfigGeralScalarFieldEnum]
 
 
+export const UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  tribo: 'tribo',
+  ministry: 'ministry',
+  cargo: 'cargo'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
 export const GCScalarFieldEnum = {
   id: 'id',
   name: 'name',
   avatar: 'avatar',
   type: 'type',
-  tribo: 'tribo'
+  tribo: 'tribo',
+  ministry: 'ministry'
 } as const
 
 export type GCScalarFieldEnum = (typeof GCScalarFieldEnum)[keyof typeof GCScalarFieldEnum]
@@ -117,16 +131,6 @@ export const ApplicationsFixedScalarFieldEnum = {
 } as const
 
 export type ApplicationsFixedScalarFieldEnum = (typeof ApplicationsFixedScalarFieldEnum)[keyof typeof ApplicationsFixedScalarFieldEnum]
-
-
-export const VoucherBasketsScalarFieldEnum = {
-  id: 'id',
-  applicationsFixedId: 'applicationsFixedId',
-  voucher: 'voucher',
-  price: 'price'
-} as const
-
-export type VoucherBasketsScalarFieldEnum = (typeof VoucherBasketsScalarFieldEnum)[keyof typeof VoucherBasketsScalarFieldEnum]
 
 
 export const SortOrder = {

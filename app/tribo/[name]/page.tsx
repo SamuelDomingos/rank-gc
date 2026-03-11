@@ -1,24 +1,43 @@
 "use client";
 
 import { use } from "react";
-import GcMonth from "@/components/gcMonth";
-import { Header } from "@/components/header";
-import { ModeToggle } from "@/components/modeToggle";
-import RankCategory from "@/components/rankCategory";
-import RankGCs from "@/components/rankGCs";
+import GcMonth from "@/app/tribo/[name]/_components/gcMonth";
+import { Header } from "@/app/tribo/[name]/_components/header";
+import { ModeToggle } from "@/app/tribo/[name]/_components/modeToggle";
+import RankCategory from "@/app/tribo/[name]/_components/rankCategory";
+import RankGCs from "@/app/tribo/[name]/_components/rankGCs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetGcs } from "./_hooks/useGcs";
 import { useDate } from "@/context/DateContext";
 import { Spinner } from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
+import { signOut } from "next-auth/react";
+import { LogOut } from "lucide-react";
 
-export default function Page({ params }: { params: Promise<{ name: string }> }) {
+export default function Page({
+  params,
+}: {
+  params: Promise<{ name: string }>;
+}) {
   const { name } = use(params);
+
   const { month, year } = useDate();
   const { data, isLoading } = useGetGcs(month, year, name);
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
-      <ModeToggle />
+      <div className="flex items-center justify-between">
+        <ModeToggle />
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => signOut()}
+          className="text-muted-foreground"
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Sair
+        </Button>
+      </div>
       <Header />
       <Tabs defaultValue="masculine">
         <TabsList>

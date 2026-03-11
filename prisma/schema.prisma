@@ -17,16 +17,34 @@ model ConfigGeral {
     @@unique([date])
 }
 
+model User {
+    id       String @id @default(uuid())
+    name     String
+    email    String @unique
+    password String
+
+    tribo    String
+    ministry String
+
+    cargo Cargo
+}
+
+enum Cargo {
+    ADMIN
+    MEMBRO
+}
+
 model GC {
     id                 String               @id @default(uuid())
     name               String               @unique
     avatar             String?
     type               String
     tribo              String
+    ministry           String?
     applicationsDailys ApplicationsDailys[]
     applicationsFixeds ApplicationsFixed[]
 
-    applicationsCustoms ApplicationsCustom[]
+    // applicationsCustoms ApplicationsCustom[]
 }
 
 model ApplicationsDailys {
@@ -52,7 +70,7 @@ model ApplicationsFixed {
     quantityMembers Int?
 
     amountCollected Int?
-    vouchers        VoucherBaskets[]
+    // vouchers        VoucherBaskets[]
 
     gc GC @relation(fields: [gcId], references: [id], onDelete: Cascade)
 
@@ -60,47 +78,47 @@ model ApplicationsFixed {
     @@index([gcId])
 }
 
-model CustomRankConfig {
-    id   String @id @default(uuid())
-    name String @unique
+// model CustomRankConfig {
+//     id   String @id @default(uuid())
+//     name String @unique
 
-    startDate DateTime @db.Date
-    endDate   DateTime @db.Date
+//     startDate DateTime @db.Date
+//     endDate   DateTime @db.Date
 
-    metric CustomMetric
+//     metric CustomMetric
 
-    // Multiplicador de pontos
-    pointsMultiplier Float
+//     // Multiplicador de pontos
+//     pointsMultiplier Float
 
-    applicationsCustoms ApplicationsCustom[]
-}
+//     applicationsCustoms ApplicationsCustom[]
+// }
 
-enum CustomMetric {
-    QUANTITY
-    PERCENTAGE
-}
+// enum CustomMetric {
+//     QUANTITY
+//     PERCENTAGE
+// }
 
-model ApplicationsCustom {
-    id       String   @id @default(uuid())
-    gcId     String
-    configId String // liga ao CustomRankConfig
-    date     DateTime @db.Date
+// model ApplicationsCustom {
+//     id       String   @id @default(uuid())
+//     gcId     String
+//     configId String // liga ao CustomRankConfig
+//     date     DateTime @db.Date
 
-    quantity Int?
+//     quantity Int?
 
-    gc     GC               @relation(fields: [gcId], references: [id], onDelete: Cascade)
-    config CustomRankConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+//     gc     GC               @relation(fields: [gcId], references: [id], onDelete: Cascade)
+//     config CustomRankConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
 
-    @@index([gcId])
-    @@index([configId])
-}
+//     @@index([gcId])
+//     @@index([configId])
+// }
 
-model VoucherBaskets {
-    id                  String @id @default(uuid())
-    applicationsFixedId String
+// model VoucherBaskets {
+//     id                  String @id @default(uuid())
+//     applicationsFixedId String
 
-    voucher String
-    price   Int?
+//     voucher String
+//     price   Int?
 
-    applicationsFixed ApplicationsFixed @relation(fields: [applicationsFixedId], references: [id], onDelete: Cascade)
-}
+//     applicationsFixed ApplicationsFixed @relation(fields: [applicationsFixedId], references: [id], onDelete: Cascade)
+// }

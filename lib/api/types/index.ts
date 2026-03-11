@@ -7,6 +7,7 @@ export type GCRanking = {
     type: string;
     tribo: string;
     quantityMembers: number;
+    ministry: string;
     points: number;
     baskets: number;
     visitors: number;

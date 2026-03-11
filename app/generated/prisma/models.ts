@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/ConfigGeral'
+export type * from './models/User'
 export type * from './models/GC'
 export type * from './models/ApplicationsDailys'
 export type * from './models/ApplicationsFixed'
-export type * from './models/VoucherBaskets'
 export type * from './commonInputTypes'

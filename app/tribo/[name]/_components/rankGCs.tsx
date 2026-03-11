@@ -36,12 +36,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RiMedalFill, RiFileList3Line, RiMoreLine } from "@remixicon/react";
 import { Separator } from "@/components/ui/separator";
 import { GCRanking } from "@/lib/api/types";
-import FormRegister from "./formRegister";
+import FormRegister from "./forms/formRegister";
 import ListRegisters from "./listRegisters";
 import { useDeleteGc } from "@/app/tribo/[name]/_hooks/useGcs";
-import FormGc from "./formGc";
+import FormGc from "./forms/formGc";
 import { useRef } from "react";
-import FormRegisterBaskets from "./formRegisterAmountCollected";
+import FormRegisterBaskets from "./forms/formRegisterAmountCollected";
+import { medalColors } from "../_utils/utilsRank";
 
 const RankGCs = ({
   dados,
@@ -50,7 +51,6 @@ const RankGCs = ({
   dados?: GCRanking[] | null;
   month: number;
 }) => {
-  const medalColors = ["text-yellow-500", "text-gray-400", "text-orange-600"];
 
   const { fetchDelGc } = useDeleteGc();
   const dialogCloseRef = useRef<HTMLButtonElement>(null);

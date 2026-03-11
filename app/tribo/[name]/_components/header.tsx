@@ -16,10 +16,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DatePicker } from "./ui/date-picker";
+import { DatePicker } from "../../../../components/ui/date-picker";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import FormGc from "./formGc";
+import FormGc from "./forms/formGc";
 import { useState } from "react";
 import Reports from "./reports";
 
@@ -62,7 +62,6 @@ export const Header = () => {
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
           <DatePicker />
-
           <ButtonGroup>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
@@ -90,15 +89,15 @@ export const Header = () => {
               <DialogTrigger asChild>
                 <Button variant="secondary">Relatórios</Button>
               </DialogTrigger>
-                <DialogContent className="max-w-7xl! max-h-[90vh]! overflow-auto no-scrollbar">
-                  <DialogHeader>
+              <DialogContent className="max-w-7xl! max-h-[90vh]! overflow-auto no-scrollbar">
+                <DialogHeader>
                   <DialogTitle>Relatorio</DialogTitle>
                   <DialogDescription>
                     Visualize os relatórios de desempenho dos gcs de conexão.
                   </DialogDescription>
-                  </DialogHeader>
-                  <Reports />
-                </DialogContent>
+                </DialogHeader>
+                <Reports />
+              </DialogContent>
             </Dialog>
           </ButtonGroup>
         </div>

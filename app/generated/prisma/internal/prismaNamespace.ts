@@ -385,10 +385,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   ConfigGeral: 'ConfigGeral',
+  User: 'User',
   GC: 'GC',
   ApplicationsDailys: 'ApplicationsDailys',
-  ApplicationsFixed: 'ApplicationsFixed',
-  VoucherBaskets: 'VoucherBaskets'
+  ApplicationsFixed: 'ApplicationsFixed'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -404,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "configGeral" | "gC" | "applicationsDailys" | "applicationsFixed" | "voucherBaskets"
+    modelProps: "configGeral" | "user" | "gC" | "applicationsDailys" | "applicationsFixed"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -479,6 +479,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ConfigGeralCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ConfigGeralCountAggregateOutputType> | number
+        }
+      }
+    }
+    User: {
+      payload: Prisma.$UserPayload<ExtArgs>
+      fields: Prisma.UserFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        findFirst: {
+          args: Prisma.UserFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        findMany: {
+          args: Prisma.UserFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
+        }
+        create: {
+          args: Prisma.UserCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        createMany: {
+          args: Prisma.UserCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
+        }
+        delete: {
+          args: Prisma.UserDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        update: {
+          args: Prisma.UserUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        aggregate: {
+          args: Prisma.UserAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUser>
+        }
+        groupBy: {
+          args: Prisma.UserGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
         }
       }
     }
@@ -704,80 +778,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    VoucherBaskets: {
-      payload: Prisma.$VoucherBasketsPayload<ExtArgs>
-      fields: Prisma.VoucherBasketsFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.VoucherBasketsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.VoucherBasketsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload>
-        }
-        findFirst: {
-          args: Prisma.VoucherBasketsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.VoucherBasketsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload>
-        }
-        findMany: {
-          args: Prisma.VoucherBasketsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload>[]
-        }
-        create: {
-          args: Prisma.VoucherBasketsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload>
-        }
-        createMany: {
-          args: Prisma.VoucherBasketsCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.VoucherBasketsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload>[]
-        }
-        delete: {
-          args: Prisma.VoucherBasketsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload>
-        }
-        update: {
-          args: Prisma.VoucherBasketsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload>
-        }
-        deleteMany: {
-          args: Prisma.VoucherBasketsDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.VoucherBasketsUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.VoucherBasketsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload>[]
-        }
-        upsert: {
-          args: Prisma.VoucherBasketsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VoucherBasketsPayload>
-        }
-        aggregate: {
-          args: Prisma.VoucherBasketsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateVoucherBaskets>
-        }
-        groupBy: {
-          args: Prisma.VoucherBasketsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.VoucherBasketsGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.VoucherBasketsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.VoucherBasketsCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -827,12 +827,26 @@ export const ConfigGeralScalarFieldEnum = {
 export type ConfigGeralScalarFieldEnum = (typeof ConfigGeralScalarFieldEnum)[keyof typeof ConfigGeralScalarFieldEnum]
 
 
+export const UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  tribo: 'tribo',
+  ministry: 'ministry',
+  cargo: 'cargo'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
 export const GCScalarFieldEnum = {
   id: 'id',
   name: 'name',
   avatar: 'avatar',
   type: 'type',
-  tribo: 'tribo'
+  tribo: 'tribo',
+  ministry: 'ministry'
 } as const
 
 export type GCScalarFieldEnum = (typeof GCScalarFieldEnum)[keyof typeof GCScalarFieldEnum]
@@ -860,16 +874,6 @@ export const ApplicationsFixedScalarFieldEnum = {
 } as const
 
 export type ApplicationsFixedScalarFieldEnum = (typeof ApplicationsFixedScalarFieldEnum)[keyof typeof ApplicationsFixedScalarFieldEnum]
-
-
-export const VoucherBasketsScalarFieldEnum = {
-  id: 'id',
-  applicationsFixedId: 'applicationsFixedId',
-  voucher: 'voucher',
-  price: 'price'
-} as const
-
-export type VoucherBasketsScalarFieldEnum = (typeof VoucherBasketsScalarFieldEnum)[keyof typeof VoucherBasketsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -948,6 +952,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Cargo'
+ */
+export type EnumCargoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Cargo'>
+    
+
+
+/**
+ * Reference to a field of type 'Cargo[]'
+ */
+export type ListEnumCargoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Cargo[]'>
     
 
 
@@ -1060,10 +1078,10 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   configGeral?: Prisma.ConfigGeralOmit
+  user?: Prisma.UserOmit
   gC?: Prisma.GCOmit
   applicationsDailys?: Prisma.ApplicationsDailysOmit
   applicationsFixed?: Prisma.ApplicationsFixedOmit
-  voucherBaskets?: Prisma.VoucherBasketsOmit
 }
 
 /* Types for Logging */

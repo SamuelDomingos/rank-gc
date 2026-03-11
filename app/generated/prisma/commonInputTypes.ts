@@ -112,6 +112,23 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumCargoFilter<$PrismaModel = never> = {
+  equals?: $Enums.Cargo | Prisma.EnumCargoFieldRefInput<$PrismaModel>
+  in?: $Enums.Cargo[] | Prisma.ListEnumCargoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Cargo[] | Prisma.ListEnumCargoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCargoFilter<$PrismaModel> | $Enums.Cargo
+}
+
+export type EnumCargoWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Cargo | Prisma.EnumCargoFieldRefInput<$PrismaModel>
+  in?: $Enums.Cargo[] | Prisma.ListEnumCargoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Cargo[] | Prisma.ListEnumCargoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCargoWithAggregatesFilter<$PrismaModel> | $Enums.Cargo
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCargoFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCargoFilter<$PrismaModel>
+}
+
 export type StringNullableFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
@@ -282,6 +299,23 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumCargoFilter<$PrismaModel = never> = {
+  equals?: $Enums.Cargo | Prisma.EnumCargoFieldRefInput<$PrismaModel>
+  in?: $Enums.Cargo[] | Prisma.ListEnumCargoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Cargo[] | Prisma.ListEnumCargoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCargoFilter<$PrismaModel> | $Enums.Cargo
+}
+
+export type NestedEnumCargoWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Cargo | Prisma.EnumCargoFieldRefInput<$PrismaModel>
+  in?: $Enums.Cargo[] | Prisma.ListEnumCargoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Cargo[] | Prisma.ListEnumCargoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCargoWithAggregatesFilter<$PrismaModel> | $Enums.Cargo
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCargoFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCargoFilter<$PrismaModel>
 }
 
 export type NestedStringNullableFilter<$PrismaModel = never> = {

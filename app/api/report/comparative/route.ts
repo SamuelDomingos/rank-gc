@@ -1,11 +1,11 @@
-"use server";
-
 import { NextRequest, NextResponse } from "next/server";
 import { ReportService } from "../services/index.service";
 
 export async function GET(request: NextRequest) {
   try {
-    const currentMonth = Number(request.nextUrl.searchParams.get("currentMonth"));
+    const currentMonth = Number(
+      request.nextUrl.searchParams.get("currentMonth"),
+    );
     const currentYear = Number(request.nextUrl.searchParams.get("currentYear"));
     const previousMonth = Number(
       request.nextUrl.searchParams.get("previousMonth"),
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       currentYear,
       previousMonth,
       previousYear,
-      tribo!
+      tribo!,
     );
     return NextResponse.json(summary);
   } catch (erro) {

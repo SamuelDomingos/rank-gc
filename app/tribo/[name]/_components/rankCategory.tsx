@@ -4,9 +4,9 @@ import { RiMedalFill } from "@remixicon/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CategoryRankings } from "@/lib/api/types";
 import { mapCategoryLabel } from "@/lib/utils";
+import { medalColors } from "../_utils/utilsRank";
 
 const RankCategory = ({ dados }: { dados?: CategoryRankings | null }) => {
-  const medalColors = ["text-yellow-500", "text-gray-400", "text-orange-600"];
 
   return (
     <div className="space-y-6">

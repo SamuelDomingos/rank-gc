@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function formatDate(dateIso: Date): string {
@@ -30,7 +30,6 @@ export function presenceLabel(field: string): string {
   }
 }
 
-
 export function mapCategoryLabel(category: string): string {
   switch (category) {
     case "FoodBaskets":
@@ -49,18 +48,24 @@ export function mapCategoryLabel(category: string): string {
 }
 
 export function formatCurrency(value: number | string) {
-  const numberValue = typeof value === "string"
-    ? Number(value)
-    : value
+  const numberValue = typeof value === "string" ? Number(value) : value;
 
-  if (!numberValue) return "R$ 0,00"
+  if (!numberValue) return "R$ 0,00";
 
   return numberValue.toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
-  })
+  });
 }
 
 export function currencyToNumber(value: string) {
-  return Number(value.replace(/\D/g, "")) / 100
+  return Number(value.replace(/\D/g, "")) / 100;
 }
+
+export const tribos = [
+  { id: 1, name: "hope", image: "/tribos/hope.jpeg", ministerio: "School" },
+  { id: 2, name: "sent", image: "/tribos/sent.jpeg", ministerio: "School" },
+  { id: 3, name: "hazak", image: "/tribos/hazak.jpeg", ministerio: "School" },
+  { id: 4, name: "blast", image: "/tribos/blast.jpg", ministerio: "JR" },
+  { id: 5, name: "shomer", image: "/tribos/shomer.jpg", ministerio: "JR" },
+];
