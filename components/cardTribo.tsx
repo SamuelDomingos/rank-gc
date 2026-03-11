@@ -11,6 +11,7 @@ const CardTribo = ({
     React.SetStateAction<(typeof tribos)[number] | null>
   >;
 }) => {
+  
   return (
     <div
       className="flex flex-col items-center cursor-pointer"

@@ -66,6 +66,6 @@ export const tribos = [
   { id: 1, name: "hope", image: "/tribos/hope.jpeg", ministerio: "School" },
   { id: 2, name: "sent", image: "/tribos/sent.jpeg", ministerio: "School" },
   { id: 3, name: "hazak", image: "/tribos/hazak.jpeg", ministerio: "School" },
-  { id: 4, name: "blast", image: "/tribos/blast.jpg", ministerio: "JR" },
-  { id: 5, name: "shomer", image: "/tribos/shomer.jpg", ministerio: "JR" },
+  { id: 4, name: "blast", image: "/tribos/blast.jpeg", ministerio: "JR" },
+  { id: 5, name: "shomer", image: "/tribos/shomer.jpeg", ministerio: "JR" },
 ];
