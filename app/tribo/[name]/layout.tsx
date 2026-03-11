@@ -18,7 +18,7 @@ export default async function TriboLayout({
     redirect("/");
   }
 
-  if (session.user.triboSlug !== name) {
+  if (session.user.triboSlug !== name && session.user.cargo !== "ADMIN") {
     redirect("/");
   }
 

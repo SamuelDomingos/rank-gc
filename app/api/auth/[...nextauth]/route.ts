@@ -2,13 +2,13 @@ import NextAuth, { NextAuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/prisma";
-import { User } from "@/app/generated/prisma/client";
 
 declare module "next-auth" {
   interface Session {
     user: DefaultSession["user"] & {
       id: string;
       triboSlug: string;
+      cargo: string;
     };
   }
 }
@@ -17,6 +17,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string;
     triboSlug: string;
+    cargo: string;
   }
 }
 
@@ -68,6 +69,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           email: user.email,
           triboSlug: user.tribo?.toLowerCase() || "",
+          cargo: user.cargo,
         };
       },
     }),
@@ -78,6 +80,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.triboSlug = (user as any).triboSlug?.toLowerCase() || "";
+        token.cargo = (user as any).cargo || "";
       }
       return token;
     },
@@ -85,6 +88,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       session.user.id = token.id;
       session.user.triboSlug = token.triboSlug;
+      session.user.cargo = token.cargo;
       return session;
     },
   },
