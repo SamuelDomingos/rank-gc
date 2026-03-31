@@ -58,6 +58,17 @@ export function formatCurrency(value: number | string) {
   });
 }
 
+export const formatValue = (
+  value: number | string,
+  isPercentage: boolean = false,
+  isCurrency: boolean = false,
+) => {
+  if (isCurrency) return formatCurrency(Number(value));
+  if (isPercentage)
+    return `${typeof value === "string" ? value : value.toFixed(1)}%`;
+  return value.toString();
+};
+
 export function currencyToNumber(value: string) {
   return Number(value.replace(/\D/g, "")) / 100;
 }

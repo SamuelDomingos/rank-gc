@@ -19,28 +19,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+
+import { formatCurrency, formatValue } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { DatePicker } from "@/components/ui/date-picker";
-import { ArrowUp, ArrowDown, Download } from "lucide-react";
-import { useComparative } from "@/app/tribo/[name]/_hooks/useReports";
-import { useDate } from "@/context/DateContext";
-import { Spinner } from "@/components/ui/spinner";
-import {
-  copyToWhatsApp,
-  exportAsExcel,
-  exportAsPDF,
-} from "./services/export.service";
-import { useParams } from "next/navigation";
-import { formatCurrency } from "@/lib/utils";
+import { ArrowDown, ArrowUp } from "lucide-react";
 
 interface GCWithMetrics {
   id: string;
@@ -74,18 +56,13 @@ interface GCWithMetrics {
   };
 }
 
-const formatValue = (
-  value: number | string,
-  isPercentage: boolean = false,
-  isCurrency: boolean = false,
-) => {
-  if (isCurrency) return formatCurrency(Number(value));
-  if (isPercentage)
-    return `${typeof value === "string" ? value : value.toFixed(1)}%`;
-  return value.toString();
-};
-
-const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
+export const GcSection = ({
+  tipo,
+  gc,
+}: {
+  tipo: string;
+  gc: GCWithMetrics[];
+}) => (
   <Card>
     <CardHeader>
       <CardTitle>gc {tipo}</CardTitle>
@@ -225,85 +202,3 @@ const GcSection = ({ tipo, gc }: { tipo: string; gc: GCWithMetrics[] }) => (
     </CardContent>
   </Card>
 );
-
-const Comparative = () => {
-  const params = useParams();
-  const tribo = params.name as string;
-
-  const currentDate = new Date();
-  const [previousMonth, setPreviousMonth] = useState(
-    currentDate.getMonth() - 1,
-  );
-  const [previousYear, setPreviousYear] = useState(
-    currentDate.getMonth() === 0
-      ? currentDate.getFullYear() - 1
-      : currentDate.getFullYear(),
-  );
-
-  const { month: currentMonth, year: currentYear } = useDate();
-
-  const { data: gcsData, isLoading } = useComparative(
-    previousMonth,
-    previousYear,
-    currentMonth,
-    currentYear,
-    tribo,
-  );
-
-  if (isLoading) {
-    return (
-      <div className="w-full max-w-6xl mx-auto p-6">
-        <Spinner />
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full max-w-6xl mx-auto p-6 space-y-6">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Análise Comparativa</h1>
-
-        <div className="flex items-center gap-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="default" className="flex items-center gap-2">
-                <Download className="mr-2" />
-                Exportar
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => gcsData && exportAsPDF(gcsData)}>
-                PDF
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => gcsData && exportAsExcel(gcsData)}
-              >
-                Excel
-              </DropdownMenuItem>
-              <Separator />
-              <DropdownMenuItem
-                onClick={() => gcsData && copyToWhatsApp(gcsData)}
-              >
-                Copiar
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <DatePicker
-            month={previousMonth}
-            year={previousYear}
-            onMonthChange={setPreviousMonth}
-            onYearChange={setPreviousYear}
-          />
-        </div>
-      </div>
-
-      <div className="space-y-6">
-        <GcSection tipo="Masculinos" gc={gcsData?.masculine || []} />
-        <GcSection tipo="Femininos" gc={gcsData?.feminine || []} />
-      </div>
-    </div>
-  );
-};
-
-export default Comparative;

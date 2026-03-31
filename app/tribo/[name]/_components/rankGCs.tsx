@@ -51,7 +51,6 @@ const RankGCs = ({
   dados?: GCRanking[] | null;
   month: number;
 }) => {
-
   const { fetchDelGc } = useDeleteGc();
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
 
@@ -192,7 +191,7 @@ const RankGCs = ({
                                 Você poderá alterar esses dados depois.
                               </DialogDescription>
                             </DialogHeader>
-                            <FormRegisterBaskets gcId={gc.id}/>
+                            <FormRegisterBaskets gcId={gc.id} />
                           </TabsContent>
                         </Tabs>
                       </div>

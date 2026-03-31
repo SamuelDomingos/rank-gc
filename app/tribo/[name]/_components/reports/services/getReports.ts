@@ -6,8 +6,61 @@ import {
 import prisma from "@/lib/prisma";
 import { unstable_cache } from "next/cache";
 
+export type DashboardStats = {
+  totalGcs: number;
+  totalMembers: number;
+  totalamountCollected: number;
+  totalVisitors: number;
+  membersServing: number;
+};
+
+export type ComparativeData = {
+  masculine: {
+    id: string;
+    gc: string;
+    metrics: {
+      amountCollected: {
+        current: number;
+        previous: number;
+        comparative: number;
+      };
+      visitors: { current: number; previous: number; comparative: number };
+      gcAttendance: { current: string; previous: string; comparative: number };
+      serviceAttendance: {
+        current: string;
+        previous: string;
+        comparative: number;
+      };
+      serving: { current: string; previous: string; comparative: number };
+    };
+  }[];
+  feminine: {
+    id: string;
+    gc: string;
+    metrics: {
+      amountCollected: {
+        current: number;
+        previous: number;
+        comparative: number;
+      };
+      visitors: { current: number; previous: number; comparative: number };
+      gcAttendance: { current: string; previous: string; comparative: number };
+      serviceAttendance: {
+        current: string;
+        previous: string;
+        comparative: number;
+      };
+      serving: { current: string; previous: string; comparative: number };
+    };
+  }[];
+};
+
 export const ReportService = {
-  async getDashboardStats(month: number, year: number, tribo: string) {
+  async getDashboardStats(
+    month: number,
+    year: number,
+    tribo: string,
+  ): Promise<DashboardStats> {
     return unstable_cache(
       async () => {
         const startDate = new Date(year, month - 1, 1);
@@ -62,7 +115,7 @@ export const ReportService = {
     previousMonth: number,
     previousYear: number,
     tribo: string,
-  ) {
+  ): Promise<ComparativeData> {
     return unstable_cache(
       async () => {
         const currentStart = new Date(currentYear, currentMonth - 1, 1);

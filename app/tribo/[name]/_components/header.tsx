@@ -16,16 +16,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DatePicker } from "../../../../components/ui/date-picker";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { LogOut, Plus } from "lucide-react";
 import FormGc from "./forms/formGc";
 import { useState } from "react";
+import { ModeToggle } from "./modeToggle";
+import { signOut } from "next-auth/react";
 import Reports from "./reports";
 
-export const Header = () => {
+export const Header = ({ name }: { name: string }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [ísReportDialogOpen, setIsReportDialogOpen] = useState(false);
+  const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
 
   const typesPoints = [
     {
@@ -57,6 +59,18 @@ export const Header = () => {
 
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <ModeToggle />
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => signOut()}
+          className="text-muted-foreground"
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Sair
+        </Button>
+      </div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-2xl font-semibold">Ranking dos GCs</h2>
 
@@ -82,23 +96,7 @@ export const Header = () => {
               </DialogContent>
             </Dialog>
 
-            <Dialog
-              open={ísReportDialogOpen}
-              onOpenChange={setIsReportDialogOpen}
-            >
-              <DialogTrigger asChild>
-                <Button variant="secondary">Relatórios</Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-7xl! max-h-[90vh]! overflow-auto no-scrollbar">
-                <DialogHeader>
-                  <DialogTitle>Relatorio</DialogTitle>
-                  <DialogDescription>
-                    Visualize os relatórios de desempenho dos gcs de conexão.
-                  </DialogDescription>
-                </DialogHeader>
-                <Reports />
-              </DialogContent>
-            </Dialog>
+            <Reports isReportDialogOpen={isReportDialogOpen} setIsReportDialogOpen={setIsReportDialogOpen}  />
           </ButtonGroup>
         </div>
       </div>
@@ -114,12 +112,12 @@ export const Header = () => {
         </CardHeader>
         <CardContent
           className="
-    grid gap-4
-    grid-cols-1
-    sm:grid-cols-2
-    md:grid-cols-3
-    lg:grid-cols-5
-  "
+            grid gap-4
+            grid-cols-1
+            sm:grid-cols-2
+            md:grid-cols-3
+            lg:grid-cols-5
+          "
         >
           {typesPoints.map((item) => (
             <Card

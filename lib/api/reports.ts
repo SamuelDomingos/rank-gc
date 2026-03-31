@@ -1,7 +1,51 @@
-import {
-  ComparativeData,
-  DashboardStats,
-} from "@/app/api/report/services/index.service";
+type DashboardStats = {
+  totalGcs: number;
+  totalMembers: number;
+  totalamountCollected: number;
+  totalVisitors: number;
+  membersServing: number;
+};
+
+type ComparativeData = {
+  masculine: {
+    id: string;
+    gc: string;
+    metrics: {
+      amountCollected: {
+        current: number;
+        previous: number;
+        comparative: number;
+      };
+      visitors: { current: number; previous: number; comparative: number };
+      gcAttendance: { current: string; previous: string; comparative: number };
+      serviceAttendance: {
+        current: string;
+        previous: string;
+        comparative: number;
+      };
+      serving: { current: string; previous: string; comparative: number };
+    };
+  }[];
+  feminine: {
+    id: string;
+    gc: string;
+    metrics: {
+      amountCollected: {
+        current: number;
+        previous: number;
+        comparative: number;
+      };
+      visitors: { current: number; previous: number; comparative: number };
+      gcAttendance: { current: string; previous: string; comparative: number };
+      serviceAttendance: {
+        current: string;
+        previous: string;
+        comparative: number;
+      };
+      serving: { current: string; previous: string; comparative: number };
+    };
+  }[];
+};
 
 export const getDashboardStats = async (
   month: number,

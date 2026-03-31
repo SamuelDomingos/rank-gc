@@ -1,44 +1,32 @@
-"use client";
-
-import { use } from "react";
-import GcMonth from "@/app/tribo/[name]/_components/gcMonth";
 import { Header } from "@/app/tribo/[name]/_components/header";
-import { ModeToggle } from "@/app/tribo/[name]/_components/modeToggle";
-import RankCategory from "@/app/tribo/[name]/_components/rankCategory";
-import RankGCs from "@/app/tribo/[name]/_components/rankGCs";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useGetGcs } from "./_hooks/useGcs";
-import { useDate } from "@/context/DateContext";
-import { Spinner } from "@/components/ui/spinner";
-import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
-import { LogOut } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import TabsGender from "./_components/tabsGender";
+import getGcs from "./_services/getGcs";
 
-export default function Page({
+export default async function Page({
   params,
+  searchParams,
 }: {
   params: Promise<{ name: string }>;
+  searchParams: Promise<{ month?: string; year?: string }>;
 }) {
-  const { name } = use(params);
+  const { name } = await params;
+  const { month: m, year: y } = await searchParams;
 
-  const { month, year } = useDate();
-  const { data, isLoading } = useGetGcs(month, year, name);
+  const month = Number(m) || new Date().getMonth() + 1;
+  const year = Number(y) || new Date().getFullYear();
+
+  const result = await getGcs(month, year, name);
+
+  if (!result.success || !result.data) {
+    return <div>Erro ao carregar dados.</div>;
+  }
+
+  const { data } = result;
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <ModeToggle />
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => signOut()}
-          className="text-muted-foreground"
-        >
-          <LogOut className="w-4 h-4 mr-2" />
-          Sair
-        </Button>
-      </div>
-      <Header />
+      <Header name={name} />
       <Tabs defaultValue="masculine">
         <TabsList>
           <TabsTrigger
@@ -54,28 +42,7 @@ export default function Page({
             feminino
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="masculine" className="space-y-6 mt-6">
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <div>
-              <GcMonth dados={data?.masculine.gcOfTheMonth} />
-              <RankGCs dados={data?.masculine.ranking} month={month} />
-              <RankCategory dados={data?.masculine.categoryRankings} />
-            </div>
-          )}
-        </TabsContent>
-        <TabsContent value="feminine" className="space-y-6 mt-6">
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <div>
-              <GcMonth dados={data?.feminine.gcOfTheMonth} />
-              <RankGCs dados={data?.feminine.ranking} month={month} />
-              <RankCategory dados={data?.feminine.categoryRankings} />
-            </div>
-          )}
-        </TabsContent>
+        <TabsGender data={data} month={month} />
       </Tabs>
     </div>
   );

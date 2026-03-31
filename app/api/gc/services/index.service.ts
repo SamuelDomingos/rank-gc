@@ -1,10 +1,6 @@
 import prisma from "@/lib/prisma";
 import { z } from "zod";
 
-import {
-  generateCategoryRankings,
-  processGCWithRanking,
-} from "./calcRank.service";
 import { handleAvatarUpload } from "./avatarUpload.service";
 import {
   ApplicationsDailys,
@@ -13,6 +9,10 @@ import {
 } from "@/app/generated/prisma/client";
 
 import { revalidateTag, unstable_cache } from "next/cache";
+import {
+  generateCategoryRankings,
+  processGCWithRanking,
+} from "@/services/calcRank";
 
 const GCSchema = z.object({
   name: z.string().min(2).max(50),

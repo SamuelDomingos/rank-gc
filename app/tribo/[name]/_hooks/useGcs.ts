@@ -1,6 +1,5 @@
 import { useFetch } from "@/hooks/useFetch";
-import { createdGC, deleteGc, getGcsAll, updateGC } from "@/lib/api/gcs";
-import { useMemo } from "react";
+import { createdGC, deleteGc, updateGC } from "@/lib/api/gcs";
 
 export const useCreatedGcs = () => {
     const {
@@ -37,31 +36,6 @@ export const useUpdateGcs = () => {
     return {
         updateData,
         data,
-        isLoading,
-        error,
-    };
-};
-
-export const useGetGcs = (month: number, year: number, tribo: string) => {
-    const fetchOptions = useMemo(
-        () => ({
-            auto: true,
-            defaultArgs: [month, year, tribo],
-        }),
-        [month, year, tribo]
-    );
-
-    const {
-        execute: getData,
-        data,
-        isLoading,
-        error,
-    } = useFetch(getGcsAll, fetchOptions);
-
-
-    return {
-        getData,
-        data: data?.success ? data.data : undefined,
         isLoading,
         error,
     };

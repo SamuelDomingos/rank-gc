@@ -15,7 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDate } from "@/context/DateContext";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const months = [
   "Janeiro",
@@ -50,6 +51,21 @@ export function DatePicker({
   className = "w-48",
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const updateURL = (newMonth: number, newYear: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set("month", newMonth.toString());
+    params.set("year", newYear.toString());
+
+    startTransition(() => {
+      router.replace(`?${params.toString()}`);
+    });
+  };
 
   const contextDate = useDate();
   const month =
@@ -80,21 +96,35 @@ export function DatePicker({
   const years = Array.from({ length: 10 }, (_, i) => currentYear - 5 + i);
 
   const handlePreviousMonth = () => {
+    let newMonth = month;
+    let newYear = year;
+
     if (month === 1) {
-      setMonth?.(12);
-      setYear?.(year - 1);
+      newMonth = 12;
+      newYear = year - 1;
     } else {
-      setMonth?.(month - 1);
+      newMonth = month - 1;
     }
+
+    setMonth?.(newMonth);
+    setYear?.(newYear);
+    updateURL(newMonth, newYear);
   };
 
   const handleNextMonth = () => {
+    let newMonth = month;
+    let newYear = year;
+
     if (month === 12) {
-      setMonth?.(1);
-      setYear?.(year + 1);
+      newMonth = 1;
+      newYear = year + 1;
     } else {
-      setMonth?.(month + 1);
+      newMonth = month + 1;
     }
+
+    setMonth?.(newMonth);
+    setYear?.(newYear);
+    updateURL(newMonth, newYear);
   };
 
   return (
@@ -122,7 +152,11 @@ export function DatePicker({
             <div className="flex gap-2">
               <Select
                 value={month.toString()}
-                onValueChange={(value) => setMonth?.(Number(value))}
+                onValueChange={(value) => {
+                  const newMonth = Number(value);
+                  setMonth?.(newMonth);
+                  updateURL(newMonth, year);
+                }}
               >
                 <SelectTrigger className="w-32">
                   <SelectValue />
@@ -138,7 +172,11 @@ export function DatePicker({
 
               <Select
                 value={year.toString()}
-                onValueChange={(value) => setYear?.(Number(value))}
+                onValueChange={(value) => {
+                  const newYear = Number(value);
+                  setYear?.(newYear);
+                  updateURL(month, newYear);
+                }}
               >
                 <SelectTrigger className="w-24">
                   <SelectValue />

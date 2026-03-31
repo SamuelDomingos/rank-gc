@@ -33,7 +33,6 @@ import { useDate } from "@/context/DateContext";
 import { formatDate, presenceLabel } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 import { RiMoreLine } from "@remixicon/react";
-import { Separator } from "@/components/ui/separator";
 
 const ListRegisters = ({ id }: { id: string }) => {
 
@@ -77,10 +76,6 @@ const ListRegisters = ({ id }: { id: string }) => {
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>
-                                                Editar
-                                            </DropdownMenuItem>
-                                            <Separator />
                                             <AlertDialog>
                                                 <AlertDialogTrigger asChild>
                                                     <DropdownMenuItem variant="destructive" onSelect={(e) => e.preventDefault()}>
