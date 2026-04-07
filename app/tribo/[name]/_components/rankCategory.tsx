@@ -7,7 +7,6 @@ import { mapCategoryLabel } from "@/lib/utils";
 import { medalColors } from "../_utils/utilsRank";
 
 const RankCategory = ({ dados }: { dados?: CategoryRankings | null }) => {
-
   return (
     <div className="space-y-6">
       {dados?.map((category) => (

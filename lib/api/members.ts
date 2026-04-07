@@ -29,10 +29,3 @@ export const delUser = async (id: string) => {
 
   return response.json();
 };
-
-export const getMembers = async () => {
-  const response = await fetch(`/api/auth/members`, {
-    method: "GET",
-  });
-  return response.json();
-};

@@ -51,31 +51,7 @@ const MembersServices = () => {
     return NextResponse.json({ user }, { status: 201 });
   };
 
-  const get = async () => {
-    const session = await getServerSession(authOptions);
-
-    // if (!session) {
-    //   return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
-    // }
-
-    const members = await prisma.user.findMany();
-
-    return NextResponse.json(members, { status: 200 });
-  };
-
-  const delUser = async (id: string) => {
-    const session = await getServerSession(authOptions);
-
-    // if (!session) {
-    //   return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
-    // }
-
-    await prisma.user.delete({ where: { id } });
-
-    return NextResponse.json({ message: "Membro deletado" }, { status: 200 });
-  };
-
-  return { post, get, delUser };
+  return { post };
 };
 
 export default MembersServices;

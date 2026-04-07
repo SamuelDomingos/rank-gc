@@ -1,9 +1,9 @@
-"use client"
+
 
 import { TabsContent } from "@/components/ui/tabs";
 import GcMonth from "./gcMonth";
-import RankGCs from "./rankGCs";
 import RankCategory from "./rankCategory";
+import RankGCs from "./rankGC";
 
 const TabsGender = ({
   data,

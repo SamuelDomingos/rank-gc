@@ -1,7 +1,6 @@
 import { useFetch } from "@/hooks/useFetch";
-import { createMember, delUser, getMembers } from "@/lib/api/members";
+import { createMember, delUser } from "@/lib/api/members";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { createUserSchema } from "../_schema/formSchema";
@@ -40,30 +39,6 @@ export const useCreatedMember = () => {
   return {
     form,
     onSubmit,
-    isLoading,
-    error,
-  };
-};
-
-export const useGetMembers = () => {
-  const fetchOptions = useMemo(
-    () => ({
-      auto: true,
-      defaultArgs: [],
-    }),
-    [],
-  );
-
-  const {
-    execute: getData,
-    data,
-    isLoading,
-    error,
-  } = useFetch(getMembers, fetchOptions);
-
-  return {
-    getData,
-    data,
     isLoading,
     error,
   };

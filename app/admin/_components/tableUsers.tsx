@@ -1,7 +1,6 @@
 import { User } from "@/app/generated/prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,23 +10,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { tribos } from "@/lib/utils";
-import { Trash2Icon } from "lucide-react";
-import { useDeleteMember } from "../_hooks/useAdmin";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogMedia,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import DeleteUser from "./deleteUser";
 
-const TableUsers = ({ users }: { users: User[] }) => {
-  const { fetchDelMember } = useDeleteMember();
+const TableUsers = async ({ users }: { users: User[] }) => {
   return (
     <div className="rounded-lg border bg-card overflow-hidden">
       <Table>
@@ -68,7 +53,10 @@ const TableUsers = ({ users }: { users: User[] }) => {
                       <AvatarImage
                         src={
                           user.tribo
-                            ? tribos.find((t) => t.name === user.tribo.toLocaleLowerCase())?.image
+                            ? tribos.find(
+                                (t) =>
+                                  t.name === user.tribo.toLocaleLowerCase(),
+                              )?.image
                             : "?"
                         }
                         alt={user.name}
@@ -76,14 +64,19 @@ const TableUsers = ({ users }: { users: User[] }) => {
                       <AvatarFallback className="text-xs font-semibold">
                         {user.tribo
                           ? tribos
-                              .find((t) => t.name === user.tribo.toLocaleLowerCase())
+                              .find(
+                                (t) =>
+                                  t.name === user.tribo.toLocaleLowerCase(),
+                              )
                               ?.name.charAt(0)
                           : "?"}
                       </AvatarFallback>
                     </Avatar>
                     <span className="ml-2 text-sm">
                       {user.tribo
-                        ? tribos.find((t) => t.name === user.tribo.toLocaleLowerCase())?.name
+                        ? tribos.find(
+                            (t) => t.name === user.tribo.toLocaleLowerCase(),
+                          )?.name
                         : "Sem tribo"}
                     </span>
                   </div>
@@ -96,35 +89,7 @@ const TableUsers = ({ users }: { users: User[] }) => {
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="destructive" size="sm">
-                        <Trash2Icon />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-                          <Trash2Icon />
-                        </AlertDialogMedia>
-                        <AlertDialogTitle>
-                          Deseja realmente deletar o usuário {user.name}?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Essa ação não pode ser desfeita.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={() => fetchDelMember(user.id)}
-                          variant="destructive"
-                        >
-                          Deletar
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                  <DeleteUser user={user} />
                 </TableCell>
               </TableRow>
             ))

@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
-import { unstable_cache } from "next/cache";
-import { generateCategoryRankings, processGCWithRanking } from "../../../../services/calcRank";
+import { generateCategoryRankings, processGCWithRanking } from "@/services/calcRank";
 import { ApplicationsDailys, ApplicationsFixed, GC } from "@/app/generated/prisma/client";
 
 const fetchGcs = async (month: number, year: number, tribo: string) => {
