@@ -3,8 +3,10 @@ import { useGetRoadsGc, useRegisterRoad } from "../useRegisterRoad";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { formRegisterAmountCollected } from "../../_schema/formShemas";
-import { ApplicationsFixedCreateManyInput } from "@/app/generated/prisma/models";
-import { UpdateRoadPayload } from "@/lib/api/registersRoad";
+import {
+  ApplicationsFixedCreateManyInput,
+  ApplicationsFixedUpdateInput,
+} from "@/app/generated/prisma/models";
 import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -27,7 +29,12 @@ const useFormRegisterAmountCollected = (gcId: string) => {
   const handleSubmit = async (
     values: z.infer<typeof formRegisterAmountCollected>,
   ) => {
-    const payload: ApplicationsFixedCreateManyInput | UpdateRoadPayload =
+    const payload:
+      | ApplicationsFixedCreateManyInput
+      | {
+          id: string;
+          data: ApplicationsFixedUpdateInput;
+        } =
       mode === "update"
         ? {
             id: data!.id,

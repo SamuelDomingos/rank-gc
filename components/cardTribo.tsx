@@ -1,4 +1,5 @@
-import { tribos } from "@/lib/utils";
+
+import { tribos } from "@/constants";
 import Image from "next/image";
 import React from "react";
 

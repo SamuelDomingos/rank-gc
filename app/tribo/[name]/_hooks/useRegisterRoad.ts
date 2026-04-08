@@ -1,10 +1,12 @@
-import { ApplicationsFixedCreateManyInput } from "@/app/generated/prisma/models";
+import {
+  ApplicationsFixedCreateManyInput,
+  ApplicationsFixedUpdateInput,
+} from "@/app/generated/prisma/models";
 import { useFetch } from "@/hooks/useFetch";
 import {
   getRoadGc,
   registerRoadGC,
   updateRoadGC,
-  UpdateRoadPayload,
 } from "@/lib/api/registersRoad";
 import { useMemo } from "react";
 
@@ -12,7 +14,10 @@ type RoadAction =
   | ((
       data: ApplicationsFixedCreateManyInput,
     ) => Promise<ApplicationsFixedCreateManyInput>)
-  | ((data: UpdateRoadPayload) => Promise<unknown>);
+  | ((data: {
+      id: string;
+      data: ApplicationsFixedUpdateInput;
+    }) => Promise<unknown>);
 
 export const useRegisterRoad = (mode: "create" | "update") => {
   const action: RoadAction = mode === "create" ? registerRoadGC : updateRoadGC;
