@@ -40,6 +40,7 @@ interface DatePickerProps {
   onYearChange?: (year: number) => void;
   useContext?: boolean;
   className?: string;
+  updateUrl?: boolean;
 }
 
 export function DatePicker({
@@ -49,9 +50,11 @@ export function DatePicker({
   onYearChange,
   useContext: useContextMode = true,
   className = "w-48",
+  updateUrl,
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const shouldUpdateUrl = updateUrl ?? useContextMode;
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -108,7 +111,7 @@ export function DatePicker({
 
     setMonth?.(newMonth);
     setYear?.(newYear);
-    updateURL(newMonth, newYear);
+    if (shouldUpdateUrl) updateURL(newMonth, newYear);
   };
 
   const handleNextMonth = () => {
@@ -124,7 +127,7 @@ export function DatePicker({
 
     setMonth?.(newMonth);
     setYear?.(newYear);
-    updateURL(newMonth, newYear);
+    if (shouldUpdateUrl) updateURL(newMonth, newYear);
   };
 
   return (
@@ -155,7 +158,7 @@ export function DatePicker({
                 onValueChange={(value) => {
                   const newMonth = Number(value);
                   setMonth?.(newMonth);
-                  updateURL(newMonth, year);
+                  if (useContextMode) updateURL(newMonth, year);
                 }}
               >
                 <SelectTrigger className="w-32">
@@ -175,7 +178,7 @@ export function DatePicker({
                 onValueChange={(value) => {
                   const newYear = Number(value);
                   setYear?.(newYear);
-                  updateURL(month, newYear);
+                  if (useContextMode) updateURL(month, newYear);
                 }}
               >
                 <SelectTrigger className="w-24">

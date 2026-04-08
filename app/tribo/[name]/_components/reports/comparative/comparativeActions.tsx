@@ -57,6 +57,7 @@ export const ComparativeActions = ({
         year={previousYear}
         onMonthChange={setPreviousMonth}
         onYearChange={setPreviousYear}
+        updateUrl={false}
       />
     </div>
   );
