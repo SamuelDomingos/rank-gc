@@ -9,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { tribos } from "@/lib/utils";
 import DeleteUser from "./deleteUser";
+import { tribos } from "@/constants";
 
 const TableUsers = async ({ users }: { users: User[] }) => {
   return (

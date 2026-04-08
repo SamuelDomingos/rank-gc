@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { createUserSchema } from "../_schema/formSchema";
-import { tribos } from "@/lib/utils";
+import { tribos } from "@/constants";
 
 export const useCreatedMember = () => {
   const form = useForm<z.infer<typeof createUserSchema>>({
