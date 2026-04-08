@@ -23,38 +23,7 @@ import {
 import { formatCurrency, formatValue } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ArrowDown, ArrowUp } from "lucide-react";
-
-interface GCWithMetrics {
-  id: string;
-  gc: string;
-  metrics: {
-    amountCollected: {
-      current: number | string;
-      previous: number | string;
-      comparative: number;
-    };
-    visitors: {
-      current: number | string;
-      previous: number | string;
-      comparative: number;
-    };
-    gcAttendance: {
-      current: number | string;
-      previous: number | string;
-      comparative: number;
-    };
-    serviceAttendance: {
-      current: number | string;
-      previous: number | string;
-      comparative: number;
-    };
-    serving: {
-      current: number | string;
-      previous: number | string;
-      comparative: number;
-    };
-  };
-}
+import { GCWithMetrics } from "@/lib/api/types/reports.types";
 
 export const GcSection = ({
   tipo,
@@ -77,123 +46,128 @@ export const GcSection = ({
         </p>
       ) : (
         <Accordion type="single" collapsible className="w-full space-y-2">
-          {gc.map((gc) => (
+          {gc.map((gcItem) => (
             <AccordionItem
-              key={gc.id}
-              value={`gc-${gc.id}`}
+              key={gcItem.id}
+              value={`gc-${gcItem.id}`}
               className="border rounded-lg px-4"
             >
               <AccordionTrigger className="hover:no-underline py-4">
-                <div className="flex items-center justify-between w-full gap-4">
-                  <div className="flex items-center gap-3">
-                    <div>
-                      <p className="font-semibold text-foreground">{gc.gc}</p>
-                    </div>
-                  </div>
+                <div className="flex items-center min-w-0">
+                  <p className="font-semibold text-foreground truncate">
+                    {gcItem.gc}
+                  </p>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="pt-4 pb-0">
-                <Table className="mt-4 border">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Métrica</TableHead>
-                      <TableHead>M. Passado</TableHead>
-                      <TableHead>M. Atual</TableHead>
-                      <TableHead>Comparativo</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {[
-                      {
-                        label: "Valor Arrecadado",
-                        key: "amountCollected",
-                        isPercentage: false,
-                        isCurrency: true,
-                      },
-                      {
-                        label: "Visitantes",
-                        key: "visitors",
-                        isPercentage: false,
-                        isCurrency: false,
-                      },
-                      {
-                        label: "Presença GC",
-                        key: "gcAttendance",
-                        isPercentage: true,
-                        isCurrency: false,
-                      },
-                      {
-                        label: "Presença Cultos",
-                        key: "serviceAttendance",
-                        isPercentage: true,
-                        isCurrency: false,
-                      },
-                      {
-                        label: "Servindo",
-                        key: "serving",
-                        isPercentage: true,
-                        isCurrency: false,
-                      },
-                    ].map((metric) => {
-                      const metricData =
-                        gc.metrics[metric.key as keyof typeof gc.metrics];
-                      const variance = metricData.comparative;
 
-                      return (
-                        <TableRow key={metric.key}>
-                          <TableCell>{metric.label}</TableCell>
-                          <TableCell>
-                            {formatValue(
-                              metricData.previous,
-                              metric.isPercentage,
-                              metric.isCurrency,
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            {formatValue(
-                              metricData.current,
-                              metric.isPercentage,
-                              metric.isCurrency,
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            {variance > 0 ? (
-                              <Badge
-                                variant="default"
-                                className="gap-1 flex items-center w-fit"
-                              >
-                                <ArrowUp className="w-3 h-3" />+
-                                {metric.isCurrency
-                                  ? formatCurrency(Math.abs(variance))
-                                  : Math.abs(variance).toFixed(
-                                      metric.isPercentage ? 1 : 0,
-                                    )}
-                                {metric.isPercentage && "%"}
-                              </Badge>
-                            ) : variance < 0 ? (
-                              <Badge
-                                variant="destructive"
-                                className="gap-1 flex items-center w-fit"
-                              >
-                                <ArrowDown className="w-3 h-3" />
-                                {metric.isCurrency
-                                  ? formatCurrency(variance)
-                                  : variance.toFixed(
-                                      metric.isPercentage ? 1 : 0,
-                                    )}
-                                {metric.isPercentage && "%"}
-                              </Badge>
-                            ) : (
-                              <Badge variant="secondary" className="text-xs">
-                                —
-                              </Badge>
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
+              <AccordionContent className="pt-4 pb-0">
+                <div className="overflow-x-auto">
+                  <Table className="mt-4 mb-4 border min-w-[480px]">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[140px]">Métrica</TableHead>
+                        <TableHead className="w-[110px]">M. Passado</TableHead>
+                        <TableHead className="w-[110px]">M. Atual</TableHead>
+                        <TableHead className="w-[120px]">Comparativo</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {[
+                        {
+                          label: "Valor Arrecadado",
+                          key: "amountCollected",
+                          isPercentage: false,
+                          isCurrency: true,
+                        },
+                        {
+                          label: "Visitantes",
+                          key: "visitors",
+                          isPercentage: false,
+                          isCurrency: false,
+                        },
+                        {
+                          label: "Presença GC",
+                          key: "gcAttendance",
+                          isPercentage: true,
+                          isCurrency: false,
+                        },
+                        {
+                          label: "Presença Cultos",
+                          key: "serviceAttendance",
+                          isPercentage: true,
+                          isCurrency: false,
+                        },
+                        {
+                          label: "Servindo",
+                          key: "serving",
+                          isPercentage: true,
+                          isCurrency: false,
+                        },
+                      ].map((metric) => {
+                        const metricData =
+                          gcItem.metrics[
+                            metric.key as keyof typeof gcItem.metrics
+                          ];
+                        const variance = metricData.comparative;
+
+                        return (
+                          <TableRow key={metric.key}>
+                            <TableCell className="font-medium">
+                              {metric.label}
+                            </TableCell>
+                            <TableCell>
+                              {formatValue(
+                                metricData.previous,
+                                metric.isPercentage,
+                                metric.isCurrency,
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              {formatValue(
+                                metricData.current,
+                                metric.isPercentage,
+                                metric.isCurrency,
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              {variance > 0 ? (
+                                <Badge
+                                  variant="default"
+                                  className="gap-1 flex items-center w-fit whitespace-nowrap"
+                                >
+                                  <ArrowUp className="w-3 h-3 shrink-0" />+
+                                  {metric.isCurrency
+                                    ? formatCurrency(Math.abs(variance))
+                                    : Math.abs(variance).toFixed(
+                                        metric.isPercentage ? 1 : 0,
+                                      )}
+                                  {metric.isPercentage && "%"}
+                                </Badge>
+                              ) : variance < 0 ? (
+                                <Badge
+                                  variant="destructive"
+                                  className="gap-1 flex items-center w-fit whitespace-nowrap"
+                                >
+                                  <ArrowDown className="w-3 h-3 shrink-0" />
+                                  {metric.isCurrency
+                                    ? formatCurrency(variance)
+                                    : variance.toFixed(
+                                        metric.isPercentage ? 1 : 0,
+                                      )}
+                                  {metric.isPercentage && "%"}
+                                </Badge>
+                              ) : (
+                                <Badge variant="secondary" className="text-xs">
+                                  —
+                                </Badge>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
               </AccordionContent>
             </AccordionItem>
           ))}

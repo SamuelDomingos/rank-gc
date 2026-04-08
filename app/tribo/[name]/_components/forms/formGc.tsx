@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/form";
 
 import { Plus } from "lucide-react";
-import { GC } from "@/app/generated/prisma/client";
 import useFormGC from "../../_hooks/forms/useFormGC";
+import { GCBase } from "@/services/types/rank";
 
 const FormGc = ({
   onSuccess,
@@ -23,7 +23,7 @@ const FormGc = ({
   isEditing = false,
 }: {
   onSuccess?: () => void;
-  gcData?: GC & { quantityMembers: number };
+  gcData?: GCBase;
   isEditing?: boolean;
 }) => {
   const {

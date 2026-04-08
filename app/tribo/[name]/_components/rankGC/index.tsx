@@ -1,11 +1,11 @@
-import { GCRanking } from "@/lib/api/types";
+import { GCBase } from "@/services/types/rank";
 import GcCard from "./gcCard";
 
 const RankGCs = ({
   dados,
   month,
 }: {
-  dados?: GCRanking[] | null;
+  dados?: GCBase[];
   month: number;
 }) => {
   return (

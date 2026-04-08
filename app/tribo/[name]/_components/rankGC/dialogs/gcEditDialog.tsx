@@ -10,16 +10,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { GCRanking } from "@/lib/api/types";
 import FormGc from "../../forms/formGc";
+import { GCBase } from "@/services/types/rank";
 
 const GcEditDialog = ({
   gc,
   dialogCloseRef,
 }: {
-  gc: GCRanking;
+  gc: GCBase;
   dialogCloseRef: RefObject<HTMLButtonElement | null>;
 }) => {
+
   return (
     <Dialog>
       <DialogTrigger asChild>

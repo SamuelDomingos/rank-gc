@@ -1,35 +1,16 @@
-"use client"
-
-import { useParams } from "next/navigation";
-import { ComparativeActions } from "./comparative-actions";
+import { ComparativeActions } from "./comparativeActions";
 import { GcSection } from "./gcSection";
-import { useState } from "react";
-import { useDate } from "@/context/DateContext";
 import { useComparative } from "../../../_hooks/useReports";
 
 const Comparative = () => {
-  const params = useParams();
-  const tribo = params.name as string;
-
-  const currentDate = new Date();
-  const [previousMonth, setPreviousMonth] = useState(
-    currentDate.getMonth() - 1,
-  );
-  const [previousYear, setPreviousYear] = useState(
-    currentDate.getMonth() === 0
-      ? currentDate.getFullYear() - 1
-      : currentDate.getFullYear(),
-  );
-
-  const { month: currentMonth, year: currentYear } = useDate();
-
-  const { data: gcsData } = useComparative(
+  
+  const {
+    data: gcsData,
     previousMonth,
     previousYear,
-    currentMonth,
-    currentYear,
-    tribo,
-  );
+    setPreviousMonth,
+    setPreviousYear,
+  } = useComparative();
 
   if (!gcsData) return null;
 

@@ -1,20 +1,11 @@
 import { ApplicationsFixed } from "@/app/generated/prisma/client";
 import {
-  ApplicationsFixedCreateInput,
   ApplicationsFixedCreateManyInput,
   ApplicationsFixedUpdateInput,
 } from "@/app/generated/prisma/models";
 
-type CreateRoadPayload = ApplicationsFixedCreateManyInput
-
-export type UpdateRoadPayload = {
-  id: string
-  data: ApplicationsFixedUpdateInput
-}
-
-
 export const registerRoadGC = async (
-  data: CreateRoadPayload,
+  data: ApplicationsFixedCreateManyInput,
 ): Promise<ApplicationsFixedCreateManyInput> => {
   const response = await fetch("/api/registerRoad", {
     method: "POST",
@@ -32,28 +23,25 @@ export const registerRoadGC = async (
   return response.json();
 };
 
-export const updateRoadGC = async (
-  payload: UpdateRoadPayload
-): Promise<ApplicationsFixedUpdateInput> => {
-  const response = await fetch(
-    `/api/registerRoad?id=${payload.id}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload.data),
-    }
-  )
+export const updateRoadGC = async (payload: {
+  id: string;
+  data: ApplicationsFixedUpdateInput;
+}): Promise<ApplicationsFixedUpdateInput> => {
+  const response = await fetch(`/api/registerRoad?id=${payload.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload.data),
+  });
 
   if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.error || "Erro ao atualizar GC")
+    const error = await response.json();
+    throw new Error(error.error || "Erro ao atualizar GC");
   }
 
-  return response.json()
-}
-
+  return response.json();
+};
 
 export const getRoadGc = async (
   id: string,

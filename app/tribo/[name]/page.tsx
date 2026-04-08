@@ -1,7 +1,7 @@
-import { Header } from "@/app/tribo/[name]/_components/header";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TabsGender from "./_components/tabsGender";
 import getGcs from "./_services/getGcs";
+import { Header } from "./_components/header";
 
 export default async function Page({
   params,
@@ -26,7 +26,7 @@ export default async function Page({
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
-      <Header name={name} />
+      <Header />
       <Tabs defaultValue="masculine">
         <TabsList>
           <TabsTrigger

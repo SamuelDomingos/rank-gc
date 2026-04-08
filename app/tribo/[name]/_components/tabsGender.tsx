@@ -1,17 +1,10 @@
-
-
 import { TabsContent } from "@/components/ui/tabs";
 import GcMonth from "./gcMonth";
 import RankCategory from "./rankCategory";
 import RankGCs from "./rankGC";
+import { RankingResponse } from "@/services/types/rank";
 
-const TabsGender = ({
-  data,
-  month,
-}: {
-  data: any;
-  month: number;
-}) => {
+const TabsGender = ({ data, month }: { data: RankingResponse; month: number }) => {
   return (
     <>
       <TabsContent value="masculine" className="space-y-6 mt-6">

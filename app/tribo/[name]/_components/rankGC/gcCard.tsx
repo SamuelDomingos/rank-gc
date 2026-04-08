@@ -1,16 +1,30 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RiMedalFill } from "@remixicon/react";
-import { GCRanking } from "@/lib/api/types";
-import { medalColors } from "../../_utils/utilsRank";
 import GcCardActions from "./gcCardActions";
+import { medalColors } from "@/constants";
+import { GCBase } from "@/services/types/rank";
 
-const GcCard = ({ gc, rank, month }: { gc: GCRanking; rank: number; month: number }) => {
+const GcCard = ({
+  gc,
+  rank,
+  month,
+}: {
+  gc: GCBase;
+  rank: number;
+  month: number;
+}) => {
   const isTopThree = rank <= 3;
-  const medalColor = isTopThree ? medalColors[rank - 1] : "";
 
   return (
-    <Card className={`border-border ${isTopThree ? "bg-primary/5 border-primary/20" : ""}`}>
+    <Card
+      className={`border-border ${isTopThree ? "bg-primary/5 border-primary/20" : ""}`}
+    >
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -29,11 +43,19 @@ const GcCard = ({ gc, rank, month }: { gc: GCRanking; rank: number; month: numbe
                 {gc.name ? gc.name.slice(0, 2).toUpperCase() : "GC"}
               </AvatarFallback>
             </Avatar>
-            <span className="text-foreground font-medium text-sm">{gc.name}</span>
+            <span className="text-foreground font-medium text-sm">
+              {gc.name}
+            </span>
           </div>
           <div className="flex items-center gap-1">
-            {isTopThree && <RiMedalFill className={`w-4 h-4 ${medalColor}`} />}
-            <span className={`font-semibold text-sm ${isTopThree ? "text-primary" : "text-foreground"}`}>
+            {isTopThree && (
+              <RiMedalFill
+                className={`w-4 h-4 ${isTopThree ? medalColors[rank - 1] : ""}`}
+              />
+            )}
+            <span
+              className={`font-semibold text-sm ${isTopThree ? "text-primary" : "text-foreground"}`}
+            >
               {gc.points}
             </span>
           </div>
@@ -43,14 +65,26 @@ const GcCard = ({ gc, rank, month }: { gc: GCRanking; rank: number; month: numbe
       <CardContent className="pb-3">
         <div className="grid grid-cols-2 gap-2">
           <div className="flex flex-col gap-1">
-            <span className="text-xs"><b>Membros:</b> {gc.quantityMembers}</span>
-            <span className="text-xs"><b>Visitantes:</b> {gc.visitors}</span>
-            <span className="text-xs"><b>Presença Cultos:</b> {gc.presenceCults}%</span>
-            <span className="text-xs"><b>Servindo:</b> {gc.serving}%</span>
+            <span className="text-xs">
+              <b>Membros:</b> {gc.quantityMembers}
+            </span>
+            <span className="text-xs">
+              <b>Visitantes:</b> {gc.visitors}
+            </span>
+            <span className="text-xs">
+              <b>Presença Cultos:</b> {gc.presenceCults}%
+            </span>
+            <span className="text-xs">
+              <b>Servindo:</b> {gc.serving}%
+            </span>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-xs"><b>Cestas:</b> {gc.baskets}</span>
-            <span className="text-xs"><b>Presença GC:</b> {gc.presenceGC}%</span>
+            <span className="text-xs">
+              <b>Cestas:</b> {gc.baskets}
+            </span>
+            <span className="text-xs">
+              <b>Presença GC:</b> {gc.presenceGC}%
+            </span>
           </div>
         </div>
       </CardContent>

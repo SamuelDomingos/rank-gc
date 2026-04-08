@@ -11,12 +11,12 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { RiFileList3Line } from "@remixicon/react";
-import { GCRanking } from "@/lib/api/types";
 import FormRegister from "../../forms/formRegister";
-import ListRegisters from "../../listRegisters";
+import ListRegisters from "../listRegisters";
 import FormRegisterBaskets from "../../forms/formRegisterAmountCollected";
+import { GCBase } from "@/services/types/rank";
 
-const GcRegisterDialog = ({ gc, month }: { gc: GCRanking; month: number }) => {
+const GcRegisterDialog = ({ gc, month }: { gc: GCBase; month: number }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>

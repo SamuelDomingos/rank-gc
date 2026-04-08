@@ -1,5 +1,4 @@
 import { GC } from "@/app/generated/prisma/client";
-import type { GCsResponse } from "./types";
 
 export const createdGC = async (
   formData: FormData,
@@ -31,20 +30,6 @@ export const updateGC = async (
     throw new Error(error.error || "Erro ao atualizar GC");
   }
 
-  return response.json();
-};
-
-export const getGcsAll = async (
-  month: number,
-  year: number,
-  tribo: string,
-): Promise<GCsResponse> => {
-  const response = await fetch(
-    `/api/gc?month=${month}&year=${year}&tribo=${tribo}`,
-    {
-      method: "GET",
-    },
-  );
   return response.json();
 };
 

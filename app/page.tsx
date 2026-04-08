@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import FormLogin from "@/components/forms/formLogin";
-import { tribos } from "@/lib/utils";
 import CardTribo from "@/components/cardTribo";
+import { tribos } from "@/constants";
 
 export default function Page() {
   const [selected, setSelected] = useState<(typeof tribos)[number] | null>(

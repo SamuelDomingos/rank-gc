@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GCRanking } from "@/lib/api/types";
+import { GCBase } from "@/services/types/rank";
 
-const GcMonth = ({ dados }: { dados?: GCRanking | null }) => {
+const GcMonth = ({ dados }: { dados?: GCBase }) => {
   return (
     <Card>
       <CardHeader>

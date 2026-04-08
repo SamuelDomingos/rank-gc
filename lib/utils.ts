@@ -19,34 +19,6 @@ export function formatDate(dateIso: Date): string {
   }
 }
 
-export function presenceLabel(field: string): string {
-  switch (field) {
-    case "presenceGC":
-      return "GC";
-    case "presenceCults":
-      return "Culto";
-    default:
-      return field;
-  }
-}
-
-export function mapCategoryLabel(category: string): string {
-  switch (category) {
-    case "FoodBaskets":
-      return "Cestas Básicas";
-    case "Visitors":
-      return "Visitantes";
-    case "GCPresence":
-      return "Presença no GC";
-    case "WorshipPresence":
-      return "Presença nos Cultos";
-    case "Serving":
-      return "Servindo";
-    default:
-      return category;
-  }
-}
-
 export function formatCurrency(value: number | string) {
   const numberValue = typeof value === "string" ? Number(value) : value;
 
@@ -72,11 +44,3 @@ export const formatValue = (
 export function currencyToNumber(value: string) {
   return Number(value.replace(/\D/g, "")) / 100;
 }
-
-export const tribos = [
-  { id: 1, name: "hope", image: "/tribos/hope.jpeg", ministerio: "School" },
-  { id: 2, name: "sent", image: "/tribos/sent.jpeg", ministerio: "School" },
-  { id: 3, name: "hazak", image: "/tribos/hazak.jpeg", ministerio: "School" },
-  { id: 4, name: "blast", image: "/tribos/blast.jpeg", ministerio: "JR" },
-  { id: 5, name: "shomer", image: "/tribos/shomer.jpeg", ministerio: "JR" },
-];

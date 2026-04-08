@@ -3,17 +3,17 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { formGC } from "../../_schema/formShemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GC } from "@/app/generated/prisma/client";
 import { useDate } from "@/context/DateContext";
 import { useCreatedGcs, useUpdateGcs } from "../useGcs";
 import { useParams } from "next/navigation";
+import { GCBase } from "@/services/types/rank";
 
 const useFormGC = ({
   gcData,
   isEditing,
   onSuccess,
 }: {
-  gcData?: GC & { quantityMembers: number };
+  gcData?: GCBase;
   isEditing?: boolean;
   onSuccess?: () => void;
 }) => {

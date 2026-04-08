@@ -2,11 +2,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { RiMedalFill } from "@remixicon/react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { CategoryRankings } from "@/lib/api/types";
-import { mapCategoryLabel } from "@/lib/utils";
-import { medalColors } from "../_utils/utilsRank";
+import { mapCategoryLabel } from "@/lib/formatters";
+import { medalColors } from "@/constants";
+import { RankingByCategory } from "@/services/types/rank";
 
-const RankCategory = ({ dados }: { dados?: CategoryRankings | null }) => {
+const RankCategory = ({ dados }: { dados?: RankingByCategory[]}) => {
   return (
     <div className="space-y-6">
       {dados?.map((category) => (
@@ -17,9 +17,6 @@ const RankCategory = ({ dados }: { dados?: CategoryRankings | null }) => {
           <div className="space-y-2">
             {category.ranks.map(
               (rank: (typeof category.ranks)[0], index: number) => {
-                const isVisitors = category.category === "Visitors";
-                const isBaskets = category.category === "FoodBaskets";
-
                 return (
                   <Card
                     key={`${category.category}-${rank.id}`}
@@ -45,9 +42,9 @@ const RankCategory = ({ dados }: { dados?: CategoryRankings | null }) => {
                       </div>
                       <div className="text-right">
                         <span className="text-foreground">
-                          {isVisitors
+                          {category.category === "Visitors"
                             ? `${rank.value} visitantes`
-                            : isBaskets
+                            : category.category === "FoodBaskets"
                               ? `${Math.floor(rank.value / 50)} cestas`
                               : `${rank.value}%`}{" "}
                           ({rank.points} pts)

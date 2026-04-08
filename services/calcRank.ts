@@ -3,24 +3,7 @@ import {
   ApplicationsFixed,
   GC,
 } from "@/app/generated/prisma/client";
-
-export type CategoryRank = {
-  id: string;
-  name: string;
-  avatar: string | null;
-  value: number;
-  points: number;
-};
-
-export type RankingByCategory = {
-  category:
-    | "FoodBaskets"
-    | "Visitors"
-    | "GCPresence"
-    | "WorshipPresence"
-    | "Serving";
-  ranks: CategoryRank[];
-};
+import { RankingByCategory } from "./types/rank";
 
 export const calculateTotalVisitors = (
   dailyApps: ApplicationsDailys[],
@@ -197,7 +180,7 @@ export const generateCategoryRankings = (
     applicationsDailys: ApplicationsDailys[];
     applicationsFixeds: ApplicationsFixed;
   })[],
-): RankingByCategory[] => {
+) => {
   const processedGCs = gcs.map(processGCBasics);
 
   const categories: RankingByCategory[] = [

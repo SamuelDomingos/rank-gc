@@ -12,8 +12,8 @@ import {
   copyToWhatsApp,
   exportAsExcel,
   exportAsPDF,
-} from "../services/export.service";
-import { ComparativeData } from "../services/getReports";
+} from "../../../_services/export";
+import { ComparativeData } from "@/lib/api/types/reports.types";
 
 export const ComparativeActions = ({
   previousMonth,

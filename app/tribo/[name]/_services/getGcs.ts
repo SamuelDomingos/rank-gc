@@ -1,6 +1,13 @@
 import prisma from "@/lib/prisma";
-import { generateCategoryRankings, processGCWithRanking } from "@/services/calcRank";
-import { ApplicationsDailys, ApplicationsFixed, GC } from "@/app/generated/prisma/client";
+import {
+  generateCategoryRankings,
+  processGCWithRanking,
+} from "@/services/calcRank";
+import {
+  ApplicationsDailys,
+  ApplicationsFixed,
+  GC,
+} from "@/app/generated/prisma/client";
 
 const fetchGcs = async (month: number, year: number, tribo: string) => {
   const startDate = new Date(year, month - 1, 1);
@@ -53,14 +60,14 @@ const fetchGcs = async (month: number, year: number, tribo: string) => {
       gcOfTheMonth: masculineGCs[0] || null,
       ranking: masculineGCs,
       categoryRankings: generateCategoryRankings(
-        normalizedGcs.filter((gc) => gc.type === "masculine") as any,
+        normalizedGcs.filter((gc) => gc.type === "masculine"),
       ),
     },
     feminine: {
       gcOfTheMonth: feminineGCs[0] || null,
       ranking: feminineGCs,
       categoryRankings: generateCategoryRankings(
-        normalizedGcs.filter((gc) => gc.type === "feminine") as any,
+        normalizedGcs.filter((gc) => gc.type === "feminine"),
       ),
     },
   };

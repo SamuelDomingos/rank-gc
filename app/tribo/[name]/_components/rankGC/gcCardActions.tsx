@@ -9,14 +9,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { RiMoreLine } from "@remixicon/react";
-import { GCRanking } from "@/lib/api/types";
 import GcRegisterDialog from "./dialogs/gcRegisterDialog";
 import GcEditDialog from "./dialogs/gcEditDialog";
 import GcDeleteDialog from "./dialogs/gcDeleteDialog";
+import { GCBase } from "@/services/types/rank";
 
-const GcCardActions = ({ gc, month }: { gc: GCRanking; month: number }) => {
-  const dialogCloseRef = useRef<HTMLButtonElement>(null);
-
+const GcCardActions = ({ gc, month }: { gc: GCBase; month: number }) => {
   return (
     <div className="flex items-center justify-between w-full">
       <GcRegisterDialog gc={gc} month={month} />
@@ -28,7 +26,10 @@ const GcCardActions = ({ gc, month }: { gc: GCRanking; month: number }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <GcEditDialog gc={gc} dialogCloseRef={dialogCloseRef} />
+          <GcEditDialog
+            gc={gc}
+            dialogCloseRef={useRef<HTMLButtonElement>(null)}
+          />
           <Separator />
           <GcDeleteDialog gcId={gc.id} />
         </DropdownMenuContent>
