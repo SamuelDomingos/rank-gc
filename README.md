@@ -17,10 +17,6 @@ Relatórios abrangentes com opções de exportação para PDF e Excel auxiliam n
 
 ✅ Estável
 
-## 🚀 Acesso ao Projeto
-
-[Acesse o Projeto Online](https://rank-gc.vercel.app)
-
 ## ✨ Funcionalidades Principais
 
 *   **Autenticação de Usuários:** Login seguro com NextAuth.js, suportando diferentes cargos (ADMIN e MEMBRO).
